@@ -6,6 +6,8 @@
 package privatemoviecollection.DALDB;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +16,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.tika.exception.TikaException;
+import org.xml.sax.SAXException;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
@@ -93,4 +97,21 @@ public class MovieDAO
         return movies;
     }
     
+    public void createMovie(int id, String name, double rating, String fileLink, String lastView) throws SQLException
+    {
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (id, name, rating, fileLink, lastView) VALUES (?, ?, ?, ?, ?);";
+
+        Connection con = sc.getConnection();
+
+        PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        
+        st.setInt(1, id);
+        st.setString(2, name);
+        st.setDouble(3, rating);
+        st.setString(4, fileLink);
+        st.setString(5, lastView);
+
+        st.executeUpdate();
+        
+    }
 }
