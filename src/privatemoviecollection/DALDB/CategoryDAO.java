@@ -27,10 +27,6 @@ public class CategoryDAO {
     //establishes a server connect witch can be used in the inter class
     private static ServerConnect server;
     
-    /**
-     * 
-     * @throws IOException 
-     */
     public CategoryDAO() throws IOException {
 
         this.server = new ServerConnect();
