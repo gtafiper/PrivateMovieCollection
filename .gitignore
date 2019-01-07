@@ -1,0 +1,14 @@
+
+build.xml
+manifest.mf
+nbproject/build-impl.xml
+nbproject/configs/Run_as_WebStart.properties
+nbproject/configs/Run_in_Browser.properties
+nbproject/genfiles.properties
+nbproject/jfx-impl.xml
+nbproject/private/configs/Run_as_WebStart.properties
+nbproject/private/configs/Run_in_Browser.properties
+nbproject/private/private.properties
+nbproject/private/private.xml
+nbproject/project.properties
+nbproject/project.xml
