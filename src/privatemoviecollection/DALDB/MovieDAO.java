@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.xml.sax.SAXException;
+import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
 /**
@@ -29,7 +30,7 @@ public class MovieDAO
     ServerConnect sc;
     MetadataExtractor metaExtractor;
 
-    public SongDAO() throws IOException {
+    public MovieDAO() throws IOException {
         sc = new ServerConnect();
         metaExtractor = new MetadataExtractor();
     }

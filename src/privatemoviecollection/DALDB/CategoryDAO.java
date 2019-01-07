@@ -27,6 +27,10 @@ public class CategoryDAO {
     //establishes a server connect witch can be used in the inter class
     private static ServerConnect server;
     
+    /**
+     * 
+     * @throws IOException 
+     */
     public CategoryDAO() throws IOException {
 
         this.server = new ServerConnect();
@@ -35,8 +39,8 @@ public class CategoryDAO {
      * creats a playlist on the sever, using sql
      */
     
-    public Category createPlaylist(String name) throws SQLServerException, SQLException {
-        String sql = "INSERT INTO [MyTunesAnchor].[dbo].[Playlist] (Title) VALUES (?)";
+    public Category createCategory (String name) throws SQLServerException, SQLException {
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Category] (Name) VALUES (?)";
 
         Connection con = server.getConnection();
 
@@ -175,4 +179,4 @@ public class CategoryDAO {
     }
 
 }
-}
+

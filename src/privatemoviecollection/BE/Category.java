@@ -10,5 +10,9 @@ package privatemoviecollection.BE;
  * @author Nijas Hansen
  */
 public class Category {
+
+    public Category(String name, int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
