@@ -6,8 +6,6 @@
 package privatemoviecollection.DALDB;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import org.xml.sax.SAXException;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
@@ -28,89 +25,87 @@ public class MovieDAO
 {
     //makes a server connection "sc" that can be accessed throughout the class
     ServerConnect sc;
-    MetadataExtractor metaExtractor;
+    //MetadataExtractor metaExtractor;
 
     public MovieDAO() throws IOException {
         sc = new ServerConnect();
-        metaExtractor = new MetadataExtractor();
+        //metaExtractor = new MetadataExtractor();
     }
     
     
-    //updates a song witht new Title, Artist, Path.
+    //updates a movie witht new Title, Path.
     public boolean updateMovie(Movie movie) throws SQLException {
-        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Song] SET Title = ?, Artist = ?, Path = ? WHERE SongID =" + movie.getId();
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET name = ?, fileLink = ?, rating = ?, lastView = ?  WHERE id =" + movie.getId();
 
         Connection con = sc.getConnection();
 
         PreparedStatement pst = con.prepareStatement(sql);
 
         pst.setString(1, movie.getTitle());
-        pst.setString(2, movie.getArtist());
-        pst.setString(3, movie.getFilePath());
+        pst.setString(2, movie.getFilePath());
+        pst.setDouble(3, movie.get());
 
         int rowsAffected = pst.executeUpdate();
         if (rowsAffected >= 1) {
             return true;
         }
         return false;
-//        return oldSong;
+
     }
     /*
-    *deletes a song both on the playlist and from the list of songs
+    *deletes a movie both on the CatMovie and from the list of Movie
     *@pahrameter song
     */
-    public void deleteSong(Song song) throws SQLServerException, SQLException {
+    public void deleteMovie(Movie movie) throws SQLServerException, SQLException {
         Connection con = sc.getConnection();
 
         Statement statement = con.createStatement();
         statement.execute(
-                "DELETE FROM [MyTunesAnchor].[dbo].[Song_Playlist] WHERE SongID = "
-                + song.getId()
+                "DELETE FROM [PrivateMovieCollectionName].[dbo].[CatMovie] WHERE MovieId = "
+                + movie.getId()
         );
         statement.execute(
-                "DELETE FROM [MyTunesAnchor].[dbo].[Song] WHERE SongID = "
-                + song.getId()
+                "DELETE FROM [PrivateMovieCollectionName].[dbo].[Movie] WHERE id = "
+                + movie.getId()
         );
 
     }
     /*
-    *gets all the songs in the sever table Song
-    *@retuns List of all songs
+    *gets all the movies in the server table Movie
+    *@retuns List of all movies
     */
-    public List<Song> getAllSong() throws SQLServerException, SQLException {
-        List<Song> songs = new ArrayList<>();
+    public List<Movie> getAllMovies() throws SQLServerException, SQLException {
+        List<Movie> movies = new ArrayList<>();
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM [MyTunesAnchor].[dbo].[Song]");
+        ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Movie]");
         //runs all the songs through
         while (rs.next()) {
-            int id = rs.getInt("SongID");
-            String title = rs.getNString("Title");
-            String path = rs.getNString("Path");
-            String artist = rs.getNString("Artist");
-            double duration = rs.getDouble("Duration");
-            String genre = rs.getString("genre");
+            int id = rs.getInt("id");
+            String title = rs.getNString("name");
+            String path = rs.getNString("fileLink");
+            double rating = rs.getDouble("rating");
+            String lastView = rs.getNString("lastView");
 
-            Song song = new Song(path, title, id, artist, duration, genre);
+            Movie movie = new Movie(path, title, id, rating, lastView);
 
-            songs.add(song);
+            movies.add(movie);
 
         }
 
-        return songs;
+        return movies;
     }
     
     /*
-    *
-    
-    *@retuns a song
+    * 
+    *@retuns a Movie
     */
     /**
      *  extracts metadat from file, adds it to the Database and returns a song
      * 
      * @param addedFile
      * 
-     * @return Song
+     * @return Movie
      * 
      * @throws IOException
      * @throws FileNotFoundException
@@ -119,40 +114,10 @@ public class MovieDAO
      * @throws SQLServerException
      * @throws SQLException 
      */
-    public Song createSong(File addedFile) throws IOException, FileNotFoundException, SAXException, TikaException, SQLServerException, SQLException
+    /*
+    public Movie createSong(File addedFile) throws IOException, FileNotFoundException, SAXException, TikaException, SQLServerException, SQLException
     {
-        Metadata meta = metaExtractor.getMetaData(addedFile);
-        String filePath = addedFile.getPath();
-        String title = meta.get("title");
-        String artist = meta.get("xmpDM:artist");
-        double duration = Double.parseDouble(meta.get("xmpDM:duration"));
-        String genre = meta.get("xmpDM:genre");
         
-        String sql = "INSERT INTO [MyTunesAnchor].[dbo].[Song] (Title, Artist, Genre, Duration, Path) VALUES (?, ?, ?, ?, ?);"; //måske album og nr på album
-
-        Connection con = sc.getConnection();
-
-        PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        //makes it so that only the given parameter can be used
-        st.setString(1, title);
-        st.setString(5, filePath);
-        st.setString(2, artist);
-        st.setDouble(4, duration);
-        st.setString(3, genre);
-
-        int rowsAffected = st.executeUpdate();
-        //get an generated key from sever and asaigns it as movie id
-        ResultSet rs = st.getGeneratedKeys();
-
-        int id = 0;
-
-        if (rs.next()) {
-            id = rs.getInt(1);
-
-        }
-
-        Song song = new Song(filePath, title, id, artist, duration, genre);
-
-        return song;
     }
+    */
 }

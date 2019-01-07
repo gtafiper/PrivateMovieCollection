@@ -5,8 +5,8 @@
  */
 package privatemoviecollection.BE;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -14,81 +14,66 @@ import javafx.beans.property.StringProperty;
  */
 public class Movie {
     
-    private String producer;
+    private double rating;
+    private String lastView;
     private String filePath;
     private String movieTitle;
-    private String genre;
-    private StringProperty titleProperty;
-    private StringProperty genreProperty;
-    private StringProperty producerProperty;
     private int id;
-    private int PositionID = 0;
+    private int positionID = 0;
     private double duration;
+    
+    private ObservableList<String> moviegenre;
+    
 
     /**
      * Construct the song
      *
-     * @param fileParth
-     * @param Title
+     * @param fileLink
+     * @param name
      * @param id
-     * @param producer
-     * @param duration
-     * @param genre
+     * @param rating
+     * @param lastView
      */
-    public Movie(String fileParth, String Title, int id, String producer, double duration, String genre)
+    public Movie(String fileLink, String name, int id, double rating, String lastView)
     {
-        this.filePath = fileParth;
-        this.movieTitle = Title;
-        titleProperty = new SimpleStringProperty(Title);
+        this.filePath = fileLink;
+        this.movieTitle = name;
         this.id = id;
-        this.producer = producer;
-        producerProperty = new SimpleStringProperty(producer);
-        this.duration = duration;
-        this.genre = genre;
-        genreProperty = new SimpleStringProperty(genre);
+        this.duration = rating;
+        this.lastView = lastView;
+        
+        moviegenre = FXCollections.observableArrayList();
+    }
+
+    public String getLastView()
+    {
+        return lastView;
+    }
+
+    public void setLastView(String lastView)
+    {
+        this.lastView = lastView;
     }
 
     /**
-     * get the artist as a stringProperty
      *
      * @return
      */
-    public StringProperty getProducerProperty()
+    public ObservableList<String> getGenre()
     {
-        return producerProperty;
+        return moviegenre;
     }
-
-    /**
-     * get the genre as a stringProperty
-     *
-     * @return the value of genreProperty
-     */
-    public StringProperty getGenreProperty()
-    {
-        return genreProperty;
-    }
-
-    /**
-     * Get the value of genre
-     *
-     * @return the value of genre
-     */
-    public String getGenre()
-    {
-        return genre;
-    }
-
-    /**
-     * Set the value of genre
-     *
-     * @param genre new value of genre
-     */
+    
     public void setGenre(String genre)
     {
-        this.genre = genre;
-        genreProperty.setValue(genre);
+        moviegenre.add(genre);
     }
-
+    
+    public void deleteGenre (String genre)
+    {
+        moviegenre.remove(genre);
+    }
+    
     /**
      * Get the value of duration
      *
@@ -107,28 +92,6 @@ public class Movie {
     public void setDuration(double duration)
     {
         this.duration = duration;
-    }
-
-    /**
-     * Get the value of producer
-     *
-     * @return the value of producer
-     */
-    public String getProducer()
-    {
-        return producer;
-
-    }
-
-    /**
-     * Set the value of producer
-     *
-     * @param producer new value of artist
-     */
-    public void setProducer(String producer)
-    {
-        this.producer = producer;
-        producerProperty.setValue(producer);
     }
 
     /**
@@ -164,14 +127,23 @@ public class Movie {
     /**
      * Set the value of movieTitle
      *
-     * @param Title new value of movieTitle
+     * @param title new value of movieTitle
      */
-    public void setTitle(String Title)
+    public void setTitle(String title)
     {
-        this.movieTitle = Title;
-        titleProperty.setValue(Title);
+        this.movieTitle = title;
     }
 
+    public double getRating()
+    {
+        return rating;
+    }
+    
+    public void setRating()
+    {
+        this.rating = rating;
+    }
+    
     /**
      * Get the value of songId
      *
@@ -182,15 +154,6 @@ public class Movie {
         return id;
     }
 
-    /**
-     * get StringProperty of a title
-     *
-     * @return Title new value of songTitleProperty
-     */
-    public StringProperty getTitleProperty()
-    {
-        return titleProperty;
-    }
 
     /**
      * get the positionID of a id
@@ -199,17 +162,23 @@ public class Movie {
      */
     public int getPositionID()
     {
-        return PositionID;
+        return positionID;
     }
 
     /**
      * set the value of positionID
      *
-     * @param PositionID
+     * @param positionID
      */
-    public void setPositionID(int PositionID)
+    public void setPositionID(int positionID)
     {
-        this.PositionID = PositionID;
+        this.positionID = positionID;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return movieTitle;
     }
     
 }
