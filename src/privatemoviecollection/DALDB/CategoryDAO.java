@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.DALDB;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import privatemoviecollection.BE.Category;
+import privatemoviecollection.BE.Movie;
+import privatemoviecollection.DAL.ServerConnect;
 
 /**
  *
@@ -23,7 +27,7 @@ public class CategoryDAO {
     //establishes a server connect witch can be used in the inter class
     private static ServerConnect server;
     
-    public PlaylistDAO() throws IOException {
+    public CategoryDAO() throws IOException {
 
         this.server = new ServerConnect();
     }
@@ -31,7 +35,7 @@ public class CategoryDAO {
      * creats a playlist on the sever, using sql
      */
     
-    public Playlist createPlaylist(String name) throws SQLServerException, SQLException {
+    public Category createPlaylist(String name) throws SQLServerException, SQLException {
         String sql = "INSERT INTO [MyTunesAnchor].[dbo].[Playlist] (Title) VALUES (?)";
 
         Connection con = server.getConnection();
@@ -50,7 +54,7 @@ public class CategoryDAO {
             id = rs.getInt(1);
         }
 
-        Playlist playlist = new Playlist(name, id);
+        Category playlist = new Category(name, id);
 
         return playlist;
 
@@ -61,36 +65,36 @@ public class CategoryDAO {
     @SongID
     @PlaylistID
     */
-    public void addSongToPlaylist(Song song, Playlist playlist) throws SQLServerException, SQLException {
+    public void addMovieToCategory(Movie movie, Category category) throws SQLServerException, SQLException {
         Connection con = server.getConnection();
-        String sql = "INSERT INTO [MyTunesAnchor].[dbo].[Song_Playlist] (SongID, PlaylistID) VALUES (?,?)";
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[CatMovie] (MovieId, CategoryId) VALUES (?,?)";
 
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-        st.setInt(1, song.getId());
-        st.setInt(2, playlist.getId());
+        st.setInt(1, movie.getId());
+        st.setInt(2, category.getId());
 
         int rowsAffected = st.executeUpdate();
 
         ResultSet rs = st.getGeneratedKeys();
 
         if (rs.next()) {
-            song.setPositionID(rs.getInt(1));
+            movie.setPositionID(rs.getInt(1));
         }
 
     }
     //delete a playlist by playlist id
-    public void deletePlayliste(Playlist playlist) throws SQLServerException, SQLException {
+    public void deletePlayliste(Category category) throws SQLServerException, SQLException {
         Connection con = server.getConnection();
         //sql that delete the playlist from sever tabel
         Statement statement = con.createStatement();
         statement.execute(
-                "DELETE FROM [MyTunesAnchor].[dbo].[Playlist] WHERE PlaylistID = "
-                + playlist.getId()
+                "DELETE FROM [PrivateMovieCollectionName].[dbo].[Category] WHERE id = "
+                + category.getId()
         );
         statement.execute(
-                "DELETE FROM [MyTunesAnchor].[dbo].[Song_Playlist] WHERE PlaylistID = "
-                + playlist.getId()
+                "DELETE FROM [PrivateMovieCollectionName].[dbo].[CatMovie] WHERE CategoryId = "
+                + category.getId()
         );
 
     }
@@ -98,21 +102,21 @@ public class CategoryDAO {
     * gets all playlists from sever
     *@returns all playlists 
     */
-    public List<Playlist> getAllPlaylits() throws SQLException {
-        List<Playlist> playlists = new ArrayList<>();
+    public List<Category> getAllPlaylits() throws SQLException {
+        List<Category> categorys = new ArrayList<>();
         Connection con = server.getConnection();
         Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM [MyTunesAnchor].[dbo].[Playlist]");
+        ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Category]");
 
         while (rs.next()) {
-            int id = rs.getInt("PlaylistID");
-            String title = rs.getNString("Title");
-            Playlist playlist = new Playlist(title, id);
-            getSongFromPlaylist(playlist);
+            int id = rs.getInt("id");
+            String name = rs.getNString("Name");
+            Category category = new Category(name, id);
+            getSongFromPlaylist(category);
 
-            playlists.add(playlist);
+            categorys.add(category);
         }
-        return playlists;
+        return categorys;
     }
     /*
     * gets all the songs on a playlist 
