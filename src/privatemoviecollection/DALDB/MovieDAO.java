@@ -141,7 +141,7 @@ public class MovieDAO
         st.setString(3, genre);
 
         int rowsAffected = st.executeUpdate();
-        //get an generated key from sever and asains it as song id
+        //get an generated key from sever and asaigns it as movie id
         ResultSet rs = st.getGeneratedKeys();
 
         int id = 0;
