@@ -36,16 +36,16 @@ public class MovieDAO
     
     
     //updates a song witht new Title, Artist, Path.
-    public boolean updateSong(Song song) throws SQLException {
-        String sql = "UPDATE [MyTunesAnchor].[dbo].[Song] SET Title = ?, Artist = ?, Path = ? WHERE SongID =" + song.getId();
+    public boolean updateMovie(Movie movie) throws SQLException {
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Song] SET Title = ?, Artist = ?, Path = ? WHERE SongID =" + movie.getId();
 
         Connection con = sc.getConnection();
 
         PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, song.getTitle());
-        pst.setString(2, song.getArtist());
-        pst.setString(3, song.getFilePath());
+        pst.setString(1, movie.getTitle());
+        pst.setString(2, movie.getArtist());
+        pst.setString(3, movie.getFilePath());
 
         int rowsAffected = pst.executeUpdate();
         if (rowsAffected >= 1) {
