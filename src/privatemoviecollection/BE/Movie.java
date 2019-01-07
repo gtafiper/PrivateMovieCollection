@@ -38,7 +38,7 @@ public class Movie {
     {
         this.id = id;
         this.movieTitle = name;
-        this.duration = rating;
+        this.rating = rating;
         this.lastView = lastView;
         this.filePath = fileLink;
         
@@ -206,7 +206,7 @@ public class Movie {
     @Override
     public String toString()
     {
-        return movieTitle;
+        return "ID: " + id + " Movie title: " + movieTitle + " Rating: " + rating;  
     }
     
 }
