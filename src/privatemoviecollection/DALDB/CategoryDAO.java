@@ -121,39 +121,38 @@ public class CategoryDAO {
     /*
     * gets all the songs on a playlist 
     */
-    public void getSongFromPlaylist(Playlist playlist) throws SQLException {
+    public void getSongFromPlaylist(Category category) throws SQLException {
         Connection con = server.getConnection();
         Statement st = con.createStatement();
         ResultSet resultSet = st.executeQuery("SELECT * "
-                + "FROM [MyTunesAnchor].[dbo].[Song] "
-                + "RIGHT JOIN [MyTunesAnchor].[dbo].[Song_Playlist] ON [MyTunesAnchor].[dbo].[Song].[SongID] = [MyTunesAnchor].[dbo].[Song_Playlist].[SongID] "
-                + "WHERE PlaylistID = " + playlist.getId()
+                + "FROM [PrivateMovieCollectionName].[dbo].[Movie] "
+                + "RIGHT JOIN [PrivateMovieCollectionName].[dbo].[CatMovie] ON [PrivateMovieCollectionName].[dbo].[Movie].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[id] "
+                + "WHERE CategoryId = " + category.getId()
         );
         while (resultSet.next()) {
-            int id = resultSet.getInt("SongID");
-            double duration = resultSet.getDouble("Duration");
-            String title = resultSet.getNString("Title");
-            String path = resultSet.getNString("Path");
+            int id = resultSet.getInt("id");
+            String title = resultSet.getNString("Name");
+            String path = resultSet.getNString("fileLink");
             String genre = resultSet.getNString("Genre");
             String artist = resultSet.getNString("Artist");
             int position = resultSet.getInt("PositionID");
 
-            Song song = new Song(path, title, id, artist, duration, genre);
-            song.setPositionID(position);
-            playlist.addToPlaylist(song);
+            Movie movie = new Movie(path, title, id, artist, duration, genre);
+            movie.setPositionID(position);
+            category.addToPlaylist(movie);
         }
     }
 
     // updates the name of the playlist from id 
-    public boolean updatePlaylist(Playlist playlist) throws SQLServerException, SQLException {
+    public boolean updatePlaylist(Category category) throws SQLServerException, SQLException {
 
-        String sql = "UPDATE [MyTunesAnchor].[dbo].[Playlist] SET Title = ? WHERE PlaylistID =" + playlist.getId();
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Category] SET Name = ? WHERE id =" + category.getId();
 
         Connection con = server.getConnection();
 
         PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, playlist.getTitle());
+        pst.setString(1, category.getTitle());
 
         int rowsAffected = pst.executeUpdate();
 
@@ -164,13 +163,13 @@ public class CategoryDAO {
 
     }
     //delets a song from the playlist using a playlist id and the song PositionID 
-    public void deleteFromPlayist(Song song, Playlist playlist) throws SQLException {
+    public void deleteFromPlayist(Movie movie, Category category) throws SQLException {
         Connection con = server.getConnection();
         Statement st = con.createStatement();
 
         st.execute(
-                "DELETE FROM [MyTunesAnchor].[dbo].[Song_Playlist] WHERE PlaylistID = " + playlist.getId()
-                + " AND PositionID = " + song.getPositionID()
+                "DELETE FROM [CS2018A_32].[dbo].[CatMovie] WHERE CategoryId = " + category.getId()
+                + " AND MovieId = " + movie.getPositionID()
         );
 
     }
