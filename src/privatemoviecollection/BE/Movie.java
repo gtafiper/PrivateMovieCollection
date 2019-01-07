@@ -14,49 +14,57 @@ import javafx.collections.ObservableList;
  */
 public class Movie {
     
+    private int id;
+    private int positionID = 0;
     private double rating;
+    private double duration;
     private String lastView;
     private String filePath;
     private String movieTitle;
-    private int id;
-    private int positionID = 0;
-    private double duration;
     
     private ObservableList<String> moviegenre;
     
 
     /**
-     * Construct the song
+     * Construct the Movie
      *
-     * @param fileLink
-     * @param name
      * @param id
+     * @param name
      * @param rating
      * @param lastView
+     * @param fileLink
      */
-    public Movie(String fileLink, String name, int id, double rating, String lastView)
+    public Movie(int id, String name, double rating, String lastView, String fileLink)
     {
-        this.filePath = fileLink;
-        this.movieTitle = name;
         this.id = id;
+        this.movieTitle = name;
         this.duration = rating;
         this.lastView = lastView;
+        this.filePath = fileLink;
         
         moviegenre = FXCollections.observableArrayList();
     }
 
+    /**
+     * gets the lastView in a string
+     * @return lastView
+     */
     public String getLastView()
     {
         return lastView;
     }
 
+    /**
+     * set the lastView in a string
+     * @param lastView 
+     */
     public void setLastView(String lastView)
     {
         this.lastView = lastView;
     }
 
     /**
-     *
+     * Get the genre in a observableList
      * @return
      */
     public ObservableList<String> getGenre()
@@ -64,11 +72,19 @@ public class Movie {
         return moviegenre;
     }
     
+    /**
+     * set the genre in a observableList
+     * @param genre 
+     */
     public void setGenre(String genre)
     {
         moviegenre.add(genre);
     }
     
+    /**
+     * delete a genre in a observableList
+     * @param genre 
+     */
     public void deleteGenre (String genre)
     {
         moviegenre.remove(genre);
@@ -115,9 +131,9 @@ public class Movie {
     }
 
     /**
-     * Get the value of songTitle
+     * Get the value of movieTitle
      *
-     * @return the value of songTitle
+     * @return the value of movieTitle
      */
     public String getTitle()
     {
@@ -134,12 +150,20 @@ public class Movie {
         this.movieTitle = title;
     }
 
+    /**
+     * get the value of rating
+     * @return the value of rating
+     */
     public double getRating()
     {
         return rating;
     }
     
-    public void setRating()
+    /**
+     * set the value of rating in a movie
+     * @param rating new rating on a movie
+     */
+    public void setRating(double rating)
     {
         this.rating = rating;
     }
@@ -175,6 +199,10 @@ public class Movie {
         this.positionID = positionID;
     }
     
+    /**
+     * get the movieTitle object into a string
+     * @return the movietitle to a string
+     */
     @Override
     public String toString()
     {

@@ -25,15 +25,13 @@ public class MovieDAO
 {
     //makes a server connection "sc" that can be accessed throughout the class
     ServerConnect sc;
-    //MetadataExtractor metaExtractor;
-
+    
     public MovieDAO() throws IOException {
         sc = new ServerConnect();
-        //metaExtractor = new MetadataExtractor();
     }
     
     
-    //updates a movie witht new Title, Path.
+    //updates a movie with new Title, Path,  rating, lastView.
     public boolean updateMovie(Movie movie) throws SQLException {
         String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET name = ?, fileLink = ?, rating = ?, lastView = ?  WHERE id =" + movie.getId();
 
@@ -43,18 +41,19 @@ public class MovieDAO
 
         pst.setString(1, movie.getTitle());
         pst.setString(2, movie.getFilePath());
-        pst.setDouble(3, movie.get());
+        pst.setDouble(3, movie.getRating());
+        pst.setString(4, movie.getLastView());
 
         int rowsAffected = pst.executeUpdate();
         if (rowsAffected >= 1) {
             return true;
         }
         return false;
-
     }
+    
     /*
     *deletes a movie both on the CatMovie and from the list of Movie
-    *@pahrameter song
+    *@parameter movie
     */
     public void deleteMovie(Movie movie) throws SQLServerException, SQLException {
         Connection con = sc.getConnection();
@@ -68,8 +67,8 @@ public class MovieDAO
                 "DELETE FROM [PrivateMovieCollectionName].[dbo].[Movie] WHERE id = "
                 + movie.getId()
         );
-
     }
+    
     /*
     *gets all the movies in the server table Movie
     *@retuns List of all movies
@@ -79,45 +78,19 @@ public class MovieDAO
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Movie]");
-        //runs all the songs through
+        //runs all the movies through
         while (rs.next()) {
             int id = rs.getInt("id");
             String title = rs.getNString("name");
-            String path = rs.getNString("fileLink");
             double rating = rs.getDouble("rating");
             String lastView = rs.getNString("lastView");
+            String path = rs.getNString("fileLink");
 
-            Movie movie = new Movie(path, title, id, rating, lastView);
+            Movie movie = new Movie(id, title, rating, lastView, path);
 
             movies.add(movie);
-
         }
-
         return movies;
     }
     
-    /*
-    * 
-    *@retuns a Movie
-    */
-    /**
-     *  extracts metadat from file, adds it to the Database and returns a song
-     * 
-     * @param addedFile
-     * 
-     * @return Movie
-     * 
-     * @throws IOException
-     * @throws FileNotFoundException
-     * @throws SAXException
-     * @throws TikaException
-     * @throws SQLServerException
-     * @throws SQLException 
-     */
-    /*
-    public Movie createSong(File addedFile) throws IOException, FileNotFoundException, SAXException, TikaException, SQLServerException, SQLException
-    {
-        
-    }
-    */
 }
