@@ -6,8 +6,6 @@
 package privatemoviecollection.DALDB;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,8 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.tika.exception.TikaException;
-import org.xml.sax.SAXException;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
