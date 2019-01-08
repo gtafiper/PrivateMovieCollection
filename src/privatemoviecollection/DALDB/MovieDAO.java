@@ -90,7 +90,7 @@ public class MovieDAO
             movies.add(movie);
         }
         return movies;
-
+        
     }
 
     /**
@@ -132,25 +132,21 @@ public class MovieDAO
 
     }
     
-    public void addGenres (String category) throws SQLServerException, SQLException {
+    public void addGenres (Movie movie) throws SQLServerException, SQLException {
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * "
+        
+        
+        ResultSet rs = st.executeQuery("SELECT * "  
                 + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
-                + "WHERE name =" + category);
+                + "RIGHT JOIN [PrivateMovieCollectionName].[dbo].[CatMovie] ON"
+                + "[PrivateMovieCollectionName].[dbo].[Category].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[CategoryId]" 
+                + "WHERE MovieId = " + movie.getId());
         
-        int id = rs.getInt("id");
-            String title = rs.getNString("name");
-            double rating = rs.getDouble("rating");
-            String lastView = rs.getNString("lastView");
-            String path = rs.getNString("fileLink");
-        
-        Movie mv = new Movie(0, category, 0, category, category);
         while (rs.next())
         {
-            rs = (ResultSet) mv.moviegenre;
+            movie.addGenre(rs.getNString("name"));
         }
         
-        System.out.println("det virker");
     }
 }

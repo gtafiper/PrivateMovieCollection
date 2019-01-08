@@ -78,7 +78,7 @@ public class Movie {
      * set the genre in a observableList
      * @param genre 
      */
-    public void setGenre(String genre)
+    public void addGenre(String genre)
     {
         moviegenre.add(genre);
     }

@@ -36,12 +36,9 @@ public class PrivateMovieCollectionn extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) {
         launch(args);
         
-        MovieDAO mvdao = new MovieDAO();
-        
-        mvdao.addGenres(STYLESHEET_MODENA);
     }
     
 }
