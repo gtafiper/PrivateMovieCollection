@@ -16,8 +16,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.tika.exception.TikaException;
-import org.xml.sax.SAXException;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 

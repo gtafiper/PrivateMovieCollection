@@ -48,6 +48,34 @@ public class FXMLDocumentController implements Initializable {
     private ComboBox<String> genreComBox;
     @FXML
     private Menu fileMenu;
+    @FXML
+    private AnchorPane rateWindow;
+    @FXML
+    private ImageView rate1;
+    @FXML
+    private ImageView rate2;
+    @FXML
+    private ImageView rate3;
+    @FXML
+    private ImageView rate4;
+    @FXML
+    private ImageView rate5;
+    @FXML
+    private ImageView rate6;
+    @FXML
+    private ImageView rate7;
+    @FXML
+    private ImageView rate8;
+    @FXML
+    private ImageView rate9;
+    @FXML
+    private ImageView rate10;
+    @FXML
+    private ImageView persenolRating;
+    @FXML
+    private ImageView ratingStar1;
+    
+    private boolean ratingWindowIsOpen = false;
     
     
    
@@ -60,7 +88,7 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     
     //genreComBox.getItems().addAll(c)
-    fileMenu.
+    
         
     }    
 
@@ -104,6 +132,20 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void deleteMovie(ActionEvent event) {
+    }
+
+    @FXML
+    private void rate(MouseEvent event) {
+        if (ratingWindowIsOpen){
+            rateWindow.toBack();
+            ratingWindowIsOpen = false;
+        
+        }  else {
+            rateWindow.toFront();
+            ratingWindowIsOpen = true;
+        }
+        
+        
     }
 
     
