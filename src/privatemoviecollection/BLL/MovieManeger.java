@@ -16,20 +16,25 @@ import privatemoviecollection.BE.Movie;
 public class MovieManeger {
     MovieDAO movieDAO;
     
-    
-    
     public void deleteMovie(Movie movie) throws SQLException{
         movieDAO.deleteMovie(movie);
     }
     
     public Movie CreateMovie(String name, double rating, String fileLink, String lastView) throws SQLException{
         return movieDAO.createMovie(name, rating, fileLink, lastView);
-           
     }
     
     public List<Movie> getAllMovies() throws SQLException
     {
         return movieDAO.getAllMovies();
+    }
+    
+    public void updateMovie(Movie movie) throws SQLException {
+        movieDAO.updateMovie(movie);
+    }
+    
+    public void addGenres(Movie movie) throws SQLException {
+        movieDAO.addGenres(movie);
     }
 }
 
