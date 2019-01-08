@@ -95,6 +95,7 @@ public class MovieDAO
             movies.add(movie);
         }
         return movies;
+        
     }
     
     public void createMovie(int id, String name, double rating, String fileLink, String lastView) throws SQLException

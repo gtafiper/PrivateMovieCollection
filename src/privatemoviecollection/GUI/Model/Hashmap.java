@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.GUI.Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -14,23 +15,49 @@ import java.util.Iterator;
  */
 public class Hashmap {
     
-    HashMap<Integer, String> hashMap = new HashMap<Integer, String>();
+    HashMap<String, ArrayList> hashMap = new HashMap<String, ArrayList>();
 
     public Hashmap() {
-        hashMap.put(1, "Action");
-        hashMap.put(2, "Romantic");
-        hashMap.put(3, "Comedy");
-        hashMap.put(4, "Adventure");
-        hashMap.put(5, "Crime");
-        hashMap.put(6, "Drama");
-        hashMap.put(7, "Fantasy");
-        hashMap.put(8, "Horror");
-        hashMap.put(9, "Science Fiction");
-        hashMap.put(10, "Thriller");
-        hashMap.put(11, "Western");
+        addValues("1", "Action");
+        addValues("2", "Crime");
+        addValues("3", "Comedy");
+        addValues("4", "Romantic");
+        addValues("5", "Horror");
+        addValues("6", "Thriller");
+        addValues("7", "Western");
+        addValues("8", "Adventure");
+        addValues("9", "Science Fiction");
+        
         
         Iterator it = hashMap.keySet().iterator();
+        ArrayList tempList = null;
         
+        while (it.hasNext()) {
+            int key = (int) it.next();
+            tempList = hashMap.get(key);
+            if(tempList != null) {
+                for (Object value : tempList) {
+                    System.out.println("Key : "+key+ " , Value : "+value);
+                }
+            } 
+        }
+        
+    }
+    
+    private void addValues(String key, String value) {
+        ArrayList tempList = null;
+        if (hashMap.containsKey(key)) {
+            tempList = hashMap.get(key);
+            if (tempList == null) {
+                tempList = new ArrayList();
+                tempList.add(value);
+            }
+            else {
+                tempList = new ArrayList();
+                tempList.add(value);
+            }
+            hashMap.put(key, tempList);
+        }
     }
     
     

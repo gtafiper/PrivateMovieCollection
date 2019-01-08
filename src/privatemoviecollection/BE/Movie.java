@@ -22,8 +22,6 @@ public class Movie {
     private String filePath;
     private String movieTitle;
     
-    private ObservableList<String> moviegenre;
-    
 
     /**
      * Construct the Movie
@@ -42,7 +40,7 @@ public class Movie {
         this.lastView = lastView;
         this.filePath = fileLink;
         
-        moviegenre = FXCollections.observableArrayList();
+        
     }
 
     /**
@@ -63,32 +61,6 @@ public class Movie {
         this.lastView = lastView;
     }
 
-    /**
-     * Get the genre in a observableList
-     * @return
-     */
-    public ObservableList<String> getGenre()
-    {
-        return moviegenre;
-    }
-    
-    /**
-     * set the genre in a observableList
-     * @param genre 
-     */
-    public void setGenre(String genre)
-    {
-        moviegenre.add(genre);
-    }
-    
-    /**
-     * delete a genre in a observableList
-     * @param genre 
-     */
-    public void deleteGenre (String genre)
-    {
-        moviegenre.remove(genre);
-    }
     
     /**
      * Get the value of duration
