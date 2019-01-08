@@ -13,11 +13,11 @@ import java.util.Iterator;
  *
  * @author Nijas Hansen
  */
-public class Hashmap {
-    
+public class Model {
+     
     HashMap<String, ArrayList> hashMap = new HashMap<String, ArrayList>();
 
-    public Hashmap() {
+    public void Hashmap() {
         addValues("1", "Action");
         addValues("2", "Crime");
         addValues("3", "Comedy");
@@ -59,8 +59,5 @@ public class Hashmap {
             hashMap.put(key, tempList);
         }
     }
-    
-    
-    
     
 }
