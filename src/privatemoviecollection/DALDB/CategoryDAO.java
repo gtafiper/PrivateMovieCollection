@@ -77,20 +77,27 @@ public class CategoryDAO {
     */
     public void getMovieFromCategory(String category) throws SQLException {
         Connection con = server.getConnection();
-        PreparedStatement pst = con.prepareStatement(category);
-        ResultSet resultSet = pst.executeQuery("SELECT * "
+        Statement st = con.createStatement();
+        ResultSet resultSet = st.executeQuery("SELECT * "
                 + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
-                + "WHERE Category = name");
+                + "WHERE name =" + category);
         
+        int id = 0;
         while (resultSet.next()) {
-            pst.setNString(1, category);
+            id = resultSet.getInt("id");
         }
+        
+        ResultSet rs = st.executeQuery("SELECT * "  
+                + "FROM [PrivateMovieCollectionName].[dbo].[Movie] "
+                + "RIGHT JOIN [PrivateMovieCollectionName].[dbo].[CatMovie] ON"
+                + "[PrivateMovieCollectionName].[dbo].[Movie].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[MovieId]" 
+                + "WHERE CategoryId = " + id);
     }
 
     // updates the name of the playlist from id 
     public boolean updateCategory(Category category) throws SQLServerException, SQLException {
 
-        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Category] SET Name = ? WHERE id = id";
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Category] SET Name = ? WHERE id = " ;
 
         Connection con = server.getConnection();
 
