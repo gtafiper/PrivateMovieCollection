@@ -95,23 +95,45 @@ public class MovieDAO
             movies.add(movie);
         }
         return movies;
+        
     }
     
-    public void createMovie(int id, String name, double rating, String fileLink, String lastView) throws SQLException
+    /**
+     * Create a movie on the server and send it back as a object
+     * @param name
+     * @param rating
+     * @param fileLink
+     * @param lastView
+     * @return
+     * @throws SQLException 
+     */
+    public Movie createMovie(String name, double rating, String fileLink, String lastView) throws SQLException
     {
-        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (id, name, rating, fileLink, lastView) VALUES (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (name, rating, fileLink, lastView) VALUES (?, ?, ?, ?);";
 
         Connection con = sc.getConnection();
 
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         
-        st.setInt(1, id);
-        st.setString(2, name);
-        st.setDouble(3, rating);
-        st.setString(4, fileLink);
-        st.setString(5, lastView);
+        st.setString(1, name);
+        st.setDouble(2, rating);
+        st.setString(3, fileLink);
+        st.setString(4, lastView);
 
         st.executeUpdate();
+        
+        ResultSet rs = st.getGeneratedKeys();
+
+        int id = 0;
+
+        if (rs.next()) {
+            id = rs.getInt(1);
+
+        }
+
+        Movie movie = new Movie(id, name, rating, fileLink, lastView);
+
+        return movie;
         
     }
 }
