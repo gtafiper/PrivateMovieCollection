@@ -95,6 +95,7 @@ public class MovieDAO
             movies.add(movie);
         }
         return movies;
+        
     }
     
     /**
