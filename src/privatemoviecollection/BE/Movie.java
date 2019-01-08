@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.BE;
 
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -22,6 +23,7 @@ public class Movie {
     private String filePath;
     private String movieTitle;
     
+    private ArrayList<String> moviegenre;
 
     /**
      * Construct the Movie
@@ -39,6 +41,8 @@ public class Movie {
         this.rating = rating;
         this.lastView = lastView;
         this.filePath = fileLink;
+        
+        moviegenre = new ArrayList();
         
         
     }
@@ -61,6 +65,32 @@ public class Movie {
         this.lastView = lastView;
     }
 
+    /**
+     * Get the genre in a observableList
+     * @return
+     */
+    public ArrayList<String> getGenres()
+    {
+        return moviegenre;
+    }
+    
+    /**
+     * set the genre in a observableList
+     * @param genre 
+     */
+    public void setGenre(String genre)
+    {
+        moviegenre.add(genre);
+    }
+    
+    /**
+     * delete a genre in a observableList
+     * @param genre 
+     */
+    public void deleteGenre (String genre)
+    {
+        moviegenre.remove(genre);
+    }
     
     /**
      * Get the value of duration

@@ -6,8 +6,6 @@
 package privatemoviecollection.DALDB;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,12 +25,12 @@ public class MovieDAO
 {
     //makes a server connection "sc" that can be accessed throughout the class
     ServerConnect sc;
-    
+
     public MovieDAO() throws IOException {
         sc = new ServerConnect();
     }
-    
-    
+
+
     //updates a movie with new Title, Path,  rating, lastView.
     public boolean updateMovie(Movie movie) throws SQLException {
         String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET name = ?, fileLink = ?, rating = ?, lastView = ?  WHERE id =" + movie.getId();
@@ -52,7 +50,7 @@ public class MovieDAO
         }
         return false;
     }
-    
+
     /*
     *deletes a movie both on the CatMovie and from the list of Movie
     *@parameter movie
@@ -70,13 +68,13 @@ public class MovieDAO
                 + movie.getId()
         );
     }
-    
+
     /*
     *gets all the movies in the server table Movie
     *@retuns List of all movies
     */
-    public List<Movie> getAllMovies() throws SQLServerException, SQLException {
-        List<Movie> movies = new ArrayList<>();
+    public ArrayList<Movie> getAllMovies() throws SQLServerException, SQLException {
+        ArrayList<Movie> movies = new ArrayList<>();
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Movie]");
@@ -93,9 +91,9 @@ public class MovieDAO
             movies.add(movie);
         }
         return movies;
-        
+
     }
-    
+
     /**
      * Create a movie on the server and send it back as a object
      * @param name
@@ -103,7 +101,7 @@ public class MovieDAO
      * @param fileLink
      * @param lastView
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public Movie createMovie(String name, double rating, String fileLink, String lastView) throws SQLException
     {
@@ -112,14 +110,14 @@ public class MovieDAO
         Connection con = sc.getConnection();
 
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        
+
         st.setString(1, name);
         st.setDouble(2, rating);
         st.setString(3, fileLink);
         st.setString(4, lastView);
 
         st.executeUpdate();
-        
+
         ResultSet rs = st.getGeneratedKeys();
 
         int id = 0;
@@ -132,6 +130,6 @@ public class MovieDAO
         Movie movie = new Movie(id, name, rating, fileLink, lastView);
 
         return movie;
-        
+
     }
 }
