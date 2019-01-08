@@ -132,4 +132,26 @@ public class MovieDAO
         return movie;
 
     }
+    
+    public void addGenres (String category) throws SQLServerException, SQLException {
+        Connection con = sc.getConnection();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * "
+                + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
+                + "WHERE name =" + category);
+        
+        int id = rs.getInt("id");
+            String title = rs.getNString("name");
+            double rating = rs.getDouble("rating");
+            String lastView = rs.getNString("lastView");
+            String path = rs.getNString("fileLink");
+        
+        Movie mv = new Movie(0, category, 0, category, category);
+        while (rs.next())
+        {
+            rs = (ResultSet) mv.moviegenre;
+        }
+        
+        System.out.println("det virker");
+    }
 }

@@ -23,7 +23,7 @@ public class Movie {
     private String filePath;
     private String movieTitle;
     
-    private ArrayList<String> moviegenre;
+    public ArrayList<String> moviegenre;
 
     /**
      * Construct the Movie
@@ -210,5 +210,7 @@ public class Movie {
     {
         return "ID: " + id + " Movie title: " + movieTitle + " Rating: " + rating;  
     }
+    
+    
     
 }

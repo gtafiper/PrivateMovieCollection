@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DALDB.CategoryDAO;
+import privatemoviecollection.DALDB.MovieDAO;
 
 /**
  *
@@ -35,9 +36,12 @@ public class PrivateMovieCollectionn extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SQLException {
         launch(args);
         
+        MovieDAO mvdao = new MovieDAO();
+        
+        mvdao.addGenres(STYLESHEET_MODENA);
     }
     
 }
