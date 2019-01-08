@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package privatemoviecollection.BLL;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import privatemoviecollection.DALDB.MovieDAO;
@@ -14,7 +15,12 @@ import privatemoviecollection.BE.Movie;
  * @author Christian
  */
 public class MovieManeger {
+    
     MovieDAO movieDAO;
+    
+    public MovieManeger() throws IOException {
+    this.movieDAO = new MovieDAO();
+    }
     
     public void deleteMovie(Movie movie) throws SQLException{
         movieDAO.deleteMovie(movie);
