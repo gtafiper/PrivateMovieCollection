@@ -77,8 +77,8 @@ public class MovieDAO
     *gets all the movies in the server table Movie
     *@retuns List of all movies
     */
-    public List<Movie> getAllMovies() throws SQLServerException, SQLException {
-        List<Movie> movies = new ArrayList<>();
+    public ArrayList<Movie> getAllMovies() throws SQLServerException, SQLException {
+        ArrayList<Movie> movies = new ArrayList<>();
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Movie]");

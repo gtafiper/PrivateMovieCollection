@@ -5,9 +5,13 @@
  */
 package privatemoviecollection.GUI.Model;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import privatemoviecollection.BE.Movie;
+import privatemoviecollection.DALDB.MovieDAO;
 
 /**
  *
@@ -17,7 +21,37 @@ public class Model {
      
     HashMap<String, ArrayList> hashMap = new HashMap<String, ArrayList>();
 
-    public void Hashmap() {
+    public void Hashmap() throws IOException, SQLException {
+        
+        MovieDAO mvdao = new MovieDAO();
+        
+        
+        
+        ArrayList<Movie> movies = mvdao.getAllMovies();
+        
+        for (Movie movy : movies) {
+            
+            if (movy.getGenres().size() > 0) {
+            ArrayList<String> lilleListe = new ArrayList<>();
+            
+            lilleListe.addAll(movy.getGenres());
+            
+            for (String genre : lilleListe) {
+                if (hashMap.containsKey(genre)) {
+                    
+                    hashMap.get(genre).add(movy);
+                    
+                }
+                else {
+                    ArrayList<Movie> extraMovies = new ArrayList<>();
+                    extraMovies.add(movy);
+                    hashMap.put(genre, extraMovies);
+                }
+            }
+            }
+            
+        }
+        
         addValues("1", "Action");
         addValues("2", "Crime");
         addValues("3", "Comedy");
@@ -27,6 +61,7 @@ public class Model {
         addValues("7", "Western");
         addValues("8", "Adventure");
         addValues("9", "Science Fiction");
+        
         
         
         Iterator it = hashMap.keySet().iterator();
@@ -41,7 +76,6 @@ public class Model {
                 }
             } 
         }
-        
     }
     
     private void addValues(String key, String value) {
@@ -59,5 +93,4 @@ public class Model {
             hashMap.put(key, tempList);
         }
     }
-    
 }
