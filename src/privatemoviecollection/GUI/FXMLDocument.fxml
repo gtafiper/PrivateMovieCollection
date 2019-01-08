@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -20,17 +20,17 @@
    <children>
       <MenuBar prefHeight="32.0" prefWidth="990.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Add Movie" />
-                  <MenuItem mnemonicParsing="false" text="Add Genre" />
-                  <MenuItem mnemonicParsing="false" text="Recently Watched" />
-                  <MenuItem mnemonicParsing="false" text="Exit" />
+              <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
+                  <MenuItem mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
+                  <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
+                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -40,51 +40,14 @@
           </Menu>
         </menus>
       </MenuBar>
-      <AnchorPane layoutY="32.0" prefHeight="70.0" prefWidth="990.0" style="-fx-background-color: gray;">
+      <AnchorPane layoutY="32.0" prefHeight="71.0" prefWidth="990.0" style="-fx-background-color: gray;">
          <children>
-            <ChoiceBox fx:id="genre" layoutX="14.0" layoutY="14.0" prefWidth="150.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="20.0" />
+            <ComboBox fx:id="genreComBox" layoutX="28.0" layoutY="20.0" prefWidth="150.0" promptText="Genre" visibleRowCount="5" />
          </children>
       </AnchorPane>
       <StackPane fx:id="stacPane" layoutY="103.0" prefHeight="661.0" prefWidth="990.0">
          <children>
-            <StackPane fx:id="stacPopUp">
-               <StackPane.margin>
-                  <Insets />
-               </StackPane.margin>
-               <children>
-                  <AnchorPane fx:id="popUd" prefHeight="659.0" prefWidth="861.0" style="-fx-background-color: limegreen;">
-                     <children>
-                        <ImageView fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../resus/MV5BNzY3NzYyNjI0N15BMl5BanBnXkFtZTgwNjYzMDc0NjM@._V1_UY209_CR0,0,140,209_AL_.jpg" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="43.0" prefWidth="367.0" text="Title">
-                           <font>
-                              <Font name="System Bold" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="TOP_LEFT" layoutX="169.0" layoutY="63.0" text="Årstal" AnchorPane.leftAnchor="165.0" />
-                        <Label alignment="TOP_LEFT" layoutX="164.0" layoutY="106.0" text="Genere" AnchorPane.leftAnchor="165.0" />
-                        <Label alignment="TOP_LEFT" layoutX="162.0" layoutY="147.0" text="Director" AnchorPane.leftAnchor="165.0" />
-                        <Label alignment="TOP_LEFT" layoutX="168.0" layoutY="183.0" prefHeight="71.0" prefWidth="214.0" text="Actors" AnchorPane.leftAnchor="165.0" />
-                        <Label layoutX="14.0" layoutY="292.0" text="Summery" />
-                        <Label layoutX="30.0" layoutY="550.0" text="IMDb Rating" />
-                        <Button layoutX="30.0" layoutY="590.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="31.0" prefWidth="62.0" text="Play" />
-                        <Label layoutX="219.0" layoutY="550.0" text="Personal Rating" />
-                     </children>
-                     <StackPane.margin>
-                        <Insets left="600.0" />
-                     </StackPane.margin>
-                  </AnchorPane>
-                  <AnchorPane fx:id="closePopUp" onMouseClicked="#bringToBack" prefHeight="200.0" prefWidth="200.0">
-                     <StackPane.margin>
-                        <Insets right="400.0" />
-                     </StackPane.margin>
-                  </AnchorPane>
-               </children>
-            </StackPane>
-            <AnchorPane fx:id="gridAnchor" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: pink;">
+            <AnchorPane fx:id="gridAnchor" prefHeight="678.0" prefWidth="990.0" style="-fx-background-color: pink;">
                <children>
                   <GridPane fx:id="movieGrid" layoutY="7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
@@ -118,6 +81,44 @@
                   </GridPane>
                </children>
             </AnchorPane>
+            <StackPane fx:id="stacPopUp">
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+               <children>
+                  <AnchorPane fx:id="popUd" prefHeight="659.0" prefWidth="861.0" style="-fx-background-color: limegreen;">
+                     <children>
+                        <ImageView fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resus/MV5BNzY3NzYyNjI0N15BMl5BanBnXkFtZTgwNjYzMDc0NjM@._V1_UY209_CR0,0,140,209_AL_.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="43.0" prefWidth="367.0" text="Title">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="TOP_LEFT" layoutX="169.0" layoutY="63.0" text="Årstal" AnchorPane.leftAnchor="165.0" />
+                        <Label alignment="TOP_LEFT" layoutX="164.0" layoutY="106.0" text="Genere" AnchorPane.leftAnchor="165.0" />
+                        <Label alignment="TOP_LEFT" layoutX="162.0" layoutY="147.0" text="Director" AnchorPane.leftAnchor="165.0" />
+                        <Label alignment="TOP_LEFT" layoutX="168.0" layoutY="183.0" prefHeight="71.0" prefWidth="214.0" text="Actors" AnchorPane.leftAnchor="165.0" />
+                        <Label layoutX="14.0" layoutY="292.0" text="Summery" />
+                        <Label layoutX="30.0" layoutY="550.0" text="IMDb Rating" />
+                        <Button layoutX="30.0" layoutY="590.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="31.0" prefWidth="62.0" text="Play" />
+                        <Label layoutX="219.0" layoutY="550.0" text="Personal Rating" />
+                        <ImageView fitHeight="53.0" fitWidth="54.0" layoutX="219.0" layoutY="578.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                     <StackPane.margin>
+                        <Insets left="600.0" />
+                     </StackPane.margin>
+                  </AnchorPane>
+                  <AnchorPane fx:id="closePopUp" onMouseClicked="#bringToBack" prefHeight="200.0" prefWidth="200.0">
+                     <StackPane.margin>
+                        <Insets right="400.0" />
+                     </StackPane.margin>
+                  </AnchorPane>
+               </children>
+            </StackPane>
          </children>
       </StackPane>
    </children>

@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Menu;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -37,13 +39,15 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ImageView FirstMovie1;
     @FXML
-    private ChoiceBox<?> genre;
-    @FXML
     private AnchorPane popUd;
     @FXML
     private AnchorPane closePopUp;
     @FXML
     private StackPane stacPopUp;
+    @FXML
+    private ComboBox<String> genreComBox;
+    @FXML
+    private Menu fileMenu;
     
     
    
@@ -54,6 +58,9 @@ public class FXMLDocumentController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    
+    //genreComBox.getItems().addAll(c)
+    fileMenu.
         
     }    
 
@@ -61,7 +68,9 @@ public class FXMLDocumentController implements Initializable {
     private void bringToFront(MouseEvent event) {
        stacPopUp.toFront();
        popUd.toFront();
-    }        
+    }     
+    
+    
     
 
 
@@ -75,6 +84,26 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void bringToBack(MouseEvent event) {
         stacPopUp.toBack();
+    }
+
+    @FXML
+    private void addMovie(ActionEvent event) {
+    }
+
+    @FXML
+    private void addGenre(ActionEvent event) {
+    }
+
+    @FXML
+    private void rencentlyWatched(ActionEvent event) {
+    }
+
+    @FXML
+    private void exit(ActionEvent event) {
+    }
+
+    @FXML
+    private void deleteMovie(ActionEvent event) {
     }
 
     
