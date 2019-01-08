@@ -5,11 +5,16 @@
  */
 package privatemoviecollection.GUI;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Locale;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import privatemoviecollection.BE.Movie;
+import privatemoviecollection.DALDB.CategoryDAO;
 
 /**
  *
@@ -32,6 +37,7 @@ public class PrivateMovieCollectionn extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        
     }
     
 }
