@@ -133,6 +133,12 @@ public class MovieDAO
 
     }
     
+    /**
+     * this adds the genre if the genre doesnt exist already
+     * @param movie
+     * @throws SQLServerException
+     * @throws SQLException 
+     */
     public void addGenres (Movie movie) throws SQLServerException, SQLException {
         Connection con = sc.getConnection();
         Statement st = con.createStatement();

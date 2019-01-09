@@ -32,7 +32,7 @@ public class CategoryDAO {
         this.server = new ServerConnect();
     }
     /* 
-     * creats a playlist on the sever, using sql
+     * creats a category on the sever, using sql
      */
     
     public void createCategory (String name) throws SQLServerException, SQLException {
@@ -49,9 +49,7 @@ public class CategoryDAO {
     }
     
     /*
-    *adds a song to a playlist by inserting a song object and a playlist object into a joind table 
-    @SongID
-    @PlaylistID
+    *adds a movie to a category by inserting a movie object and a category into a joined table 
     */
     public void addMovieToCategory(Movie movie, String category) throws SQLServerException, SQLException {
         Connection con = server.getConnection();
@@ -73,7 +71,7 @@ public class CategoryDAO {
     
    
     /*
-    * gets all the songs on a playlist 
+    * gets all the movies from the specified category  
     */
     public void getMovieFromCategory(String category) throws SQLException {
         Connection con = server.getConnection();
@@ -94,7 +92,7 @@ public class CategoryDAO {
                 + "WHERE CategoryId = " + id);
     }
 
-    // updates the name of the playlist from id 
+    // updates the name of the category from id 
 //    public boolean updateCategory(Category category) throws SQLServerException, SQLException {
 //
 //        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Category] SET Name = ? WHERE id = " ;

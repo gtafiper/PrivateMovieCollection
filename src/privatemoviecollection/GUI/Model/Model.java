@@ -18,9 +18,17 @@ import privatemoviecollection.DALDB.MovieDAO;
  * @author Nijas Hansen
  */
 public class Model {
-     
+    
+    /**
+     * creates a hashmap to use throughout the class
+     */
     HashMap<String, ArrayList> hashMap = new HashMap<String, ArrayList>();
 
+    /**
+     * hashmap operations
+     * @throws IOException
+     * @throws SQLException 
+     */
     public void Hashmap() throws IOException, SQLException {
         
         MovieDAO mvdao = new MovieDAO();
@@ -78,6 +86,11 @@ public class Model {
         }
     }
     
+    /**
+     * adds values to the hashmap
+     * @param key
+     * @param value 
+     */
     private void addValues(String key, String value) {
         ArrayList tempList = null;
         if (hashMap.containsKey(key)) {
