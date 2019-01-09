@@ -43,9 +43,7 @@ public class Movie {
         this.filePath = fileLink;
 
         moviegenre = FXCollections.observableArrayList();
-        ;
-
-
+        
     }
 
     /**
