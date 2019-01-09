@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Menu;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -37,13 +39,43 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ImageView FirstMovie1;
     @FXML
-    private ChoiceBox<?> genre;
-    @FXML
     private AnchorPane popUd;
     @FXML
     private AnchorPane closePopUp;
     @FXML
     private StackPane stacPopUp;
+    @FXML
+    private ComboBox<String> genreComBox;
+    @FXML
+    private Menu fileMenu;
+    @FXML
+    private AnchorPane rateWindow;
+    @FXML
+    private ImageView rate1;
+    @FXML
+    private ImageView rate2;
+    @FXML
+    private ImageView rate3;
+    @FXML
+    private ImageView rate4;
+    @FXML
+    private ImageView rate5;
+    @FXML
+    private ImageView rate6;
+    @FXML
+    private ImageView rate7;
+    @FXML
+    private ImageView rate8;
+    @FXML
+    private ImageView rate9;
+    @FXML
+    private ImageView rate10;
+    @FXML
+    private ImageView persenolRating;
+    @FXML
+    private ImageView ratingStar1;
+    
+    private boolean ratingWindowIsOpen = false;
     
     
    
@@ -54,6 +86,9 @@ public class FXMLDocumentController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    
+    //genreComBox.getItems().addAll(c)
+    
         
     }    
 
@@ -61,7 +96,9 @@ public class FXMLDocumentController implements Initializable {
     private void bringToFront(MouseEvent event) {
        stacPopUp.toFront();
        popUd.toFront();
-    }        
+    }     
+    
+    
     
 
 
@@ -75,6 +112,40 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void bringToBack(MouseEvent event) {
         stacPopUp.toBack();
+    }
+
+    @FXML
+    private void addMovie(ActionEvent event) {
+    }
+
+    @FXML
+    private void addGenre(ActionEvent event) {
+    }
+
+    @FXML
+    private void rencentlyWatched(ActionEvent event) {
+    }
+
+    @FXML
+    private void exit(ActionEvent event) {
+    }
+
+    @FXML
+    private void deleteMovie(ActionEvent event) {
+    }
+
+    @FXML
+    private void rate(MouseEvent event) {
+        if (ratingWindowIsOpen){
+            rateWindow.toBack();
+            ratingWindowIsOpen = false;
+        
+        }  else {
+            rateWindow.toFront();
+            ratingWindowIsOpen = true;
+        }
+        
+        
     }
 
     

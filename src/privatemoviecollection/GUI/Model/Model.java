@@ -19,30 +19,35 @@ import privatemoviecollection.DALDB.MovieDAO;
  * @author Nijas Hansen
  */
 public class Model {
-    
-    
+
+
     HashMap<String, ObservableList> hashMap = new HashMap<>();
 
+    /**
+     * hashmap operations
+     * @throws IOException
+     * @throws SQLException
+     */
     public void Hashmap() throws IOException, SQLException {
-        
+
         MovieDAO mvdao = new MovieDAO();
-        
-        
-        
+
+
+
         ObservableList<Movie> movies = mvdao.getAllMovies();
-        
+
         for (Movie movy : movies) {
-            
+
             if (movy.getGenres().size() > 0) {
-               
-            ObservableList<String> lilleListe = FXCollections.observableArrayList();            
+
+            ObservableList<String> lilleListe = FXCollections.observableArrayList();
             lilleListe.addAll(movy.getGenres());
-            
+
             for (String genre : lilleListe) {
                 if (hashMap.containsKey(genre)) {
-                    
+
                     hashMap.get(genre).add(movy);
-                    
+
                 }
                 else {
                     ObservableList<Movie> extraMovies = FXCollections.observableArrayList();
@@ -51,9 +56,9 @@ public class Model {
                 }
             }
             }
-            
+
         }
-        
+
         addValues("1", "Action");
         addValues("2", "Crime");
         addValues("3", "Comedy");
@@ -63,12 +68,12 @@ public class Model {
         addValues("7", "Western");
         addValues("8", "Adventure");
         addValues("9", "Science Fiction");
-        
-        
-        
+
+
+
         Iterator it = hashMap.keySet().iterator();
         ObservableList tempList = null;
-        
+
         while (it.hasNext()) {
             int key = (int) it.next();
             tempList = hashMap.get(key);
@@ -76,12 +81,17 @@ public class Model {
                 for (Object value : tempList) {
                     System.out.println("Key : "+key+ " , Value : "+value);
                 }
-            } 
+            }
         }
     }
-    
+
+    /**
+     * adds values to the hashmap
+     * @param key
+     * @param value
+     */
     private void addValues(String key, String value) {
-        
+
         ObservableList tempList = null;
         if (hashMap.containsKey(key)) {
             tempList = hashMap.get(key);

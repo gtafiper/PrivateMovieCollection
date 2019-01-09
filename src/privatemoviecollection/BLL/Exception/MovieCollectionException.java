@@ -11,6 +11,10 @@ package privatemoviecollection.BLL.Exception;
  */
 public class MovieCollectionException extends Exception {
     
+    /**
+     * this is the exception for movie collection 
+     * @param message 
+     */
      public MovieCollectionException(String message)
     {
         super(message);

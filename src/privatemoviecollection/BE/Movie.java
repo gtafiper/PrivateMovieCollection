@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
  * @author Bruger
  */
 public class Movie {
-    
+
     private int id;
     private int positionID = 0;
     private double rating;
@@ -22,7 +22,7 @@ public class Movie {
     private String lastView;
     private String filePath;
     private String movieTitle;
-    
+
     private ObservableList<String> moviegenre;
 
     /**
@@ -41,11 +41,11 @@ public class Movie {
         this.rating = rating;
         this.lastView = lastView;
         this.filePath = fileLink;
-        
+
         moviegenre = FXCollections.observableArrayList();
         ;
-        
-        
+
+
     }
 
     /**
@@ -59,7 +59,7 @@ public class Movie {
 
     /**
      * set the lastView in a string
-     * @param lastView 
+     * @param lastView
      */
     public void setLastView(String lastView)
     {
@@ -74,25 +74,25 @@ public class Movie {
     {
         return moviegenre;
     }
-    
+
     /**
      * set the genre in a observableList
-     * @param genre 
+     * @param genre
      */
-    public void setGenre(String genre)
+    public void addGenre(String genre)
     {
         moviegenre.add(genre);
     }
-    
+
     /**
      * delete a genre in a observableList
-     * @param genre 
+     * @param genre
      */
     public void deleteGenre (String genre)
     {
         moviegenre.remove(genre);
     }
-    
+
     /**
      * Get the value of duration
      *
@@ -161,7 +161,7 @@ public class Movie {
     {
         return rating;
     }
-    
+
     /**
      * set the value of rating in a movie
      * @param rating new rating on a movie
@@ -170,7 +170,7 @@ public class Movie {
     {
         this.rating = rating;
     }
-    
+
     /**
      * Get the value of songId
      *
@@ -201,7 +201,7 @@ public class Movie {
     {
         this.positionID = positionID;
     }
-    
+
     /**
      * get the movieTitle object into a string
      * @return the movietitle to a string
@@ -209,7 +209,9 @@ public class Movie {
     @Override
     public String toString()
     {
-        return "ID: " + id + " Movie title: " + movieTitle + " Rating: " + rating;  
+        return "ID: " + id + " Movie title: " + movieTitle + " Rating: " + rating;
     }
-    
+
+
+
 }

@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DALDB.CategoryDAO;
+import privatemoviecollection.DALDB.MovieDAO;
 
 /**
  *

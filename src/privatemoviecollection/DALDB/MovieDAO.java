@@ -24,15 +24,15 @@ import privatemoviecollection.DAL.ServerConnect;
 public class MovieDAO
 {
     private ObservableList<Movie> movies;
-    
+
     //makes a server connection "sc" that can be accessed throughout the class
     ServerConnect sc;
 
     public MovieDAO() throws IOException {
-        
+
         sc = new ServerConnect();
         movies = FXCollections.observableArrayList();
-        
+
     }
 
 
@@ -132,12 +132,36 @@ public class MovieDAO
 
         if (rs.next()) {
             id = rs.getInt(1);
-            
+
         }
         con.close();
         Movie movie = new Movie(id, name, rating, fileLink, lastView);
 
         return movie;
+
+    }
+
+    /**
+     * this adds the genre if the genre doesnt exist already
+     * @param movie
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public void addGenres (Movie movie) throws SQLServerException, SQLException {
+        Connection con = sc.getConnection();
+        Statement st = con.createStatement();
+
+
+        ResultSet rs = st.executeQuery("SELECT * "
+                + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
+                + "RIGHT JOIN [PrivateMovieCollectionName].[dbo].[CatMovie] ON"
+                + "[PrivateMovieCollectionName].[dbo].[Category].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[CategoryId]"
+                + "WHERE MovieId = " + movie.getId());
+
+        while (rs.next())
+        {
+            movie.addGenre(rs.getNString("name"));
+        }
 
     }
 }
