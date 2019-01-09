@@ -20,8 +20,8 @@ import privatemoviecollection.DALDB.MovieDAO;
  */
 public class Model {
 
-
-    HashMap<String, ObservableList> hashMap = new HashMap<>();
+    private ObservableList<Movie> movies = FXCollections.observableArrayList();
+    private HashMap<String, ObservableList> hashMap = new HashMap<>();
 
     /**
      * hashmap operations

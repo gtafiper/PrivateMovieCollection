@@ -16,7 +16,6 @@ import javafx.collections.ObservableList;
 public class Movie {
 
     private int id;
-    private int positionID = 0;
     private double rating;
     private double duration;
     private String lastView;
@@ -179,26 +178,6 @@ public class Movie {
         return id;
     }
 
-
-    /**
-     * get the positionID of a id
-     *
-     * @return the position of ID
-     */
-    public int getPositionID()
-    {
-        return positionID;
-    }
-
-    /**
-     * set the value of positionID
-     *
-     * @param positionID
-     */
-    public void setPositionID(int positionID)
-    {
-        this.positionID = positionID;
-    }
 
     /**
      * get the movieTitle object into a string
