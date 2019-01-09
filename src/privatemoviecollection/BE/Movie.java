@@ -14,17 +14,16 @@ import javafx.collections.ObservableList;
  * @author Bruger
  */
 public class Movie {
-    
+
     private int id;
-    private int positionID = 0;
     private double rating;
     private double duration;
     private String lastView;
     private String filePath;
     private String movieTitle;
     private String imageURL;
-    
-    public ArrayList<String> moviegenre;
+
+    private ObservableList<String> moviegenre;
     public String getGerne;
 
     /**
@@ -44,10 +43,10 @@ public class Movie {
         this.lastView = lastView;
         this.filePath = fileLink;
         imageURL = new String();
-        
-        moviegenre = new ArrayList();
-        
-        
+
+        moviegenre = FXCollections.observableArrayList();
+
+
     }
 
     public String getImageURL() {
@@ -69,7 +68,7 @@ public class Movie {
 
     /**
      * set the lastView in a string
-     * @param lastView 
+     * @param lastView
      */
     public void setLastView(String lastView)
     {
@@ -80,29 +79,29 @@ public class Movie {
      * Get the genre in a observableList
      * @return
      */
-    public ArrayList<String> getGenres()
+    public ObservableList<String> getGenres()
     {
         return moviegenre;
     }
-    
+
     /**
      * set the genre in a observableList
-     * @param genre 
+     * @param genre
      */
     public void addGenre(String genre)
     {
         moviegenre.add(genre);
     }
-    
+
     /**
      * delete a genre in a observableList
-     * @param genre 
+     * @param genre
      */
     public void deleteGenre (String genre)
     {
         moviegenre.remove(genre);
     }
-    
+
     /**
      * Get the value of duration
      *
@@ -171,7 +170,7 @@ public class Movie {
     {
         return rating;
     }
-    
+
     /**
      * set the value of rating in a movie
      * @param rating new rating on a movie
@@ -180,7 +179,7 @@ public class Movie {
     {
         this.rating = rating;
     }
-    
+
     /**
      * Get the value of songId
      *
@@ -193,33 +192,13 @@ public class Movie {
 
 
     /**
-     * get the positionID of a id
-     *
-     * @return the position of ID
-     */
-    public int getPositionID()
-    {
-        return positionID;
-    }
-
-    /**
-     * set the value of positionID
-     *
-     * @param positionID
-     */
-    public void setPositionID(int positionID)
-    {
-        this.positionID = positionID;
-    }
-    
-    /**
      * get the movieTitle object into a string
      * @return the movietitle to a string
      */
     @Override
     public String toString()
     {
-        return "ID: " + id + " Movie title: " + movieTitle + " Rating: " + rating;  
+        return "ID: " + id + " Movie title: " + movieTitle + " Rating: " + rating;
     }
 
     public String getYear() {
@@ -237,7 +216,7 @@ public class Movie {
     public String getDirector() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
+
+
+
 }

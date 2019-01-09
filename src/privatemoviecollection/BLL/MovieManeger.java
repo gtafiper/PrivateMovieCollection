@@ -7,8 +7,6 @@ package privatemoviecollection.BLL;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Locale;
-import java.util.Locale.Category;
 import privatemoviecollection.DALDB.MovieDAO;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DALDB.CategoryDAO;
@@ -35,8 +33,7 @@ public class MovieManeger {
         return movieDAO.createMovie(name, rating, fileLink, lastView);
     }
     
-    public List<Movie> getAllMovies() throws SQLException
-    {
+    public List<Movie> getAllMovies() throws SQLException {
         return movieDAO.getAllMovies();
     }
     

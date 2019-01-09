@@ -12,8 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
@@ -23,11 +23,16 @@ import privatemoviecollection.DAL.ServerConnect;
  */
 public class MovieDAO
 {
+    private ObservableList<Movie> movies;
+
     //makes a server connection "sc" that can be accessed throughout the class
     ServerConnect sc;
 
     public MovieDAO() throws IOException {
+
         sc = new ServerConnect();
+        movies = FXCollections.observableArrayList();
+
     }
 
 
@@ -48,6 +53,7 @@ public class MovieDAO
         if (rowsAffected >= 1) {
             return true;
         }
+        con.close();
         return false;
     }
 
@@ -67,14 +73,15 @@ public class MovieDAO
                 "DELETE FROM [PrivateMovieCollectionName].[dbo].[Movie] WHERE id = "
                 + movie.getId()
         );
+        con.close();
     }
 
     /*
     *gets all the movies in the server table Movie
     *@retuns List of all movies
     */
-    public ArrayList<Movie> getAllMovies() throws SQLServerException, SQLException {
-        ArrayList<Movie> movies = new ArrayList<>();
+    public ObservableList<Movie> getAllMovies() throws SQLServerException, SQLException {
+        ObservableList<Movie> movies = FXCollections.observableArrayList();
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Movie]");
@@ -90,8 +97,9 @@ public class MovieDAO
 
             movies.add(movie);
         }
+        con.close();
         return movies;
-        
+
     }
 
     /**
@@ -126,28 +134,34 @@ public class MovieDAO
             id = rs.getInt(1);
 
         }
-
+        con.close();
         Movie movie = new Movie(id, name, rating, fileLink, lastView);
 
         return movie;
 
     }
-    
+
+    /**
+     * this adds the genre if the genre doesnt exist already
+     * @param movie
+     * @throws SQLServerException
+     * @throws SQLException
+     */
     public void addGenres (Movie movie) throws SQLServerException, SQLException {
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
-        
-        
-        ResultSet rs = st.executeQuery("SELECT * "  
+
+
+        ResultSet rs = st.executeQuery("SELECT * "
                 + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
                 + "RIGHT JOIN [PrivateMovieCollectionName].[dbo].[CatMovie] ON"
-                + "[PrivateMovieCollectionName].[dbo].[Category].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[CategoryId]" 
+                + "[PrivateMovieCollectionName].[dbo].[Category].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[CategoryId]"
                 + "WHERE MovieId = " + movie.getId());
-        
+
         while (rs.next())
         {
             movie.addGenre(rs.getNString("name"));
         }
-        
+
     }
 }
