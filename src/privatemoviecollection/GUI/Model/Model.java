@@ -7,9 +7,10 @@ package privatemoviecollection.GUI.Model;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DALDB.MovieDAO;
 
@@ -18,8 +19,9 @@ import privatemoviecollection.DALDB.MovieDAO;
  * @author Nijas Hansen
  */
 public class Model {
-     
-    HashMap<String, ArrayList> hashMap = new HashMap<String, ArrayList>();
+    
+    
+    HashMap<String, ObservableList> hashMap = new HashMap<>();
 
     public void Hashmap() throws IOException, SQLException {
         
@@ -27,13 +29,13 @@ public class Model {
         
         
         
-        ArrayList<Movie> movies = mvdao.getAllMovies();
+        ObservableList<Movie> movies = mvdao.getAllMovies();
         
         for (Movie movy : movies) {
             
             if (movy.getGenres().size() > 0) {
-            ArrayList<String> lilleListe = new ArrayList<>();
-            
+               
+            ObservableList<String> lilleListe = FXCollections.observableArrayList();            
             lilleListe.addAll(movy.getGenres());
             
             for (String genre : lilleListe) {
@@ -43,7 +45,7 @@ public class Model {
                     
                 }
                 else {
-                    ArrayList<Movie> extraMovies = new ArrayList<>();
+                    ObservableList<Movie> extraMovies = FXCollections.observableArrayList();
                     extraMovies.add(movy);
                     hashMap.put(genre, extraMovies);
                 }
@@ -65,7 +67,7 @@ public class Model {
         
         
         Iterator it = hashMap.keySet().iterator();
-        ArrayList tempList = null;
+        ObservableList tempList = null;
         
         while (it.hasNext()) {
             int key = (int) it.next();
@@ -79,15 +81,16 @@ public class Model {
     }
     
     private void addValues(String key, String value) {
-        ArrayList tempList = null;
+        
+        ObservableList tempList = null;
         if (hashMap.containsKey(key)) {
             tempList = hashMap.get(key);
             if (tempList == null) {
-                tempList = new ArrayList();
+                tempList = FXCollections.observableArrayList();
                 tempList.add(value);
             }
             else {
-                tempList = new ArrayList();
+                tempList = FXCollections.observableArrayList();
                 tempList.add(value);
             }
             hashMap.put(key, tempList);

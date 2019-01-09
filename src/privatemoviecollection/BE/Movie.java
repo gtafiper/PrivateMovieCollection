@@ -23,7 +23,7 @@ public class Movie {
     private String filePath;
     private String movieTitle;
     
-    private ArrayList<String> moviegenre;
+    private ObservableList<String> moviegenre;
 
     /**
      * Construct the Movie
@@ -42,7 +42,8 @@ public class Movie {
         this.lastView = lastView;
         this.filePath = fileLink;
         
-        moviegenre = new ArrayList();
+        moviegenre = FXCollections.observableArrayList();
+        ;
         
         
     }
@@ -69,7 +70,7 @@ public class Movie {
      * Get the genre in a observableList
      * @return
      */
-    public ArrayList<String> getGenres()
+    public ObservableList<String> getGenres()
     {
         return moviegenre;
     }
