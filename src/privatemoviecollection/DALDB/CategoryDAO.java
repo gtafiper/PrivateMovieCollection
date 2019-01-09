@@ -95,24 +95,24 @@ public class CategoryDAO {
     }
 
     // updates the name of the playlist from id 
-    public boolean updateCategory(Category category) throws SQLServerException, SQLException {
-
-        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Category] SET Name = ? WHERE id = " ;
-
-        Connection con = server.getConnection();
-
-        PreparedStatement pst = con.prepareStatement(sql);
-
-        //pst.setString(1, category.());
-
-        int rowsAffected = pst.executeUpdate();
-
-        if (rowsAffected >= 1) {
-            return true;
-        }
-        return false;
-
-    }
+//    public boolean updateCategory(Category category) throws SQLServerException, SQLException {
+//
+//        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Category] SET Name = ? WHERE id = " ;
+//
+//        Connection con = server.getConnection();
+//
+//        PreparedStatement pst = con.prepareStatement(sql);
+//
+//        //pst.setString(1, category.());
+//
+//        int rowsAffected = pst.executeUpdate();
+//
+//        if (rowsAffected >= 1) {
+//            return true;
+//        }
+//        return false;
+//
+//    }
     
 }
 
