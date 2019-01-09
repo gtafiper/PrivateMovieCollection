@@ -7,8 +7,11 @@ package privatemoviecollection.BLL;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
+import java.util.Locale.Category;
 import privatemoviecollection.DALDB.MovieDAO;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.DALDB.CategoryDAO;
 
 /**
  *
@@ -17,9 +20,11 @@ import privatemoviecollection.BE.Movie;
 public class MovieManeger {
     
     MovieDAO movieDAO;
+    CategoryDAO cateDAO;
     
     public MovieManeger() throws IOException {
     this.movieDAO = new MovieDAO();
+    this.cateDAO = new CategoryDAO();
     }
     
     public void deleteMovie(Movie movie) throws SQLException{
@@ -42,6 +47,22 @@ public class MovieManeger {
     public void addGenres(Movie movie) throws SQLException {
         movieDAO.addGenres(movie);
     }
+    
+    public void createCategory(String name) throws SQLException {
+        cateDAO.createCategory(name);
+    }
+    
+    public void addMovieToCategory(Movie movie, String category) throws SQLException {
+        cateDAO.addMovieToCategory(movie, category);
+    }
+    
+    public void getMovieFromCategory(String category) throws SQLException {
+        cateDAO.getMovieFromCategory(category);
+    }
+    
+//    public void updateCategory(Category category) throws SQLException {
+//        cateDAO.updateCategory(category);
+//    }
 }
 
 
