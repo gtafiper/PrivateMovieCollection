@@ -22,8 +22,10 @@ public class Movie {
     private String lastView;
     private String filePath;
     private String movieTitle;
+    private String imageURL;
     
     public ArrayList<String> moviegenre;
+    public String getGerne;
 
     /**
      * Construct the Movie
@@ -41,10 +43,19 @@ public class Movie {
         this.rating = rating;
         this.lastView = lastView;
         this.filePath = fileLink;
+        imageURL = new String();
         
         moviegenre = new ArrayList();
         
         
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     /**
@@ -209,6 +220,22 @@ public class Movie {
     public String toString()
     {
         return "ID: " + id + " Movie title: " + movieTitle + " Rating: " + rating;  
+    }
+
+    public String getYear() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String getSummry() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String getActors() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String getDirector() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
