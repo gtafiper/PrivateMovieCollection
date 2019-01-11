@@ -5,10 +5,13 @@
  */
 package privatemoviecollection.GUI;
 
+import com.sun.jndi.dns.DnsContextFactory;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -35,6 +38,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.GUI.Model.Model;
+
 
 /**
  * FXML Controller class
@@ -126,6 +131,7 @@ public class FXMLDocumentController implements Initializable
     {
         movies = new ArrayList<>();
 
+
         // create new constraints for columns and set their percentage
         ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setHgrow(Priority.NEVER);
@@ -192,6 +198,11 @@ public class FXMLDocumentController implements Initializable
                         }
                     }
                 }
+
+                private void bringToFront() {
+                 stacPopUp.toFront();
+                 popUd.toFront();
+                }
             });
 
             movieGrid.add(imageview, col, row);
@@ -255,6 +266,7 @@ public class FXMLDocumentController implements Initializable
     {
         stacPopUp.toFront();
         popUd.toFront();
+
     }
 
     @FXML
@@ -284,8 +296,9 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void exit(ActionEvent event)
-    {
+    private void exit(ActionEvent event) {
+        Platform.exit();
+        System.exit(0);
     }
 
     @FXML
@@ -308,5 +321,15 @@ public class FXMLDocumentController implements Initializable
         }
 
     }
+
+   /* public void addGenersToBox(){
+    genreComBox.setItems((ObservableList<String>) model.getHashMap());
+    }
+*/
+
+    @FXML
+    private void addGenre(MouseEvent event) {
+    }
+
 
 }
