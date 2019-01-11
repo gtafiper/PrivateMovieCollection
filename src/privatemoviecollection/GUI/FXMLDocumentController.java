@@ -99,6 +99,8 @@ public class FXMLDocumentController implements Initializable
     private int collumNum = 7;
     int col;
     int row;
+    
+    Movie movieClass;
 
     @FXML
     private ImageView imegePreview;
@@ -184,7 +186,7 @@ public class FXMLDocumentController implements Initializable
                     {
                         if (mouseEvent.getClickCount() == 2)
                         {
-                            bringToFront(null);
+                            bringToFront();
                             title.setText(movie.getTitle());
                             Year.setText(movie.getYear());
                             genre.setText(movie.getGerne);
@@ -327,9 +329,7 @@ public class FXMLDocumentController implements Initializable
     }
 */
 
-    @FXML
-    private void addGenre(MouseEvent event) {
-    }
+  
 
 
 }
