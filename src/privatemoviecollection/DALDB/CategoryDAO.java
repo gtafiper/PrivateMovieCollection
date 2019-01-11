@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Observable;
+import javafx.collections.ObservableList;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
@@ -88,6 +90,9 @@ public class CategoryDAO {
                 + "[PrivateMovieCollectionName].[dbo].[Movie].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[MovieId]" 
                 + "WHERE CategoryId = " + id);
     }
+    
+    
+   
 
     // updates the name of the category from id 
 //    public boolean updateCategory(Category category) throws SQLServerException, SQLException {

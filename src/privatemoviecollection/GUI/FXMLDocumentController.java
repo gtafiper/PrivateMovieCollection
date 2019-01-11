@@ -5,10 +5,13 @@
  */
 package privatemoviecollection.GUI;
 
+import com.sun.jndi.dns.DnsContextFactory;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,6 +36,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.GUI.Model.Model;
+
 
 /**
  * FXML Controller class
@@ -108,6 +113,8 @@ public class FXMLDocumentController implements Initializable {
     private Label IMDbRating;
     @FXML
     private ScrollPane scrollpane;
+    
+    Model model;
 
     /**
      * Initializes the controller class.
@@ -115,6 +122,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         movies = new ArrayList<>();
+        
 
         // create new constraints for columns and set their percentage
         ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -166,7 +174,7 @@ public class FXMLDocumentController implements Initializable {
                 public void handle(MouseEvent mouseEvent) {
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                         if (mouseEvent.getClickCount() == 2) {
-                            bringToFront(null);
+                            bringToFront();
                             title.setText(movie.getTitle());
                             Year.setText(movie.getYear());
                             genre.setText(movie.getGerne);
@@ -179,6 +187,11 @@ public class FXMLDocumentController implements Initializable {
 
                         }
                     }
+                }
+
+                private void bringToFront() {
+                 stacPopUp.toFront();
+                 popUd.toFront();
                 }
             });
 
@@ -193,13 +206,15 @@ public class FXMLDocumentController implements Initializable {
             }
 
         }
+        
 
-        //genreComBox.getItems().addAll(c)
+        
     }
 
     private void bringToFront(MouseEvent event) {
         stacPopUp.toFront();
         popUd.toFront();
+        
     }
 
     @FXML
@@ -225,6 +240,8 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void exit(ActionEvent event) {
+        Platform.exit();
+        System.exit(0);
     }
 
     @FXML
@@ -243,5 +260,15 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
+    
+   /* public void addGenersToBox(){
+    genreComBox.setItems((ObservableList<String>) model.getHashMap());
+    }
+*/
+
+    @FXML
+    private void addGenre(MouseEvent event) {
+    }
+    
 
 }

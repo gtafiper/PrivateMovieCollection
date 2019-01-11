@@ -7,10 +7,14 @@ package privatemoviecollection.GUI.Model;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DALDB.MovieDAO;
 
@@ -21,14 +25,14 @@ import privatemoviecollection.DALDB.MovieDAO;
 public class Model {
 
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
-    private HashMap<String, ObservableList> hashMap = new HashMap<>();
+    public HashMap<String, ObservableList> hashMap = new HashMap<>();
 
     /**
      * hashmap operations
      * @throws IOException
      * @throws SQLException
      */
-    public void Hashmap() throws IOException, SQLException {
+    public void HashmapofCategorys() throws IOException, SQLException {
 
         MovieDAO mvdao = new MovieDAO();
 
@@ -69,6 +73,7 @@ public class Model {
         addValues("8", "Adventure");
         addValues("9", "Science Fiction");
 
+        
 
 
         Iterator it = hashMap.keySet().iterator();
@@ -83,7 +88,21 @@ public class Model {
                 }
             }
         }
+        
+       
+        
+        
     }
+
+    public List<String> getHashMap() {
+       List<String> ListOfCategorys = new ArrayList(hashMap.values());
+        return ListOfCategorys;
+    }
+     
+    
+    
+    
+    
 
     /**
      * adds values to the hashmap
