@@ -23,6 +23,15 @@ public class OmdbHandler
     
     private static final String URL = "http://www.omdbapi.com/?i=IMDBID&plot=full&apikey=APIKEY";
     private static final String APIKEY = "5551e9bb";
+    private static final String HASH_TITLE = "Title";
+    private static final String HASH_YEAR = "Year";
+    private static final String HASH_RUNTIME = "Runtime";
+    private static final String HASH_GENRE = "Genre";
+    private static final String HASH_DIRECTOR = "Director";
+    private static final String HASH_ACTORS = "Actors";
+    private static final String HASH_PLOT = "Plot";
+    private static final String HASH_POSTER = "Poster";
+    private static final String HASH_IMDB_RATING = "imdbRating";
     
     /**
      * @param args the command line arguments
@@ -74,41 +83,41 @@ public class OmdbHandler
         HashMap<String, String> hashmap = new HashMap();
         for (int i = 0; i < parts.length; i++)
         {
-            if(parts[i].contains("Title"))
+            if(parts[i].contains(HASH_TITLE))
             {
-                hashmap.put("Title", parts[i+2]);
+                hashmap.put(HASH_TITLE, parts[i+2]);
             }
-            if(parts[i].contains("Year"))
+            if(parts[i].contains(HASH_YEAR))
             {
-                hashmap.put("Year", parts[i+2]);
+                hashmap.put(HASH_YEAR, parts[i+2]);
             }
-            if(parts[i].contains("Runtime"))
+            if(parts[i].contains(HASH_RUNTIME))
             {
-                hashmap.put("Runtime", parts[i+2]);
+                hashmap.put(HASH_RUNTIME, parts[i+2]);
             }
-            if(parts[i].contains("Genre"))
+            if(parts[i].contains(HASH_GENRE))
             {
-                hashmap.put("Genre", parts[i+2]);
+                hashmap.put(HASH_GENRE, parts[i+2]);
             }
-            if(parts[i].contains("Director"))
+            if(parts[i].contains(HASH_DIRECTOR))
             {
-                hashmap.put("Director", parts[i+2]);
+                hashmap.put(HASH_DIRECTOR, parts[i+2]);
             }
-            if(parts[i].contains("Actors"))
+            if(parts[i].contains(HASH_ACTORS))
             {
-                hashmap.put("Actors", parts[i+2]);
+                hashmap.put(HASH_ACTORS, parts[i+2]);
             }
-            if(parts[i].contains("Plot"))
+            if(parts[i].contains(HASH_PLOT))
             {
-                hashmap.put("Plot", parts[i+2]);
+                hashmap.put(HASH_PLOT, parts[i+2]);
             }
-            if(parts[i].contains("Poster"))
+            if(parts[i].contains(HASH_POSTER))
             {
-                hashmap.put("Poster", parts[i+2]);
+                hashmap.put(HASH_POSTER, parts[i+2]);
             }
-            if(parts[i].contains("imdbRating"))
+            if(parts[i].contains(HASH_IMDB_RATING))
             {
-                hashmap.put("imdbRating", parts[i+2]);
+                hashmap.put(HASH_IMDB_RATING, parts[i+2]);
             }
         }
         return hashmap;
