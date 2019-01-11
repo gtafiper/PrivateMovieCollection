@@ -72,10 +72,10 @@ public class Model {
 
     }
 
-    public List<String> getHashMap() {
-       List<String> ListOfCategorys = new ArrayList(hashMap.values());
-        return ListOfCategorys;
-    }
+   public ObservableList<String> getAllgenres(){
+       return genres;
+   }
+   
 
 
 

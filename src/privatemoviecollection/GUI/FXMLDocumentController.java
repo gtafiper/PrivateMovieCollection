@@ -5,21 +5,20 @@
  */
 package privatemoviecollection.GUI;
 
-import com.sun.jndi.dns.DnsContextFactory;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
@@ -31,7 +30,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -101,6 +99,7 @@ public class FXMLDocumentController implements Initializable
     int row;
     
     Movie movieClass;
+    Model model;
 
     @FXML
     private ImageView imegePreview;
@@ -131,7 +130,16 @@ public class FXMLDocumentController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        try {
+            model = new Model();
+            genreComBox.getItems().setAll(model.getAllgenres());
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         movies = new ArrayList<>();
+        
 
 
         // create new constraints for columns and set their percentage
@@ -169,6 +177,7 @@ public class FXMLDocumentController implements Initializable
         imegeviwe2.setFitWidth(140);
         moviegrid.add(imegeviwe, 0, 0);
         moviegrid.add(imegeviwe2, 1, 0);
+        
 
         col = 0;
         row = 0;
@@ -186,7 +195,7 @@ public class FXMLDocumentController implements Initializable
                     {
                         if (mouseEvent.getClickCount() == 2)
                         {
-                            bringToFront();
+                            bringToFront(null);
                             title.setText(movie.getTitle());
                             Year.setText(movie.getYear());
                             genre.setText(movie.getGerne);
@@ -201,10 +210,8 @@ public class FXMLDocumentController implements Initializable
                     }
                 }
 
-                private void bringToFront() {
-                 stacPopUp.toFront();
-                 popUd.toFront();
-                }
+               
+                
             });
 
             movieGrid.add(imageview, col, row);
@@ -229,28 +236,28 @@ public class FXMLDocumentController implements Initializable
 //        });
         //genreComBox.getItems().addAll(c)
     }
-
-    private void resizeGrit(double width)
-    {
-        if (width > COLLUMTHRESHOLD * collumNum)
-        {
-            movieGrid.addColumn(collumNum, null);
-            collumNum++;
-            movieGrid.addColumn(collumNum, null);
-            for (int i = 0; i < row; i++)
-            {
-                getNodeFromGridPane(movieGrid, 0, i);
-            }
-            resizeGrit(width);
-        }
-        if (width < COLLUMTHRESHOLD * collumNum - 1)
-        {
-            collumNum--;
-            //fjern en collum og tilpas film
-            resizeGrit(width);
-        }
-
-    }
+//
+//    private void resizeGrit(double width)
+//    {
+//        if (width > COLLUMTHRESHOLD * collumNum)
+//        {
+//            movieGrid.addColumn(collumNum, null);
+//            collumNum++;
+//            movieGrid.addColumn(collumNum, null);
+//            for (int i = 0; i < row; i++)
+//            {
+//                getNodeFromGridPane(movieGrid, 0, i);
+//            }
+//            resizeGrit(width);
+//        }
+//        if (width < COLLUMTHRESHOLD * collumNum - 1)
+//        {
+//            collumNum--;
+//            //fjern en collum og tilpas film
+//            resizeGrit(width);
+//        }
+//
+//    }
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row)
     {
@@ -324,10 +331,11 @@ public class FXMLDocumentController implements Initializable
 
     }
 
-   /* public void addGenersToBox(){
-    genreComBox.setItems((ObservableList<String>) model.getHashMap());
+    @FXML
+    private void addGenre(MouseEvent event) {
     }
-*/
+
+
 
   
 
