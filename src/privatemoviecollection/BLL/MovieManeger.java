@@ -6,6 +6,7 @@
 package privatemoviecollection.BLL;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.DALDB.MovieDAO;
 import privatemoviecollection.BE.Movie;
@@ -37,8 +38,8 @@ public class MovieManeger {
         return movieDAO.getAllMovies();
     }
     
-    public void updateMovie(Movie movie) throws SQLException {
-        movieDAO.updateMovie(movie);
+    public boolean updateMovie(Movie movie) throws SQLException {
+        return movieDAO.updateMovie(movie);
     }
     
     public void addGenres(Movie movie) throws SQLException {
@@ -55,6 +56,10 @@ public class MovieManeger {
     
     public void getMoviesFromCategory(String category) throws SQLException {
         cateDAO.getMoviesFromCategory(category);
+    }
+    
+    public ArrayList getAllCategory() throws SQLException {
+        return cateDAO.getAllCategory();
     }
     
 //    public void updateCategory(Category category) throws SQLException {

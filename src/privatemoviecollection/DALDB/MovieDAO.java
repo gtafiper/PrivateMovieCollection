@@ -12,8 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
@@ -23,7 +22,7 @@ import privatemoviecollection.DAL.ServerConnect;
  */
 public class MovieDAO
 {
-    private ObservableList<Movie> movies;
+    private ArrayList<Movie> movies;
 
     //makes a server connection "sc" that can be accessed throughout the class
     ServerConnect sc;
@@ -31,7 +30,7 @@ public class MovieDAO
     public MovieDAO() throws IOException {
 
         sc = new ServerConnect();
-        movies = FXCollections.observableArrayList();
+        movies = new ArrayList<>();
 
     }
 
@@ -80,8 +79,8 @@ public class MovieDAO
     *gets all the movies in the server table Movie
     *@retuns List of all movies
     */
-    public ObservableList<Movie> getAllMovies() throws SQLServerException, SQLException {
-        ObservableList<Movie> movies = FXCollections.observableArrayList();
+    public ArrayList<Movie> getAllMovies() throws SQLServerException, SQLException {
+        ArrayList<Movie> movies = new ArrayList<>();
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Movie]");

@@ -8,16 +8,13 @@ package privatemoviecollection.GUI.Model;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import privatemoviecollection.BE.Movie;
-import privatemoviecollection.DALDB.CategoryDAO;
-import privatemoviecollection.DALDB.MovieDAO;
+import privatemoviecollection.BLL.MovieManeger;
 
 /**
  *
@@ -28,12 +25,13 @@ public class Model {
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
     private HashMap<String, ObservableList> hashMap = new HashMap<>();
     private ObservableList<String> genres = FXCollections.observableArrayList();
+    private MovieManeger logiclayer;
 
     public Model() throws IOException, SQLException {
-        MovieDAO mvdao = new MovieDAO();
-        CategoryDAO cgdao = new CategoryDAO();
-        movies = mvdao.getAllMovies();
-        genres.setAll(cgdao.getAllCategory());
+        logiclayer = new MovieManeger();
+        movies.setAll(logiclayer.getAllMovies());
+        genres.setAll(logiclayer.getAllCategory());
+        createGenreMoviePairs();
     }
 
     /**
@@ -67,20 +65,11 @@ public class Model {
             }
         }
 
-
-
-
     }
 
     public List<String> getHashMap() {
-       List<String> ListOfCategorys = new ArrayList(hashMap.values());
+        List<String> ListOfCategorys = new ArrayList(hashMap.values());
         return ListOfCategorys;
     }
-
-
-
-
-
-
 
 }
