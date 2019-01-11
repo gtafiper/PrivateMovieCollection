@@ -53,8 +53,8 @@ public class MovieManeger {
         cateDAO.addMovieToCategory(movie, category);
     }
     
-    public void getMovieFromCategory(String category) throws SQLException {
-        cateDAO.getMovieFromCategory(category);
+    public void getMoviesFromCategory(String category) throws SQLException {
+        cateDAO.getMoviesFromCategory(category);
     }
     
 //    public void updateCategory(Category category) throws SQLException {

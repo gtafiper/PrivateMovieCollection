@@ -12,6 +12,7 @@ import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.DALDB.CategoryDAO;
 import privatemoviecollection.DALDB.MovieDAO;
 
 /**
@@ -22,88 +23,46 @@ public class Model {
 
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
     private HashMap<String, ObservableList> hashMap = new HashMap<>();
+    private ObservableList<String> genres = FXCollections.observableArrayList();
+    
+    public Model() throws IOException, SQLException {
+        MovieDAO mvdao = new MovieDAO();
+        CategoryDAO cgdao = new CategoryDAO();
+        movies = mvdao.getAllMovies();
+        genres.setAll(cgdao.getAllCategory());
+    }
 
     /**
      * hashmap operations
+     *
      * @throws IOException
      * @throws SQLException
      */
-    public void Hashmap() throws IOException, SQLException {
-
-        MovieDAO mvdao = new MovieDAO();
-
-
-
-        ObservableList<Movie> movies = mvdao.getAllMovies();
-
+    private void createGenreMoviePairs() throws IOException, SQLException {
         for (Movie movy : movies) {
+            addMoviesToCategory(movy);
+        }
+    }
 
-            if (movy.getGenres().size() > 0) {
-
+    private void addMoviesToCategory(Movie movy) {
+        if (movy.getGenres().size() > 0) {
+            
             ObservableList<String> lilleListe = FXCollections.observableArrayList();
             lilleListe.addAll(movy.getGenres());
-
+            
             for (String genre : lilleListe) {
                 if (hashMap.containsKey(genre)) {
-
+                    
                     hashMap.get(genre).add(movy);
-
-                }
-                else {
+                    
+                } else {
                     ObservableList<Movie> extraMovies = FXCollections.observableArrayList();
                     extraMovies.add(movy);
                     hashMap.put(genre, extraMovies);
                 }
             }
-            }
-
-        }
-
-        addValues("1", "Action");
-        addValues("2", "Crime");
-        addValues("3", "Comedy");
-        addValues("4", "Romantic");
-        addValues("5", "Horror");
-        addValues("6", "Thriller");
-        addValues("7", "Western");
-        addValues("8", "Adventure");
-        addValues("9", "Science Fiction");
-
-
-
-        Iterator it = hashMap.keySet().iterator();
-        ObservableList tempList = null;
-
-        while (it.hasNext()) {
-            int key = (int) it.next();
-            tempList = hashMap.get(key);
-            if(tempList != null) {
-                for (Object value : tempList) {
-                    System.out.println("Key : "+key+ " , Value : "+value);
-                }
-            }
         }
     }
 
-    /**
-     * adds values to the hashmap
-     * @param key
-     * @param value
-     */
-    private void addValues(String key, String value) {
-
-        ObservableList tempList = null;
-        if (hashMap.containsKey(key)) {
-            tempList = hashMap.get(key);
-            if (tempList == null) {
-                tempList = FXCollections.observableArrayList();
-                tempList.add(value);
-            }
-            else {
-                tempList = FXCollections.observableArrayList();
-                tempList.add(value);
-            }
-            hashMap.put(key, tempList);
-        }
-    }
+    
 }

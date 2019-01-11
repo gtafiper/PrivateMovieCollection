@@ -88,8 +88,8 @@ public class MovieDAO
         //runs all the movies through
         while (rs.next()) {
             int id = rs.getInt("id");
-            String title = rs.getNString("name");
-            double rating = rs.getDouble("rating");
+            String title = rs.getNString("title");
+            double rating = rs.getDouble("user_rating");
             String lastView = rs.getNString("lastView");
             String path = rs.getNString("fileLink");
 
@@ -104,22 +104,22 @@ public class MovieDAO
 
     /**
      * Create a movie on the server and send it back as a object
-     * @param name
+     * @param title
      * @param rating
      * @param fileLink
      * @param lastView
      * @return
      * @throws SQLException
      */
-    public Movie createMovie(String name, double rating, String fileLink, String lastView) throws SQLException
+    public Movie createMovie(String title, double rating, String fileLink, String lastView) throws SQLException
     {
-        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (name, rating, fileLink, lastView) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (title, user_rating, fileLink, lastView) VALUES (?, ?, ?, ?);";
 
         Connection con = sc.getConnection();
 
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-        st.setString(1, name);
+        st.setString(1, title);
         st.setDouble(2, rating);
         st.setString(3, fileLink);
         st.setString(4, lastView);
@@ -135,8 +135,8 @@ public class MovieDAO
 
         }
         con.close();
-        Movie movie = new Movie(id, name, rating, fileLink, lastView);
-
+        Movie movie = new Movie(id, title, rating, fileLink, lastView);
+        
         return movie;
 
     }
@@ -160,7 +160,7 @@ public class MovieDAO
 
         while (rs.next())
         {
-            movie.addGenre(rs.getNString("name"));
+            movie.addGenre(rs.getNString("Category"));
         }
 
     }
