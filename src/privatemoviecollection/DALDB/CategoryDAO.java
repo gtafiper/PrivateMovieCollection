@@ -12,8 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Observable;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
@@ -22,79 +21,103 @@ import privatemoviecollection.DAL.ServerConnect;
  * @author Nijas Hansen
  */
 public class CategoryDAO {
-    
+
     //establishes a server connect witch can be used in the inter class
     private static ServerConnect server;
-    
+
     public CategoryDAO() throws IOException {
 
         this.server = new ServerConnect();
     }
-    /* 
+    /*
      * creats a category on the sever, using sql
      */
-    
-    public void createCategory (String name) throws SQLServerException, SQLException {
-        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Category] (Name) VALUES (?)";
 
+    public ArrayList getAllCategory() throws SQLServerException, SQLException {
         Connection con = server.getConnection();
+        ArrayList list = new ArrayList<>();
+        String sql = "SELECT * FROM [PrivateMovieCollectionName].[dbo].[Category]";
+        PreparedStatement st = con.prepareStatement(sql);
+
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next()) {
+            String genre = rs.getNString("Category");
+            list.add(genre);
+        }
+
+        return list;
+
+
+    }
+
+    public void createCategory (String name) throws SQLServerException, SQLException {
+        Connection con = server.getConnection();
+
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Category] (Category) VALUES (?)";
 
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
         st.setString(1, name);
 
         st.executeUpdate();
-         
+
     }
-    
+
     /*
-    *adds a movie to a category by inserting a movie object and a category into a joined table 
+    *adds a movie to a category by inserting a movie object and a category into a joined table
     */
     public void addMovieToCategory(Movie movie, String category) throws SQLServerException, SQLException {
         Connection con = server.getConnection();
         String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[CatMovie] (MovieId, CategoryId) VALUES (?,?)";
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Category] WHERE name = " + category);
-        
-        int id = 0;
-        
-        while (rs.next()) {
-            id = rs.getInt("name");
-        }
-        
         st.setInt(1, movie.getId());
-        st.setInt(2, id);
-
+        st.setInt(2, getCategoryId(category));
         st.executeUpdate();
     }
-    
-   
-    /*
-    * gets all the movies from the specified category  
-    */
-    public void getMovieFromCategory(String category) throws SQLException {
+
+    private int getCategoryId(String category) throws SQLException {
         Connection con = server.getConnection();
         Statement st = con.createStatement();
         ResultSet resultSet = st.executeQuery("SELECT * "
                 + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
-                + "WHERE name =" + category);
-        
+                + "WHERE Category = " + category);
+
         int id = 0;
         while (resultSet.next()) {
             id = resultSet.getInt("id");
         }
-        
-        ResultSet rs = st.executeQuery("SELECT * "  
+
+        return id;
+    }
+
+
+    /*
+    * gets all the movies from the specified category
+    */
+    public void getMoviesFromCategory(String category) throws SQLException {
+        Connection con = server.getConnection();
+        Statement st = con.createStatement();
+
+        int id = getCategoryId(category);
+
+
+        ResultSet rs = st.executeQuery("SELECT * "
                 + "FROM [PrivateMovieCollectionName].[dbo].[Movie] "
                 + "RIGHT JOIN [PrivateMovieCollectionName].[dbo].[CatMovie] ON"
-                + "[PrivateMovieCollectionName].[dbo].[Movie].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[MovieId]" 
+                + "[PrivateMovieCollectionName].[dbo].[Movie].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[MovieId]"
                 + "WHERE CategoryId = " + id);
-    }
-    
-    
-   
 
-    // updates the name of the category from id 
+        ArrayList<Movie> moives = new ArrayList<>();
+        while (rs.next()) {
+
+        }
+    }
+
+
+
+
+    // updates the name of the category from id
 //    public boolean updateCategory(Category category) throws SQLServerException, SQLException {
 //
 //        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Category] SET Name = ? WHERE id = " ;
@@ -113,6 +136,5 @@ public class CategoryDAO {
 //        return false;
 //
 //    }
-    
-}
 
+}
