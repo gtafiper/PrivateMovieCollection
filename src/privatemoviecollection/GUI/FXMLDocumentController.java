@@ -14,11 +14,14 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
@@ -37,7 +40,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.GUI.Model.Model;
-
 
 /**
  * FXML Controller class
@@ -93,11 +95,11 @@ public class FXMLDocumentController implements Initializable
     private List<Movie> movies;
     private GridPane movieGrid;
     private Movie activeMovie;
-    private final double COLLUMTHRESHOLD = 200;
+    private final double COLLUMTHRESHOLD = 180;
     private int collumNum = 7;
-    int col;
-    int row;
-    
+    private int col;
+    private int row;
+    private GridPane moviegrid;
     Movie movieClass;
     Model model;
 
@@ -130,134 +132,182 @@ public class FXMLDocumentController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        try {
-            model = new Model();
-            genreComBox.getItems().setAll(model.getAllgenres());
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            model = new Model();
+//            genreComBox.getItems().setAll(model.getAllgenres());
+//        } catch (IOException ex) {
+//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         movies = new ArrayList<>();
-        
-
 
         // create new constraints for columns and set their percentage
         ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setHgrow(Priority.NEVER);
 
-        columnConstraints.setMaxWidth(180.0);
-        columnConstraints.setMinWidth(180.0);
-        columnConstraints.setPrefWidth(180.0);
-        columnConstraints.setHalignment(HPos.LEFT);
+        columnConstraints.setMaxWidth(140.0);
+        columnConstraints.setMinWidth(140.0);
+        columnConstraints.setPrefWidth(140.0);
+        columnConstraints.setHalignment(HPos.RIGHT);
 
         // create new constraints for row and set their percentage
         RowConstraints rowConstraints = new RowConstraints();
         rowConstraints.setVgrow(Priority.NEVER);
 
-        rowConstraints.setMaxHeight(270.0);
-        rowConstraints.setPrefHeight(270.0);
-        rowConstraints.setMinHeight(270.0);
+        rowConstraints.setMaxHeight(210.0);
+        rowConstraints.setPrefHeight(210.0);
+        rowConstraints.setMinHeight(210.0);
         rowConstraints.setValignment(VPos.TOP);
 
         // don't set preferred size or anything on gridpane
-        GridPane moviegrid = new GridPane();
+        moviegrid = new GridPane();
         moviegrid.getRowConstraints().add(rowConstraints);
         moviegrid.getColumnConstraints().add(columnConstraints);
+        moviegrid.setHgap(30);
+        moviegrid.setVgap(50);
+        Insets in = new Insets(10, 10, 10, 10);
+        moviegrid.setPadding(in);
 
         // suppose your scroll pane id is scrollPane
-        scrollpane.setContent(moviegrid);
         scrollpane.setFitToHeight(true);
         scrollpane.setFitToWidth(true);
+        gridAnchor.getChildren().add(moviegrid);
         ImageView imegeviwe = new ImageView(new Image("resus/test.jpg"));
         imegeviwe.setFitHeight(210);
         imegeviwe.setFitWidth(140);
         ImageView imegeviwe2 = new ImageView(new Image("resus/test.jpg"));
         imegeviwe2.setFitHeight(210);
         imegeviwe2.setFitWidth(140);
-        moviegrid.add(imegeviwe, 0, 0);
-        moviegrid.add(imegeviwe2, 1, 0);
-        
+//        moviegrid.add(imegeviwe, 0, 0);
+//        moviegrid.add(imegeviwe2, 1, 0);
+        for (int i = 0; i < 7; i++)
+        {
+            ImageView imegeview = new ImageView(new Image("resus/test.jpg"));
+            imegeviwe.setFitHeight(210);
+            imegeviwe.setFitWidth(140);
+            moviegrid.add(imegeview, i, 0);
+        }
 
         col = 0;
         row = 0;
+
+        ArrayList<Node> images = new ArrayList<Node>();
 
         for (Movie movie : movies)
         {
             Image image = new Image(movie.getImageURL());
             ImageView imageview = new ImageView(image);
-            imageview.setOnMouseClicked(new EventHandler<MouseEvent>()
-            {
-                @Override
-                public void handle(MouseEvent mouseEvent)
-                {
-                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
-                    {
-                        if (mouseEvent.getClickCount() == 2)
-                        {
-                            bringToFront(null);
-                            title.setText(movie.getTitle());
-                            Year.setText(movie.getYear());
-                            genre.setText(movie.getGerne);
-                            director.setText(movie.getDirector());
-                            actors.setText(movie.getActors());
-                            summery.setText(movie.getSummry());
-                            rating.setText(Double.toString(movie.getRating()));
-                            imegePreview.setImage(new Image(movie.getImageURL()));
-                            activeMovie = movie;
-
-                        }
-                    }
-                }
-
-               
-                
-            });
+            setUpMovieAction(imageview, movie);
 
             movieGrid.add(imageview, col, row);
             col++;
 
-            if (col > 7)
+            if (col > collumNum)
             {
                 col = 0;
 
                 row++;
-                movieGrid.addRow(row, (Node) null);
             }
 
         }
-//        window.widthProperty().addListener(new ChangeListener<Number>()
-//        {
-//            public void changed(ObservableValue<? extends Number> ov,
-//                    Number old_val, Number new_val)
-//            {
-//
-//            }
-//        });
-        //genreComBox.getItems().addAll(c)
+
+        window.widthProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
+                if (newValue.intValue() > COLLUMTHRESHOLD * collumNum)
+                {
+                    collumNum++;
+                    System.out.println("hej");
+                }
+            }
+        });
+
     }
-//
-//    private void resizeGrit(double width)
-//    {
-//        if (width > COLLUMTHRESHOLD * collumNum)
-//        {
-//            movieGrid.addColumn(collumNum, null);
-//            collumNum++;
-//            movieGrid.addColumn(collumNum, null);
-//            for (int i = 0; i < row; i++)
-//            {
-//                getNodeFromGridPane(movieGrid, 0, i);
-//            }
-//            resizeGrit(width);
-//        }
-//        if (width < COLLUMTHRESHOLD * collumNum - 1)
-//        {
-//            collumNum--;
-//            //fjern en collum og tilpas film
-//            resizeGrit(width);
-//        }
-//
-//    }
+
+    private void setUpMovieAction(ImageView imageview, Movie movie)
+    {
+        imageview.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent mouseEvent)
+            {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
+                {
+                    if (mouseEvent.getClickCount() == 2)
+                    {
+                        bringToFront(null);
+                        title.setText(movie.getTitle());
+                        Year.setText(movie.getYear());
+                        genre.setText(movie.getGerne);
+                        director.setText(movie.getDirector());
+                        actors.setText(movie.getActors());
+                        summery.setText(movie.getSummry());
+                        rating.setText(Double.toString(movie.getRating()));
+                        imegePreview.setImage(new Image(movie.getImageURL()));
+                        activeMovie = movie;
+
+                    }
+                }
+            }
+        });
+    }
+
+    private void reloadGrid()
+    {
+
+        int collumcount = 0;
+        int rowcount = 0;
+        for (int i = 0; i < moviegrid.getChildren().size(); i++)
+        {
+
+            if (movies.size() >= i)
+            {
+                ImageView imageV = (ImageView) moviegrid.getChildren().get(i);
+                imageV.setImage(new Image(movies.get(i).getImageURL()));
+                setUpMovieAction(imageV, movies.get(i));
+
+            }
+
+            if (movies.size() < i)
+            {
+                moviegrid.getChildren().get(i);
+                ImageView imageV = (ImageView) moviegrid.getChildren().get(i);
+                imageV.setImage(null);
+                imageV.setOnMouseClicked(null);
+
+            }
+
+            collumcount++;
+            if (collumcount == collumNum)
+            {
+                rowcount++;
+                collumcount = 0;
+            }
+
+        }
+    }
+
+    private void resizeGrit(double width)
+    {
+        if (width > COLLUMTHRESHOLD * collumNum)
+        {
+            movieGrid.addColumn(collumNum, new ImageView());
+            collumNum++;
+            reloadGrid();
+            resizeGrit(width);
+        }
+        if (width < COLLUMTHRESHOLD * collumNum - 1)
+        {
+            movieGrid.getChildren().removeIf(node -> GridPane.getRowIndex(node) == collumNum);
+            collumNum--;
+            reloadGrid();
+            resizeGrit(width);
+        }
+
+    }
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row)
     {
@@ -305,7 +355,8 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void exit(ActionEvent event) {
+    private void exit(ActionEvent event)
+    {
         Platform.exit();
         System.exit(0);
     }
@@ -332,12 +383,8 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void addGenre(MouseEvent event) {
+    private void addGenre(MouseEvent event)
+    {
     }
-
-
-
-  
-
 
 }
