@@ -17,16 +17,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
 <AnchorPane id="AnchorPane" fx:id="window" prefHeight="838.0" prefWidth="1119.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.FXMLDocumentController">
-=======
-<AnchorPane id="AnchorPane" fx:id="window" prefHeight="838.0" prefWidth="1217.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.FXMLDocumentController">
->>>>>>> b299af13437b4bcd4b9200b68941b0f26ae82be3
    <children>
-      <AnchorPane layoutY="28.0" prefHeight="52.0" prefWidth="1217.0" style="-fx-background-color: gray;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+      <AnchorPane layoutY="28.0" prefHeight="43.0" prefWidth="990.0" style="-fx-background-color: gray;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
          <children>
             <ComboBox fx:id="genreComBox" layoutX="28.0" layoutY="20.0" onMouseClicked="#addGenre" prefWidth="150.0" promptText="Genre" visibleRowCount="5" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="10.0" />
-            <TextField layoutX="733.0" layoutY="10.0" prefHeight="25.0" prefWidth="470.0" promptText="Search" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0" />
+            <TextField layoutX="214.0" layoutY="10.0" prefHeight="31.0" prefWidth="477.0" promptText="Search" />
          </children>
       </AnchorPane>
       <StackPane fx:id="stacPane" layoutY="79.0" prefHeight="661.0" prefWidth="990.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
@@ -170,11 +166,11 @@
                   </AnchorPane>
                </children>
             </StackPane>
-            <ScrollPane fx:id="scrollpane" prefHeight="790.0" prefWidth="1217.0">
-               <content>
-                  <AnchorPane fx:id="gridAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="764.0" prefWidth="1208.0" style="-fx-background-color: pink;" />
-               </content>
-            </ScrollPane>
+            <AnchorPane fx:id="gridAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="734.0" prefWidth="990.0" style="-fx-background-color: pink;">
+               <children>
+                  <ScrollPane fx:id="scrollpane" prefHeight="685.0" prefWidth="990.0" style="-fx-background-color: green;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
          </children>
       </StackPane>
       <MenuBar prefHeight="32.0" prefWidth="990.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
