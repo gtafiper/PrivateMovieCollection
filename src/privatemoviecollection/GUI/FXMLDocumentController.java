@@ -19,11 +19,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -38,6 +41,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.GUI.Model.Model;
 
@@ -342,6 +346,22 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void addMovie(ActionEvent event)
     {
+        try
+        {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/AddMovie.fxml"));
+
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Create Playlist");
+            stage.setScene(new Scene(root, 450, 200));
+            stage.show();
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        
     }
 
     @FXML
@@ -387,4 +407,5 @@ public class FXMLDocumentController implements Initializable
     {
     }
 
+    
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddMovieController">
+   <children>
+      <Label fx:id="lblFileLocation" layoutX="26.0" layoutY="38.0" prefHeight="18.0" prefWidth="260.0" />
+      <Button fx:id="btnChooseFile" layoutX="286.0" layoutY="34.0" mnemonicParsing="false" onMouseClicked="#OpenFileChooser" text="Choose file" />
+      <Text layoutX="26.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Location" />
+      <Text layoutX="26.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDB URL" wrappingWidth="95.55978393554688" />
+      <TextField fx:id="txtfldURL" layoutX="26.0" layoutY="119.0" prefHeight="26.0" prefWidth="333.0" promptText="Enter URL" />
+   </children>
+</AnchorPane>
