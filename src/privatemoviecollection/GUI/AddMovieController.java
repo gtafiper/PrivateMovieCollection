@@ -43,6 +43,7 @@ public class AddMovieController implements Initializable {
     private String imdbid;
     private File chosenMovie;
     private Stage stage;
+    private String moviePath;
     
     public void setModel(Model model) {
         this.model = model;
@@ -61,7 +62,9 @@ public class AddMovieController implements Initializable {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open Movie Path");
         chosenMovie = fc.showOpenDialog(null);
-        lblFileLocation.setText(chosenMovie.getPath());
+        String split = chosenMovie.getPath();
+        moviePath = split.replace("C:\\Users\\Nijas Hansen\\Documents\\GitHub\\MRS\\PrivateMovieCollection\\src\\", "");
+        lblFileLocation.setText(moviePath);
     }
     
     private void URL() {
@@ -73,7 +76,7 @@ public class AddMovieController implements Initializable {
 
     @FXML
     private void btnToDAL(MouseEvent event) throws SQLException {
-        //model.CreateMovie(chosenMovie.getPath(), imdbid);
+        //model.CreateMovie(moviePath, imdbid);
         Stage stage = (Stage) runbtn.getScene().getWindow();
         
         stage.close();
