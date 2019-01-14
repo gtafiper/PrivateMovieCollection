@@ -278,6 +278,8 @@ public class FXMLDocumentController implements Initializable {
                 movieGrid.addRow(row, (Node) null);
             }
 
+            //model.getlastView()
+
         }
 
         window.widthProperty().addListener(new ChangeListener<Number>() {
@@ -399,9 +401,11 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void play(MouseEvent event) {
+    private void play(MouseEvent event) throws IOException, SQLException
+    {
+        MediaPlayer.openMediaPlayer(activeMovie);
+        model.lastePlayDate(activeMovie);
     }
-
     @FXML
     private void bringToBack(MouseEvent event) {
         stacPopUp.toBack();

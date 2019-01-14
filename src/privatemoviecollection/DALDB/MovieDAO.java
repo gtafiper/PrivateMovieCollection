@@ -12,7 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.OmdbHandler;
@@ -120,7 +123,7 @@ public class MovieDAO
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
         HashMap<String, String> movieInfo = OmdbHandler.createHashMap(OmdbHandler.getMovieByImdbID(imdbId));
-        
+
         st.setString(1, movieInfo.get(OmdbHandler.HASH_TITLE));
         st.setString(10, movieInfo.get(OmdbHandler.HASH_IMDB_RATING));
         st.setString(8, movieInfo.get(OmdbHandler.HASH_ACTORS));
@@ -131,7 +134,7 @@ public class MovieDAO
         st.setString(9, movieInfo.get(OmdbHandler.HASH_PLOT));
         st.setString(7, movieInfo.get(OmdbHandler.HASH_DIRECTOR));
         st.setString(3, fileLink);
-        
+
 
         st.executeUpdate();
 
@@ -145,7 +148,7 @@ public class MovieDAO
         }
         con.close();
         Movie movie = new Movie(id, movieInfo.get(OmdbHandler.HASH_TITLE), movieInfo.get(OmdbHandler.HASH_IMDB_RATING), fileLink);
-        
+
         return movie;
 
     }
@@ -173,7 +176,7 @@ public class MovieDAO
         }
 
     }
-    
+
     public void addGenre (String genre, Movie movie) throws SQLServerException, SQLException
     {
         Connection con = sc.getConnection();
@@ -181,17 +184,17 @@ public class MovieDAO
         if ((id = doItExist(con, genre)) != 0){
         String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[CatMovie] (CategoryId, MovieId) VALUES (?, ?)";
         PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-        
+
         ps.setInt(1, id);
         ps.setInt(2, movie.getId());
         ps.executeUpdate();
-        
+
         } else {
             String newSql = "INSERT INTO [PrivateMovieCollectionName.[dbo].[Category] (Category) VALUES (?)";
             PreparedStatement nps = con.prepareStatement(newSql,Statement.RETURN_GENERATED_KEYS);
             nps.setString(1, genre);
             nps.executeUpdate();
-            
+
             ResultSet rs = nps.getGeneratedKeys();
             int newId = 0;
             while(rs.next())
@@ -200,26 +203,45 @@ public class MovieDAO
             }
             String newIdSql = "INSERT INTO [PrivateMovieCollectionName.[dbo].[CatMovie] (CategoryId, MovieId) VALUES (?, ?)";
             PreparedStatement nips = con.prepareStatement(newIdSql,Statement.RETURN_GENERATED_KEYS);
-            
+
             nips.setInt(1, newId);
             nips.setInt(2, movie.getId());
             nips.executeUpdate();
         }
-        
+
     }
-    
+
     public int doItExist(Connection con, String genre) throws SQLException
     {
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMocieCollectionName].[dbo].[Category] WHERE Category = " + genre);
-        
+
         while (rs.next())
         {
-            
+
             return rs.getInt("id");
         }
         return 0;
     }
-    
-}  
 
+    public void lastePlayDate(Movie movie) throws SQLServerException, SQLException{
+
+        Calendar cal = Calendar.getInstance();
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+
+        movie.setLastView(df.format(cal.getTime()));
+
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET lastView = ? WHERE id =" + movie.getId();
+
+        Connection con = sc.getConnection();
+
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        String date = df.format(cal.getTime());
+
+        pst.setString(1, date);
+
+        movie.setLastView(date);
+
+    }
+}

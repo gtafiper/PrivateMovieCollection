@@ -6,7 +6,11 @@
 package privatemoviecollection.GUI;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +42,7 @@ public class PrivateMovieCollectionn extends Application {
      */
     public static void main(String[] args) throws IOException, SQLException {
         launch(args);
+       
         
     }
     

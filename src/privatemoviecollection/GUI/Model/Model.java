@@ -26,6 +26,7 @@ public class Model {
     private HashMap<String, ObservableList> hashMap = new HashMap<>();
     private ObservableList<String> genres = FXCollections.observableArrayList();
     private MovieManeger logiclayer;
+    private Movie movie;
 
     public Model() throws IOException, SQLException {
         logiclayer = new MovieManeger();
@@ -110,6 +111,14 @@ public class Model {
 
     public ArrayList getAllCategory() throws SQLException {
         return logiclayer.getAllCategory();
+    }
+    
+    public String getlastView(){
+       return movie.getlastView();
+    }
+    
+    public void lastePlayDate(Movie movie) throws SQLException {
+        logiclayer.lastPlayDate(movie);
     }
 
 

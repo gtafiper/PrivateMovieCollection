@@ -35,12 +35,11 @@ public class Movie {
      * @param lastView
      * @param fileLink
      */
-    public Movie(int id, String name, String rating, String fileLink)
+    public Movie(int id, String name, double rating, String fileLink)
     {
         this.id = id;
         this.movieTitle = name;
         this.rating = rating;
-        this.lastView = lastView;
         this.filePath = fileLink;
         imageURL = new String();
 
@@ -61,7 +60,7 @@ public class Movie {
      * gets the lastView in a string
      * @return lastView
      */
-    public String getLastView()
+    public String getlastView()
     {
         return lastView;
     }
