@@ -21,8 +21,6 @@ public class MediaPlayer {
     public void openMediaPlayer(String moviename) throws IOException {
         Runtime.getRuntime().exec("C:\\Program Files\\Windows Media Player\\wmplayer.exe "
                 + "\"C:\\Users\\Nijas Hansen\\Documents\\GitHub\\MRS\\PrivateMovieCollection\\src\\resus\\Movies\\" + moviename + ".mp4\"");
-        
-        
     }
     
     
