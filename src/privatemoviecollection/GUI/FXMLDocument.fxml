@@ -190,7 +190,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="aboutTab" mnemonicParsing="false" onAction="#aboutTab" text="About" />
             </items>
           </Menu>
         </menus>

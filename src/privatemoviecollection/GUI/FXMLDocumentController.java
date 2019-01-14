@@ -98,8 +98,8 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private AnchorPane window;
     private ContextMenu contexMenu;
-   
-    
+
+
 
     private boolean ratingWindowIsOpen = false;
     private List<Movie> movies;
@@ -109,10 +109,10 @@ public class FXMLDocumentController implements Initializable
     private int collumNum = 7;
     int col;
     int row;
-    
+
     Movie movieClass;
     Model model;
-    
+
 
     @FXML
     private ImageView imegePreview;
@@ -134,7 +134,9 @@ public class FXMLDocumentController implements Initializable
     private Label IMDbRating;
     @FXML
     private ScrollPane scrollpane;
-    
+    @FXML
+    private MenuItem aboutTab;
+
 
     /**
      * Initializes the controller class.
@@ -152,27 +154,27 @@ public class FXMLDocumentController implements Initializable
         }
         movies = new ArrayList<>();
         contexMenu = new ContextMenu();
-        
-        
-        
-            
-        
+
+
+
+
+
         MenuItem delete = new MenuItem("Delete Movie");
         delete.setOnAction(new EventHandler<ActionEvent>() {
-            
+
             @Override
-            public void handle(ActionEvent event) 
+            public void handle(ActionEvent event)
             {
-             
+
                 try {
                     model.deleteMovie(movieClass);
                 } catch (SQLException ex) {
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
         });
-        
+
         MenuItem play = new MenuItem("Play Movie");
         play.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -180,7 +182,7 @@ public class FXMLDocumentController implements Initializable
                 throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
             }
         });
-        
+
         MenuItem addGengre = new MenuItem("Add Genre");
         addGengre.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -193,9 +195,9 @@ public class FXMLDocumentController implements Initializable
                 throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
             }
         });
-        
+
          contexMenu.getItems().addAll(delete, play, addGengre);
-        
+
 
 
         // create new constraints for columns and set their percentage
@@ -233,20 +235,20 @@ public class FXMLDocumentController implements Initializable
         imegeviwe2.setFitWidth(140);
         moviegrid.add(imegeviwe, 0, 0);
         moviegrid.add(imegeviwe2, 1, 0);
-        
+
         imegeviwe.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
- 
+
             @Override
             public void handle(ContextMenuEvent event) {
             contexMenu.hide();
             contexMenu.show(imegeviwe, event.getScreenX(), event.getScreenY());
-            
+
             }
         });
-        
-        
-        
-        
+
+
+
+
 
         col = 0;
         row = 0;
@@ -279,8 +281,8 @@ public class FXMLDocumentController implements Initializable
                     }
                 }
 
-               
-                
+
+
             });
 
             movieGrid.add(imageview, col, row);
@@ -369,14 +371,17 @@ public class FXMLDocumentController implements Initializable
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Create Playlist");
-            stage.setScene(new Scene(root, 450, 200));
+            stage.setScene(new Scene(root));
             stage.show();
+            AddMovieController controller = loader.getController();
+            controller.setModel(model);
+            controller.setStage(stage);
 
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        
+
     }
 
     @FXML
@@ -420,13 +425,10 @@ public class FXMLDocumentController implements Initializable
     private void addGenre(MouseEvent event) {
     }
 
-<<<<<<< HEAD
-    
-=======
+    @FXML
+    private void aboutTab(ActionEvent event) {
+        
+    }
 
 
-  
-
-
->>>>>>> ee2c007dd18756c2054c9f978abdd7546a660d2b
 }
