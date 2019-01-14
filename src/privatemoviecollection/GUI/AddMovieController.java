@@ -31,7 +31,7 @@ public class AddMovieController implements Initializable {
     @FXML
     private TextField txtfldURL;
 
-    
+    static Stage stage;
     /**
      * Initializes the controller class.
      */
@@ -44,13 +44,13 @@ public class AddMovieController implements Initializable {
         
     }
 
-//    @FXML
-//    private void OpenFileChooser(MouseEvent event) {
-//        FileChooser fc = new FileChooser();
-//        fc.setTitle("Open Movie Path");
-//        File chosenMovie = fc.showOpenDialog(null);
-//        String fileAsString = chosenMovie.toString();
-//        lblFileLocation.setText(fileAsString);
-//    }
+    @FXML
+    private void OpenFileChooser(MouseEvent event) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open Movie Path");
+        File chosenMovie = fc.showOpenDialog(stage);
+        String fileAsString = chosenMovie.toString();
+        lblFileLocation.setText(fileAsString);
+    }
     
 }
