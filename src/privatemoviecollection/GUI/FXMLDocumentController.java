@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -47,14 +48,12 @@ import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.GUI.Model.Model;
 
-
 /**
  * FXML Controller class
  *
  * @author Christian
  */
-public class FXMLDocumentController implements Initializable
-{
+public class FXMLDocumentController implements Initializable {
 
     @FXML
     private StackPane stacPane;
@@ -101,13 +100,11 @@ public class FXMLDocumentController implements Initializable
     private AnchorPane window;
     private ContextMenu contexMenu;
 
-
-
     private boolean ratingWindowIsOpen = false;
     private List<Movie> movies;
     private GridPane movieGrid;
     private Movie activeMovie;
-    private final double COLLUMTHRESHOLD = 200;
+    private final double COLLUMTHRESHOLD = 180;
     private int collumNum = 7;
     private int col;
     private int row;
@@ -115,7 +112,6 @@ public class FXMLDocumentController implements Initializable
 
     Movie movieClass;
     Model model;
-
 
     @FXML
     private ImageView imegePreview;
@@ -140,13 +136,11 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private MenuItem aboutTab;
 
-
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         try {
             model = new Model();
             genreComBox.getItems().setAll(model.getAllgenres());
@@ -158,16 +152,11 @@ public class FXMLDocumentController implements Initializable
         movies = new ArrayList<>();
         contexMenu = new ContextMenu();
 
-
-
-
-
         MenuItem delete = new MenuItem("Delete Movie");
         delete.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(ActionEvent event)
-            {
+            public void handle(ActionEvent event) {
 
                 try {
                     model.deleteMovie(movieClass);
@@ -199,32 +188,34 @@ public class FXMLDocumentController implements Initializable
             }
         });
 
-         contexMenu.getItems().addAll(delete, play, addGengre);
-
-
+        contexMenu.getItems().addAll(delete, play, addGengre);
 
         // create new constraints for columns and set their percentage
         ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setHgrow(Priority.NEVER);
 
-        columnConstraints.setMaxWidth(180.0);
-        columnConstraints.setMinWidth(180.0);
-        columnConstraints.setPrefWidth(180.0);
-        columnConstraints.setHalignment(HPos.LEFT);
+        columnConstraints.setMaxWidth(140.0);
+        columnConstraints.setMinWidth(140.0);
+        columnConstraints.setPrefWidth(140.0);
+        columnConstraints.setHalignment(HPos.RIGHT);
 
         // create new constraints for row and set their percentage
         RowConstraints rowConstraints = new RowConstraints();
         rowConstraints.setVgrow(Priority.NEVER);
 
-        rowConstraints.setMaxHeight(270.0);
-        rowConstraints.setPrefHeight(270.0);
-        rowConstraints.setMinHeight(270.0);
+        rowConstraints.setMaxHeight(210.0);
+        rowConstraints.setPrefHeight(210.0);
+        rowConstraints.setMinHeight(210.0);
         rowConstraints.setValignment(VPos.TOP);
 
         // don't set preferred size or anything on gridpane
         GridPane moviegrid = new GridPane();
         moviegrid.getRowConstraints().add(rowConstraints);
         moviegrid.getColumnConstraints().add(columnConstraints);
+        moviegrid.setHgap(30);
+        moviegrid.setVgap(50);
+        Insets in = new Insets(10, 10, 10, 10);
+        moviegrid.setPadding(in);
 
         // suppose your scroll pane id is scrollPane
         scrollpane.setContent(moviegrid);
@@ -243,32 +234,23 @@ public class FXMLDocumentController implements Initializable
 
             @Override
             public void handle(ContextMenuEvent event) {
-            contexMenu.hide();
-            contexMenu.show(imegeviwe, event.getScreenX(), event.getScreenY());
+                contexMenu.hide();
+                contexMenu.show(imegeviwe, event.getScreenX(), event.getScreenY());
 
             }
         });
 
-
-
-
-
         col = 0;
         row = 0;
 
-        for (Movie movie : movies)
-        {
+        for (Movie movie : movies) {
             Image image = new Image(movie.getImageURL());
             ImageView imageview = new ImageView(image);
-            imageview.setOnMouseClicked(new EventHandler<MouseEvent>()
-            {
+            imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
-                public void handle(MouseEvent mouseEvent)
-                {
-                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
-                    {
-                        if (mouseEvent.getClickCount() == 2)
-                        {
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        if (mouseEvent.getClickCount() == 2) {
                             bringToFront(null);
                             title.setText(movie.getTitle());
                             Year.setText(movie.getYear());
@@ -284,15 +266,12 @@ public class FXMLDocumentController implements Initializable
                     }
                 }
 
-
-
             });
 
             movieGrid.add(imageview, col, row);
             col++;
 
-            if (col > 7)
-            {
+            if (col > 7) {
                 col = 0;
 
                 row++;
@@ -301,13 +280,10 @@ public class FXMLDocumentController implements Initializable
 
         }
 
-        window.widthProperty().addListener(new ChangeListener<Number>()
-        {
+        window.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
-            {
-                if (newValue.intValue() > COLLUMTHRESHOLD * collumNum)
-                {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() > COLLUMTHRESHOLD * collumNum) {
                     collumNum++;
                     System.out.println("hej");
                 }
@@ -316,17 +292,12 @@ public class FXMLDocumentController implements Initializable
 
     }
 
-    private void setUpMovieAction(ImageView imageview, Movie movie)
-    {
-        imageview.setOnMouseClicked(new EventHandler<MouseEvent>()
-        {
+    private void setUpMovieAction(ImageView imageview, Movie movie) {
+        imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent)
-            {
-                if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
-                {
-                    if (mouseEvent.getClickCount() == 2)
-                    {
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
                         bringToFront(null);
                         title.setText(movie.getTitle());
                         Year.setText(movie.getYear());
@@ -344,24 +315,20 @@ public class FXMLDocumentController implements Initializable
         });
     }
 
-    private void reloadGrid()
-    {
+    private void reloadGrid() {
 
         int collumcount = 0;
         int rowcount = 0;
-        for (int i = 0; i < moviegrid.getChildren().size(); i++)
-        {
+        for (int i = 0; i < moviegrid.getChildren().size(); i++) {
 
-            if (movies.size() >= i)
-            {
+            if (movies.size() >= i) {
                 ImageView imageV = (ImageView) moviegrid.getChildren().get(i);
                 imageV.setImage(new Image(movies.get(i).getImageURL()));
                 setUpMovieAction(imageV, movies.get(i));
 
             }
 
-            if (movies.size() < i)
-            {
+            if (movies.size() < i) {
                 moviegrid.getChildren().get(i);
                 ImageView imageV = (ImageView) moviegrid.getChildren().get(i);
                 imageV.setImage(null);
@@ -370,8 +337,7 @@ public class FXMLDocumentController implements Initializable
             }
 
             collumcount++;
-            if (collumcount == collumNum)
-            {
+            if (collumcount == collumNum) {
                 rowcount++;
                 collumcount = 0;
             }
@@ -379,17 +345,14 @@ public class FXMLDocumentController implements Initializable
         }
     }
 
-    private void resizeGrit(double width)
-    {
-        if (width > COLLUMTHRESHOLD * collumNum)
-        {
+    private void resizeGrit(double width) {
+        if (width > COLLUMTHRESHOLD * collumNum) {
             movieGrid.addColumn(collumNum, new ImageView());
             collumNum++;
             reloadGrid();
             resizeGrit(width);
         }
-        if (width < COLLUMTHRESHOLD * collumNum - 1)
-        {
+        if (width < COLLUMTHRESHOLD * collumNum - 1) {
             movieGrid.getChildren().removeIf(node -> GridPane.getRowIndex(node) == collumNum);
             collumNum--;
             reloadGrid();
@@ -420,41 +383,33 @@ public class FXMLDocumentController implements Initializable
 //
 //    }
 
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row)
-    {
-        for (Node node : gridPane.getChildren())
-        {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row)
-            {
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
                 return node;
             }
         }
         return null;
     }
 
-    private void bringToFront(MouseEvent event)
-    {
+    private void bringToFront(MouseEvent event) {
         stacPopUp.toFront();
         popUd.toFront();
 
     }
 
     @FXML
-    private void play(MouseEvent event)
-    {
+    private void play(MouseEvent event) {
     }
 
     @FXML
-    private void bringToBack(MouseEvent event)
-    {
+    private void bringToBack(MouseEvent event) {
         stacPopUp.toBack();
     }
 
     @FXML
-    private void addMovie(ActionEvent event)
-    {
-        try
-        {
+    private void addMovie(ActionEvent event) {
+        try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/AddMovie.fxml"));
 
@@ -467,21 +422,18 @@ public class FXMLDocumentController implements Initializable
             controller.setModel(model);
             controller.setStage(stage);
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
     @FXML
-    private void addGenre(ActionEvent event)
-    {
+    private void addGenre(ActionEvent event) {
     }
 
     @FXML
-    private void rencentlyWatched(ActionEvent event)
-    {
+    private void rencentlyWatched(ActionEvent event) {
     }
 
     @FXML
@@ -491,20 +443,16 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void deleteMovie(ActionEvent event)
-    {
+    private void deleteMovie(ActionEvent event) {
     }
 
     @FXML
-    private void rate(MouseEvent event)
-    {
-        if (ratingWindowIsOpen)
-        {
+    private void rate(MouseEvent event) {
+        if (ratingWindowIsOpen) {
             rateWindow.toBack();
             ratingWindowIsOpen = false;
 
-        } else
-        {
+        } else {
             rateWindow.toFront();
             ratingWindowIsOpen = true;
         }
@@ -519,6 +467,5 @@ public class FXMLDocumentController implements Initializable
     private void aboutTab(ActionEvent event) {
 
     }
-
 
 }
