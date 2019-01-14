@@ -16,13 +16,11 @@ import javafx.collections.ObservableList;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.BLL.MovieManeger;
 
-
 /**
  *
  * @author Nijas Hansen
  */
 public class Model {
-    MovieManeger movieManger;
 
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
     private HashMap<String, ObservableList> hashMap = new HashMap<>();
@@ -72,48 +70,46 @@ public class Model {
    public ObservableList<String> getAllgenres(){
        return genres;
    }
-   
-   
 
    public List<String> getHashMap() {
        List<String> ListOfCategorys = new ArrayList(hashMap.values());
        return ListOfCategorys;
    }
-   
-   public void deleteMovie(Movie movie) throws SQLException{
-        movieManger.deleteMovie(movie);
+
+      public void deleteMovie(Movie movie) throws SQLException{
+        logiclayer.deleteMovie(movie);
     }
-    
+
     public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException{
-        return movieManger.CreateMovie(fileLink, imdbId);
+        return logiclayer.CreateMovie(fileLink, imdbId);
     }
-    
+
     public List<Movie> getAllMovies() throws SQLException {
-        return movieManger.getAllMovies();
+        return logiclayer.getAllMovies();
     }
-    
+
     public boolean updateMovie(Movie movie) throws SQLException {
-        return movieManger.updateMovie(movie);
+        return logiclayer.updateMovie(movie);
     }
-    
+
     public void addGenres(Movie movie) throws SQLException {
-        movieManger.getGenres(movie);
+        logiclayer.addGenres(movie);
     }
-    
+
     public void createCategory(String name) throws SQLException {
-        movieManger.createCategory(name);
+        logiclayer.createCategory(name);
     }
-    
+
     public void addMovieToCategory(Movie movie, String category) throws SQLException {
-        movieManger.addMovieToCategory(movie, category);
+        logiclayer.addMovieToCategory(movie, category);
     }
-    
+
     public void getMoviesFromCategory(String category) throws SQLException {
-        movieManger.getMoviesFromCategory(category);
+        logiclayer.getMoviesFromCategory(category);
     }
-    
+
     public ArrayList getAllCategory() throws SQLException {
-        return movieManger.getAllCategory();
+        return logiclayer.getAllCategory();
     }
 
 

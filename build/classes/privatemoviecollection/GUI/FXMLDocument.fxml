@@ -7,40 +7,62 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="window" prefHeight="838.0" prefWidth="1119.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="763.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.FXMLDocumentController">
    <children>
-      <AnchorPane layoutY="28.0" prefHeight="43.0" prefWidth="990.0" style="-fx-background-color: gray;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+      <MenuBar prefHeight="32.0" prefWidth="990.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
+                  <MenuItem mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
+                  <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
+                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane layoutY="32.0" prefHeight="71.0" prefWidth="990.0" style="-fx-background-color: gray;">
          <children>
-            <ComboBox fx:id="genreComBox" layoutX="28.0" layoutY="20.0" onMouseClicked="#addGenre" prefWidth="150.0" promptText="Genre" visibleRowCount="5" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="10.0" />
-            <TextField layoutX="214.0" layoutY="10.0" prefHeight="31.0" prefWidth="477.0" promptText="Search" />
+            <ComboBox fx:id="genreComBox" layoutX="28.0" layoutY="20.0" prefWidth="150.0" promptText="Genre" visibleRowCount="5" />
          </children>
       </AnchorPane>
-      <StackPane fx:id="stacPane" layoutY="79.0" prefHeight="661.0" prefWidth="990.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
+      <StackPane fx:id="stacPane" layoutY="103.0" prefHeight="661.0" prefWidth="990.0">
          <children>
-            <StackPane fx:id="stacPopUp" prefHeight="687.0" prefWidth="990.0">
+            <StackPane fx:id="stacPopUp">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
                <children>
-                  <AnchorPane fx:id="rateWindow" maxHeight="70.0" maxWidth="362.0" minHeight="70.0" minWidth="362.0" prefHeight="70.0" prefWidth="362.0" StackPane.alignment="TOP_RIGHT">
+                  <AnchorPane fx:id="rateWindow" prefHeight="200.0" prefWidth="200.0">
                      <StackPane.margin>
-                        <Insets right="10.0" top="509.0" />
+                        <Insets bottom="105.0" left="618.0" right="10.0" top="509.0" />
                      </StackPane.margin>
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#535454" height="43.0" layoutY="2.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 20; -fx-arc-width: 20;" width="362.0" />
                         <HBox layoutY="2.0" prefHeight="43.0" prefWidth="362.0">
                            <children>
-                              <ImageView fx:id="rate4" fitHeight="32.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="rate1" fitHeight="32.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../resus/icons8-star-96.png" />
                                  </image>
@@ -48,7 +70,7 @@
                                     <Insets bottom="3.0" left="3.0" right="1.0" top="3.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <ImageView fx:id="rate1" fitHeight="32.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="rate2" fitHeight="32.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../resus/icons8-star-96.png" />
                                  </image>
@@ -64,7 +86,7 @@
                                     <Insets bottom="3.0" left="3.0" right="1.0" top="3.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <ImageView fx:id="rate2" fitHeight="32.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="rate4" fitHeight="32.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../resus/icons8-star-96.png" />
                                  </image>
@@ -124,36 +146,36 @@
                         </HBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="popUd" maxHeight="684.0" maxWidth="390.0" minHeight="684.0" minWidth="390.0" prefHeight="684.0" prefWidth="390.0" style="-fx-background-color: limegreen;" StackPane.alignment="TOP_RIGHT">
+                  <AnchorPane fx:id="popUd" prefHeight="659.0" prefWidth="861.0" style="-fx-background-color: limegreen;">
                      <children>
-                        <ImageView fx:id="imegePreview" fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resus/MV5BNzY3NzYyNjI0N15BMl5BanBnXkFtZTgwNjYzMDc0NjM@._V1_UY209_CR0,0,140,209_AL_.jpg" />
                            </image>
                         </ImageView>
-                        <Label fx:id="title" layoutX="14.0" layoutY="14.0" prefHeight="43.0" prefWidth="367.0" text="Title">
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="43.0" prefWidth="367.0" text="Title">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="Year" alignment="TOP_LEFT" layoutX="169.0" layoutY="63.0" text="Year" AnchorPane.leftAnchor="165.0" />
-                        <Label fx:id="genre" alignment="TOP_LEFT" layoutX="164.0" layoutY="106.0" text="Genere" AnchorPane.leftAnchor="165.0" />
-                        <Label fx:id="director" alignment="TOP_LEFT" layoutX="162.0" layoutY="147.0" prefHeight="21.0" prefWidth="64.0" text="Director" AnchorPane.leftAnchor="165.0" />
-                        <Label fx:id="actors" alignment="TOP_LEFT" layoutX="168.0" layoutY="183.0" prefHeight="71.0" prefWidth="214.0" text="Actors" AnchorPane.leftAnchor="165.0" />
-                        <Label fx:id="summery" layoutX="14.0" layoutY="292.0" text="Summery" />
+                        <Label alignment="TOP_LEFT" layoutX="169.0" layoutY="63.0" text="Årstal" AnchorPane.leftAnchor="165.0" />
+                        <Label alignment="TOP_LEFT" layoutX="164.0" layoutY="106.0" text="Genere" AnchorPane.leftAnchor="165.0" />
+                        <Label alignment="TOP_LEFT" layoutX="162.0" layoutY="147.0" text="Director" AnchorPane.leftAnchor="165.0" />
+                        <Label alignment="TOP_LEFT" layoutX="168.0" layoutY="183.0" prefHeight="71.0" prefWidth="214.0" text="Actors" AnchorPane.leftAnchor="165.0" />
+                        <Label layoutX="14.0" layoutY="292.0" text="Summery" />
                         <Button layoutX="241.0" layoutY="592.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="31.0" prefWidth="62.0" text="Play" />
-                        <ImageView fx:id="persenolRating" fitHeight="64.0" fitWidth="64.0" layoutX="19.0" layoutY="539.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="persenolRating" fitHeight="64.0" fitWidth="72.0" layoutX="19.0" layoutY="539.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resus/imdb%20(1).png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="rating" alignment="TOP_CENTER" layoutX="83.0" layoutY="561.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
-                        <ImageView fx:id="ratingStar1" fitHeight="64.0" fitWidth="64.0" layoutX="19.0" layoutY="596.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
+                        <Label alignment="TOP_CENTER" layoutX="83.0" layoutY="561.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
+                        <ImageView fx:id="ratingStar1" fitHeight="64.0" fitWidth="64.0" layoutX="19.0" layoutY="585.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resus/imdb%20(1).png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="IMDbRating" alignment="TOP_CENTER" layoutX="83.0" layoutY="618.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
+                        <Label alignment="TOP_CENTER" layoutX="83.0" layoutY="607.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
                      </children>
                      <StackPane.margin>
                         <Insets left="600.0" />
@@ -166,34 +188,41 @@
                   </AnchorPane>
                </children>
             </StackPane>
-            <AnchorPane fx:id="gridAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="734.0" prefWidth="990.0" style="-fx-background-color: pink;">
+            <AnchorPane fx:id="gridAnchor" prefHeight="678.0" prefWidth="990.0" style="-fx-background-color: pink;">
                <children>
-                  <ScrollPane fx:id="scrollpane" prefHeight="685.0" prefWidth="990.0" style="-fx-background-color: green;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <GridPane fx:id="movieGrid" layoutY="7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ImageView fx:id="FirstMovie" fitHeight="207.0" fitWidth="150.0" nodeOrientation="INHERIT" onMouseClicked="#bringToFront" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <image>
+                              <Image url="@../../resus/MV5BNzY3NzYyNjI0N15BMl5BanBnXkFtZTgwNjYzMDc0NjM@._V1_UY209_CR0,0,140,209_AL_.jpg" />
+                           </image>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" left="12.5" right="12.5" top="10.0" />
+                           </GridPane.margin>
+                        </ImageView>
+                        <ImageView fx:id="FirstMovie1" fitHeight="207.0" fitWidth="150.0" nodeOrientation="INHERIT" onMouseClicked="#bringToFront" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                           <image>
+                              <Image url="@../../resus/I_Ask_Questions_Shirt_Butters.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </GridPane>
                </children>
             </AnchorPane>
          </children>
       </StackPane>
-      <MenuBar prefHeight="32.0" prefWidth="990.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
-                  <MenuItem mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
-                  <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
-                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
    </children>
 </AnchorPane>
