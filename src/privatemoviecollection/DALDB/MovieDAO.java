@@ -51,7 +51,7 @@ public class MovieDAO
         pst.setString(1, movie.getTitle());
         pst.setString(2, movie.getFilePath());
         pst.setString(3, movie.getRating());
-        pst.setString(4, movie.getLastView());
+        pst.setString(4, movie.getlastView());
 
         int rowsAffected = pst.executeUpdate();
         if (rowsAffected >= 1) {

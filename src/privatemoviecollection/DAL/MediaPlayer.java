@@ -16,7 +16,7 @@ import privatemoviecollection.BE.Movie;
 public class MediaPlayer {
     private final static String MEDIAPLAYER_PATH = "";
 
-    private CheckMediaPlayer mplayer;
+    private CheckMediaPlayer checkmplayer;
     /**
      * Opens the standard mediaplayer and plays the given String name.
      * @param moviename

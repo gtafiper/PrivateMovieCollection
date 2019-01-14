@@ -120,6 +120,10 @@ public class Model {
     public void lastePlayDate(Movie movie) throws SQLException {
         logiclayer.lastPlayDate(movie);
     }
+    
+    public void getMediaPlayer(Movie movie) throws IOException {
+        logiclayer.getMediaPlayer(movie);
+    }
 
 
 }

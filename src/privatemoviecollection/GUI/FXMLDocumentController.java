@@ -403,7 +403,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void play(MouseEvent event) throws IOException, SQLException
     {
-        MediaPlayer.openMediaPlayer(activeMovie);
+        model.getMediaPlayer(activeMovie);
         model.lastePlayDate(activeMovie);
     }
     @FXML
