@@ -26,6 +26,7 @@ public class Model {
     private HashMap<String, ObservableList> hashMap = new HashMap<>();
     private ObservableList<String> genres = FXCollections.observableArrayList();
     private MovieManeger logiclayer;
+    private Movie movie;
 
     public Model() throws IOException, SQLException {
         logiclayer = new MovieManeger();
@@ -75,41 +76,49 @@ public class Model {
        List<String> ListOfCategorys = new ArrayList(hashMap.values());
        return ListOfCategorys;
    }
-   
+
       public void deleteMovie(Movie movie) throws SQLException{
         logiclayer.deleteMovie(movie);
     }
-    
-    public Movie CreateMovie(String name, double rating, String fileLink, String lastView) throws SQLException{
-        return logiclayer.CreateMovie(name, rating, fileLink, lastView);
+
+    public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException{
+        return logiclayer.CreateMovie(fileLink, imdbId);
     }
-    
+
     public List<Movie> getAllMovies() throws SQLException {
         return logiclayer.getAllMovies();
     }
-    
+
     public boolean updateMovie(Movie movie) throws SQLException {
         return logiclayer.updateMovie(movie);
     }
-    
+
     public void addGenres(Movie movie) throws SQLException {
         logiclayer.addGenres(movie);
     }
-    
+
     public void createCategory(String name) throws SQLException {
         logiclayer.createCategory(name);
     }
-    
+
     public void addMovieToCategory(Movie movie, String category) throws SQLException {
         logiclayer.addMovieToCategory(movie, category);
     }
-    
+
     public void getMoviesFromCategory(String category) throws SQLException {
         logiclayer.getMoviesFromCategory(category);
     }
-    
+
     public ArrayList getAllCategory() throws SQLException {
         return logiclayer.getAllCategory();
+    }
+    
+    public String getlastView(){
+       return movie.getlastView();
+    }
+    
+    public void lastePlayDate(Movie movie) throws SQLException {
+        logiclayer.lastPlayDate(movie);
     }
 
 

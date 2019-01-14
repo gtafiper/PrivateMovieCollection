@@ -6,6 +6,7 @@
 package privatemoviecollection.DAL;
 import privatemoviecollection.DAL.CheckMediaPlayer;
 import java.io.IOException;
+import privatemoviecollection.BE.Movie;
 
 
 /**
@@ -13,17 +14,20 @@ import java.io.IOException;
  * @author Nijas Hansen
  */
 public class MediaPlayer {
-    
+    private final static String MEDIAPLAYER_PATH = "";
+
     private CheckMediaPlayer mplayer;
     /**
      * Opens the standard mediaplayer and plays the given String name.
      * @param moviename
-     * @throws IOException 
+     * @throws IOException
      */
-    public void openMediaPlayer(String moviename) throws IOException {
-        Runtime.getRuntime().exec(mplayer.CheckMediaPlayerPath()
-                + "\"C:\\Users\\Nijas Hansen\\Documents\\GitHub\\MRS\\PrivateMovieCollection\\src\\resus\\Movies\\" + moviename + ".mp4\"");
+    public static void openMediaPlayer(Movie movie) throws IOException {
+        Runtime.getRuntime().exec(MEDIAPLAYER_PATH+"/" + movie.getFilePath());
+
+
+
     }
-    
-    
+
+
 }

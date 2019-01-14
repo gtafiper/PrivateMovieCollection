@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -107,8 +109,9 @@ public class FXMLDocumentController implements Initializable
     private Movie activeMovie;
     private final double COLLUMTHRESHOLD = 200;
     private int collumNum = 7;
-    int col;
-    int row;
+    private int col;
+    private int row;
+    private GridPane moviegrid;
 
     Movie movieClass;
     Model model;
@@ -273,7 +276,7 @@ public class FXMLDocumentController implements Initializable
                             director.setText(movie.getDirector());
                             actors.setText(movie.getActors());
                             summery.setText(movie.getSummry());
-                            rating.setText(Double.toString(movie.getRating()));
+                            rating.setText(movie.getRating());
                             imegePreview.setImage(new Image(movie.getImageURL()));
                             activeMovie = movie;
 
@@ -296,16 +299,105 @@ public class FXMLDocumentController implements Initializable
                 movieGrid.addRow(row, (Node) null);
             }
 
+            //model.getlastView()
+
         }
-//        window.widthProperty().addListener(new ChangeListener<Number>()
-//        {
-//            public void changed(ObservableValue<? extends Number> ov,
-//                    Number old_val, Number new_val)
-//            {
-//
-//            }
-//        });
-        //genreComBox.getItems().addAll(c)
+
+        window.widthProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
+                if (newValue.intValue() > COLLUMTHRESHOLD * collumNum)
+                {
+                    collumNum++;
+                    System.out.println("hej");
+                }
+            }
+        });
+
+    }
+
+    private void setUpMovieAction(ImageView imageview, Movie movie)
+    {
+        imageview.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent mouseEvent)
+            {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
+                {
+                    if (mouseEvent.getClickCount() == 2)
+                    {
+                        bringToFront(null);
+                        title.setText(movie.getTitle());
+                        Year.setText(movie.getYear());
+                        genre.setText(movie.getGerne);
+                        director.setText(movie.getDirector());
+                        actors.setText(movie.getActors());
+                        summery.setText(movie.getSummry());
+                        rating.setText(movie.getRating());
+                        imegePreview.setImage(new Image(movie.getImageURL()));
+                        activeMovie = movie;
+
+                    }
+                }
+            }
+        });
+    }
+
+    private void reloadGrid()
+    {
+
+        int collumcount = 0;
+        int rowcount = 0;
+        for (int i = 0; i < moviegrid.getChildren().size(); i++)
+        {
+
+            if (movies.size() >= i)
+            {
+                ImageView imageV = (ImageView) moviegrid.getChildren().get(i);
+                imageV.setImage(new Image(movies.get(i).getImageURL()));
+                setUpMovieAction(imageV, movies.get(i));
+
+            }
+
+            if (movies.size() < i)
+            {
+                moviegrid.getChildren().get(i);
+                ImageView imageV = (ImageView) moviegrid.getChildren().get(i);
+                imageV.setImage(null);
+                imageV.setOnMouseClicked(null);
+
+            }
+
+            collumcount++;
+            if (collumcount == collumNum)
+            {
+                rowcount++;
+                collumcount = 0;
+            }
+
+        }
+    }
+
+    private void resizeGrit(double width)
+    {
+        if (width > COLLUMTHRESHOLD * collumNum)
+        {
+            movieGrid.addColumn(collumNum, new ImageView());
+            collumNum++;
+            reloadGrid();
+            resizeGrit(width);
+        }
+        if (width < COLLUMTHRESHOLD * collumNum - 1)
+        {
+            movieGrid.getChildren().removeIf(node -> GridPane.getRowIndex(node) == collumNum);
+            collumNum--;
+            reloadGrid();
+            resizeGrit(width);
+        }
+
     }
 //
 //    private void resizeGrit(double width)
@@ -350,10 +442,11 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void play(MouseEvent event)
+    private void play(MouseEvent event) throws IOException, SQLException
     {
+        MediaPlayer.openMediaPlayer(activeMovie);
+        model.lastePlayDate(activeMovie);
     }
-
     @FXML
     private void bringToBack(MouseEvent event)
     {
@@ -427,7 +520,7 @@ public class FXMLDocumentController implements Initializable
 
     @FXML
     private void aboutTab(ActionEvent event) {
-        
+
     }
 
 

@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
 public class Movie {
 
     private int id;
-    private double rating;
+    private String rating;
     private double duration;
     private String lastView;
     private String filePath;
@@ -35,12 +35,11 @@ public class Movie {
      * @param lastView
      * @param fileLink
      */
-    public Movie(int id, String name, double rating, String lastView, String fileLink)
+    public Movie(int id, String name, double rating, String fileLink)
     {
         this.id = id;
         this.movieTitle = name;
         this.rating = rating;
-        this.lastView = lastView;
         this.filePath = fileLink;
         imageURL = new String();
 
@@ -61,7 +60,7 @@ public class Movie {
      * gets the lastView in a string
      * @return lastView
      */
-    public String getLastView()
+    public String getlastView()
     {
         return lastView;
     }
@@ -166,7 +165,7 @@ public class Movie {
      * get the value of rating
      * @return the value of rating
      */
-    public double getRating()
+    public String getRating()
     {
         return rating;
     }
@@ -175,7 +174,7 @@ public class Movie {
      * set the value of rating in a movie
      * @param rating new rating on a movie
      */
-    public void setRating(double rating)
+    public void setRating(String rating)
     {
         this.rating = rating;
     }

@@ -12,8 +12,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.DAL.OmdbHandler;
 import privatemoviecollection.DAL.ServerConnect;
 
 /**
@@ -45,7 +50,7 @@ public class MovieDAO
 
         pst.setString(1, movie.getTitle());
         pst.setString(2, movie.getFilePath());
-        pst.setDouble(3, movie.getRating());
+        pst.setString(3, movie.getRating());
         pst.setString(4, movie.getLastView());
 
         int rowsAffected = pst.executeUpdate();
@@ -88,11 +93,11 @@ public class MovieDAO
         while (rs.next()) {
             int id = rs.getInt("id");
             String title = rs.getNString("title");
-            double rating = rs.getDouble("user_rating");
-            String lastView = rs.getNString("lastView");
+            String rating = rs.getNString("user_rating");
+            //String lastView = rs.getNString("lastView");
             String path = rs.getNString("fileLink");
 
-            Movie movie = new Movie(id, title, rating, lastView, path);
+            Movie movie = new Movie(id, title, rating, path);
 
             movies.add(movie);
         }
@@ -103,25 +108,33 @@ public class MovieDAO
 
     /**
      * Create a movie on the server and send it back as a object
-     * @param title
-     * @param rating
+     * @param imdbId
      * @param fileLink
-     * @param lastView
      * @return
      * @throws SQLException
+     * @throws java.io.IOException
      */
-    public Movie createMovie(String title, double rating, String fileLink, String lastView) throws SQLException
+    public Movie createMovie(String fileLink, String imdbId) throws SQLException, IOException
     {
-        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (title, user_rating, fileLink, lastView) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (title, fileLink, year, runtime, director,actors, plot, imdb_rating, poster) VALUES (?, ?, ?, ?);";
 
         Connection con = sc.getConnection();
 
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-        st.setString(1, title);
-        st.setDouble(2, rating);
+        HashMap<String, String> movieInfo = OmdbHandler.createHashMap(OmdbHandler.getMovieByImdbID(imdbId));
+
+        st.setString(1, movieInfo.get(OmdbHandler.HASH_TITLE));
+        st.setString(10, movieInfo.get(OmdbHandler.HASH_IMDB_RATING));
+        st.setString(8, movieInfo.get(OmdbHandler.HASH_ACTORS));
+        st.setString(12, movieInfo.get(OmdbHandler.HASH_GENRE));
+        st.setString(5, movieInfo.get(OmdbHandler.HASH_YEAR));
+        st.setString(11, movieInfo.get(OmdbHandler.HASH_POSTER));
+        st.setString(6, movieInfo.get(OmdbHandler.HASH_RUNTIME));
+        st.setString(9, movieInfo.get(OmdbHandler.HASH_PLOT));
+        st.setString(7, movieInfo.get(OmdbHandler.HASH_DIRECTOR));
         st.setString(3, fileLink);
-        st.setString(4, lastView);
+
 
         st.executeUpdate();
 
@@ -134,8 +147,8 @@ public class MovieDAO
 
         }
         con.close();
-        Movie movie = new Movie(id, title, rating, fileLink, lastView);
-        
+        Movie movie = new Movie(id, movieInfo.get(OmdbHandler.HASH_TITLE), movieInfo.get(OmdbHandler.HASH_IMDB_RATING), fileLink);
+
         return movie;
 
     }
@@ -146,7 +159,7 @@ public class MovieDAO
      * @throws SQLServerException
      * @throws SQLException
      */
-    public void addGenres (Movie movie) throws SQLServerException, SQLException {
+    public void getGenres (Movie movie) throws SQLServerException, SQLException {
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
 
@@ -161,6 +174,74 @@ public class MovieDAO
         {
             movie.addGenre(rs.getNString("Category"));
         }
+
+    }
+
+    public void addGenre (String genre, Movie movie) throws SQLServerException, SQLException
+    {
+        Connection con = sc.getConnection();
+        int id = 0;
+        if ((id = doItExist(con, genre)) != 0){
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[CatMovie] (CategoryId, MovieId) VALUES (?, ?)";
+        PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+
+        ps.setInt(1, id);
+        ps.setInt(2, movie.getId());
+        ps.executeUpdate();
+
+        } else {
+            String newSql = "INSERT INTO [PrivateMovieCollectionName.[dbo].[Category] (Category) VALUES (?)";
+            PreparedStatement nps = con.prepareStatement(newSql,Statement.RETURN_GENERATED_KEYS);
+            nps.setString(1, genre);
+            nps.executeUpdate();
+
+            ResultSet rs = nps.getGeneratedKeys();
+            int newId = 0;
+            while(rs.next())
+            {
+                newId = rs.getInt(1);
+            }
+            String newIdSql = "INSERT INTO [PrivateMovieCollectionName.[dbo].[CatMovie] (CategoryId, MovieId) VALUES (?, ?)";
+            PreparedStatement nips = con.prepareStatement(newIdSql,Statement.RETURN_GENERATED_KEYS);
+
+            nips.setInt(1, newId);
+            nips.setInt(2, movie.getId());
+            nips.executeUpdate();
+        }
+
+    }
+
+    public int doItExist(Connection con, String genre) throws SQLException
+    {
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMocieCollectionName].[dbo].[Category] WHERE Category = " + genre);
+
+        while (rs.next())
+        {
+
+            return rs.getInt("id");
+        }
+        return 0;
+    }
+
+    public void lastePlayDate(Movie movie) throws SQLServerException, SQLException{
+
+        Calendar cal = Calendar.getInstance();
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+
+        movie.setLastView(df.format(cal.getTime()));
+
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET lastView = ? WHERE id =" + movie.getId();
+
+        Connection con = sc.getConnection();
+
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        String date = df.format(cal.getTime());
+
+        pst.setString(1, date);
+
+        movie.setLastView(date);
 
     }
 }

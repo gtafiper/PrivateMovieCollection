@@ -17,54 +17,62 @@ import privatemoviecollection.DALDB.CategoryDAO;
  * @author Christian
  */
 public class MovieManeger {
-    
+
     MovieDAO movieDAO;
     CategoryDAO cateDAO;
-    
+
     public MovieManeger() throws IOException {
     this.movieDAO = new MovieDAO();
     this.cateDAO = new CategoryDAO();
     }
-    
+
     public void deleteMovie(Movie movie) throws SQLException{
         movieDAO.deleteMovie(movie);
     }
-    
-    public Movie CreateMovie(String name, double rating, String fileLink, String lastView) throws SQLException{
-        return movieDAO.createMovie(name, rating, fileLink, lastView);
+
+    public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException{
+        return movieDAO.createMovie(fileLink, imdbId);
     }
-    
+
     public List<Movie> getAllMovies() throws SQLException {
         return movieDAO.getAllMovies();
     }
-    
+
     public boolean updateMovie(Movie movie) throws SQLException {
         return movieDAO.updateMovie(movie);
     }
-    
-    public void addGenres(Movie movie) throws SQLException {
-        movieDAO.addGenres(movie);
+
+    public void getGenres(Movie movie) throws SQLException {
+        movieDAO.getGenres(movie);
     }
-    
+
     public void createCategory(String name) throws SQLException {
         cateDAO.createCategory(name);
     }
-    
+
     public void addMovieToCategory(Movie movie, String category) throws SQLException {
         cateDAO.addMovieToCategory(movie, category);
     }
-    
+
     public void getMoviesFromCategory(String category) throws SQLException {
         cateDAO.getMoviesFromCategory(category);
     }
-    
+
     public ArrayList getAllCategory() throws SQLException {
         return cateDAO.getAllCategory();
     }
-    
+
+    public void lastPlayDate (Movie movie) throws SQLException{
+       movieDAO.lastePlayDate(movie);
+     }
+
+     public void addGenres(Movie movie)
+     {
+         //TO DO
+
+    }
+
 //    public void updateCategory(Category category) throws SQLException {
 //        cateDAO.updateCategory(category);
 //    }
 }
-
-
