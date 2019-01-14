@@ -31,7 +31,7 @@ import privatemoviecollection.GUI.Model.Model;
 public class AddMovieController implements Initializable {
 
     @FXML
-    private Label lblFileLocation;
+    private TextField txtfldFileLocation;
     @FXML
     private TextField txtfldURL;
     @FXML
@@ -64,7 +64,7 @@ public class AddMovieController implements Initializable {
         chosenMovie = fc.showOpenDialog(null);
         String split = chosenMovie.getPath();
         moviePath = split.replace("C:\\Users\\Nijas Hansen\\Documents\\GitHub\\MRS\\PrivateMovieCollection\\src\\", "");
-        lblFileLocation.setText(moviePath);
+        txtfldFileLocation.setText(moviePath);
     }
     
     private void URL() {
@@ -76,8 +76,8 @@ public class AddMovieController implements Initializable {
 
     @FXML
     private void btnToDAL(MouseEvent event) throws SQLException {
-        //model.CreateMovie(moviePath, imdbid);
-        Stage stage = (Stage) runbtn.getScene().getWindow();
+//        model.CreateMovie(moviePath, imdbid);
+
         
         stage.close();
     }

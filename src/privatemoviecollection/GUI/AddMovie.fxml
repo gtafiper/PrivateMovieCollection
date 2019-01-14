@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="381.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddMovieController">
+<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="632.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddMovieController">
    <children>
-      <Label fx:id="lblFileLocation" layoutX="26.0" layoutY="38.0" prefHeight="18.0" prefWidth="260.0" />
-      <Button fx:id="btnChooseFile" layoutX="286.0" layoutY="34.0" mnemonicParsing="false" onMouseClicked="#OpenFileChooser" text="Choose file" AnchorPane.rightAnchor="19.80000000000001" />
+      <Button fx:id="btnChooseFile" layoutX="290.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#OpenFileChooser" text="Choose file" AnchorPane.rightAnchor="15.800000000000011" />
       <Text layoutX="26.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Location" />
       <Text layoutX="26.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDB URL" wrappingWidth="95.55978393554688" />
-      <TextField fx:id="txtfldURL" layoutX="26.0" layoutY="119.0" prefHeight="26.0" prefWidth="333.0" promptText="Enter URL" />
+      <TextField fx:id="txtfldURL" layoutX="26.0" layoutY="119.0" prefHeight="26.0" prefWidth="478.0" promptText="Enter URL" />
       <Button fx:id="runbtn" layoutX="328.0" layoutY="166.0" mnemonicParsing="false" onMouseClicked="#btnToDAL" text="OK" AnchorPane.rightAnchor="20.19999999999999" />
+      <TextField fx:id="txtfldFileLocation" layoutX="26.0" layoutY="39.0" prefHeight="26.0" prefWidth="477.0" />
    </children>
 </AnchorPane>
