@@ -22,11 +22,14 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -88,6 +91,11 @@ public class FXMLDocumentController implements Initializable
     private ImageView persenolRating;
     @FXML
     private ImageView ratingStar1;
+    @FXML
+    private AnchorPane window;
+    private ContextMenu contexMenu;
+   
+    
 
     private boolean ratingWindowIsOpen = false;
     private List<Movie> movies;
@@ -100,6 +108,7 @@ public class FXMLDocumentController implements Initializable
     
     Movie movieClass;
     Model model;
+    
 
     @FXML
     private ImageView imegePreview;
@@ -121,8 +130,7 @@ public class FXMLDocumentController implements Initializable
     private Label IMDbRating;
     @FXML
     private ScrollPane scrollpane;
-    @FXML
-    private AnchorPane window;
+    
 
     /**
      * Initializes the controller class.
@@ -139,6 +147,50 @@ public class FXMLDocumentController implements Initializable
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         movies = new ArrayList<>();
+        contexMenu = new ContextMenu();
+        
+        
+        
+            
+        
+        MenuItem delete = new MenuItem("Delete Movie");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) 
+            {
+             
+                try {
+                    model.deleteMovie(movieClass);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
+        
+        MenuItem play = new MenuItem("Play Movie");
+        play.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        MenuItem addGengre = new MenuItem("Add Genre");
+        addGengre.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    model.addGenres(movieClass);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+         contexMenu.getItems().addAll(delete, play, addGengre);
         
 
 
@@ -177,6 +229,19 @@ public class FXMLDocumentController implements Initializable
         imegeviwe2.setFitWidth(140);
         moviegrid.add(imegeviwe, 0, 0);
         moviegrid.add(imegeviwe2, 1, 0);
+        
+        imegeviwe.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+ 
+            @Override
+            public void handle(ContextMenuEvent event) {
+            contexMenu.hide();
+            contexMenu.show(imegeviwe, event.getScreenX(), event.getScreenY());
+            
+            }
+        });
+        
+        
+        
         
 
         col = 0;
