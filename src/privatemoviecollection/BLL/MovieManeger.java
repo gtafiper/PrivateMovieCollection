@@ -62,6 +62,11 @@ public class MovieManeger {
         return cateDAO.getAllCategory();
     }
     
+    public void addGenres(Movie movie)
+    {
+        //TO DO
+    }
+    
 //    public void updateCategory(Category category) throws SQLException {
 //        cateDAO.updateCategory(category);
 //    }
