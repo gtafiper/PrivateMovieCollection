@@ -23,15 +23,15 @@ public class OmdbHandler
     
     private static final String URL = "http://www.omdbapi.com/?i=IMDBID&plot=full&apikey=APIKEY";
     private static final String APIKEY = "5551e9bb";
-    private static final String HASH_TITLE = "Title";
-    private static final String HASH_YEAR = "Year";
-    private static final String HASH_RUNTIME = "Runtime";
-    private static final String HASH_GENRE = "Genre";
-    private static final String HASH_DIRECTOR = "Director";
-    private static final String HASH_ACTORS = "Actors";
-    private static final String HASH_PLOT = "Plot";
-    private static final String HASH_POSTER = "Poster";
-    private static final String HASH_IMDB_RATING = "imdbRating";
+    public static final String HASH_TITLE = "Title";
+    public static final String HASH_YEAR = "Year";
+    public static final String HASH_RUNTIME = "Runtime";
+    public static final String HASH_GENRE = "Genre";
+    public static final String HASH_DIRECTOR = "Director";
+    public static final String HASH_ACTORS = "Actors";
+    public static final String HASH_PLOT = "Plot";
+    public static final String HASH_POSTER = "Poster";
+    public static final String HASH_IMDB_RATING = "imdbRating";
     
     /**
      * @param args the command line arguments
@@ -46,7 +46,7 @@ public class OmdbHandler
         System.out.println(hash.get("Plot"));
     }
     
-    private static String getMovieByImdbID(String id) throws IOException
+    public static String getMovieByImdbID(String id) throws IOException
     {
         String requestUrl = URL
                 .replace("IMDBID", id)
@@ -77,7 +77,7 @@ public class OmdbHandler
         return response.toString();
     }
 
-    private static HashMap<String, String> createHashMap (String jsonResponse)
+    public static HashMap<String, String> createHashMap (String jsonResponse)
     {
         String[] parts = jsonResponse.split("\"");
         HashMap<String, String> hashmap = new HashMap();

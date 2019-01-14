@@ -100,16 +100,10 @@ public class FXMLDocumentController implements Initializable
     private Movie activeMovie;
     private final double COLLUMTHRESHOLD = 180;
     private int collumNum = 7;
-<<<<<<< HEAD
-    int col;
-    int row;
-    
-    
-=======
     private int col;
     private int row;
     private GridPane moviegrid;
->>>>>>> b299af13437b4bcd4b9200b68941b0f26ae82be3
+
     Movie movieClass;
     Model model;
 
@@ -147,7 +141,7 @@ public class FXMLDocumentController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-<<<<<<< HEAD
+
         //Movie movie = new Movie(col,"" , COLLUMTHRESHOLD, "", "");
         try {
             model = new Model();
@@ -204,7 +198,7 @@ public class FXMLDocumentController implements Initializable
         
         
 
-=======
+
 //        try {
 //            model = new Model();
 //            genreComBox.getItems().setAll(model.getAllgenres());
@@ -214,7 +208,7 @@ public class FXMLDocumentController implements Initializable
 //            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
         movies = new ArrayList<>();
->>>>>>> b299af13437b4bcd4b9200b68941b0f26ae82be3
+
 
         // create new constraints for columns and set their percentage
         ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -253,7 +247,7 @@ public class FXMLDocumentController implements Initializable
         ImageView imegeviwe2 = new ImageView(new Image("resus/test.jpg"));
         imegeviwe2.setFitHeight(210);
         imegeviwe2.setFitWidth(140);
-<<<<<<< HEAD
+
         moviegrid.add(imegeviwe, 0, 0);
         moviegrid.add(imegeviwe2, 1, 0);
         
@@ -290,7 +284,7 @@ public class FXMLDocumentController implements Initializable
                
                 
             });
-=======
+
 //        moviegrid.add(imegeviwe, 0, 0);
 //        moviegrid.add(imegeviwe2, 1, 0);
         for (int i = 0; i < 7; i++)
@@ -300,7 +294,7 @@ public class FXMLDocumentController implements Initializable
             imegeviwe.setFitWidth(140);
             moviegrid.add(imegeview, i, 0);
         }
->>>>>>> b299af13437b4bcd4b9200b68941b0f26ae82be3
+
 
         col = 0;
         row = 0;
@@ -358,7 +352,7 @@ public class FXMLDocumentController implements Initializable
                         director.setText(movie.getDirector());
                         actors.setText(movie.getActors());
                         summery.setText(movie.getSummry());
-                        rating.setText(Double.toString(movie.getRating()));
+                        rating.setText(movie.getRating());
                         imegePreview.setImage(new Image(movie.getImageURL()));
                         activeMovie = movie;
 

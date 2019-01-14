@@ -84,8 +84,8 @@ public class Model {
         movieManger.deleteMovie(movie);
     }
     
-    public Movie CreateMovie(String name, double rating, String fileLink, String lastView) throws SQLException{
-        return movieManger.CreateMovie(name, rating, fileLink, lastView);
+    public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException{
+        return movieManger.CreateMovie(fileLink, imdbId);
     }
     
     public List<Movie> getAllMovies() throws SQLException {
@@ -97,7 +97,7 @@ public class Model {
     }
     
     public void addGenres(Movie movie) throws SQLException {
-        movieManger.addGenres(movie);
+        movieManger.getGenres(movie);
     }
     
     public void createCategory(String name) throws SQLException {

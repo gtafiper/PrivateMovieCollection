@@ -30,8 +30,8 @@ public class MovieManeger {
         movieDAO.deleteMovie(movie);
     }
     
-    public Movie CreateMovie(String name, double rating, String fileLink, String lastView) throws SQLException{
-        return movieDAO.createMovie(name, rating, fileLink, lastView);
+    public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException{
+        return movieDAO.createMovie(fileLink, imdbId);
     }
     
     public List<Movie> getAllMovies() throws SQLException {
@@ -42,8 +42,8 @@ public class MovieManeger {
         return movieDAO.updateMovie(movie);
     }
     
-    public void addGenres(Movie movie) throws SQLException {
-        movieDAO.addGenres(movie);
+    public void getGenres(Movie movie) throws SQLException {
+        movieDAO.getGenres(movie);
     }
     
     public void createCategory(String name) throws SQLException {
