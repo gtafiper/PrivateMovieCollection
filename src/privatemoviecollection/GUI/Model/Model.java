@@ -16,11 +16,13 @@ import javafx.collections.ObservableList;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.BLL.MovieManeger;
 
+
 /**
  *
  * @author Nijas Hansen
  */
 public class Model {
+    MovieManeger movieManger;
 
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
     private HashMap<String, ObservableList> hashMap = new HashMap<>();
@@ -70,11 +72,49 @@ public class Model {
    public ObservableList<String> getAllgenres(){
        return genres;
    }
+   
+   
 
    public List<String> getHashMap() {
        List<String> ListOfCategorys = new ArrayList(hashMap.values());
        return ListOfCategorys;
    }
+   
+   public void deleteMovie(Movie movie) throws SQLException{
+        movieManger.deleteMovie(movie);
+    }
+    
+    public Movie CreateMovie(String name, double rating, String fileLink, String lastView) throws SQLException{
+        return movieManger.CreateMovie(name, rating, fileLink, lastView);
+    }
+    
+    public List<Movie> getAllMovies() throws SQLException {
+        return movieManger.getAllMovies();
+    }
+    
+    public boolean updateMovie(Movie movie) throws SQLException {
+        return movieManger.updateMovie(movie);
+    }
+    
+    public void addGenres(Movie movie) throws SQLException {
+        movieManger.addGenres(movie);
+    }
+    
+    public void createCategory(String name) throws SQLException {
+        movieManger.createCategory(name);
+    }
+    
+    public void addMovieToCategory(Movie movie, String category) throws SQLException {
+        movieManger.addMovieToCategory(movie, category);
+    }
+    
+    public void getMoviesFromCategory(String category) throws SQLException {
+        movieManger.getMoviesFromCategory(category);
+    }
+    
+    public ArrayList getAllCategory() throws SQLException {
+        return movieManger.getAllCategory();
+    }
 
 
 }

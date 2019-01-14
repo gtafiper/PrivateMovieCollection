@@ -22,11 +22,14 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -98,6 +101,7 @@ public class FXMLDocumentController implements Initializable
     int col;
     int row;
     
+    
     Movie movieClass;
     Model model;
 
@@ -123,6 +127,11 @@ public class FXMLDocumentController implements Initializable
     private ScrollPane scrollpane;
     @FXML
     private AnchorPane window;
+    private ContextMenu contexMenu;
+    private MenuItem Play;
+    private MenuItem Delete;
+    private MenuItem AddGenre;
+    
 
     /**
      * Initializes the controller class.
@@ -130,6 +139,7 @@ public class FXMLDocumentController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        //Movie movie = new Movie(col,"" , COLLUMTHRESHOLD, "", "");
         try {
             model = new Model();
             genreComBox.getItems().setAll(model.getAllgenres());
@@ -139,6 +149,50 @@ public class FXMLDocumentController implements Initializable
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         movies = new ArrayList<>();
+        contexMenu = new ContextMenu();
+        contexMenu.getItems().addAll(Play, AddGenre, Delete);
+        
+        
+        MenuItem delete = new MenuItem("Delete Movie");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) 
+            {
+             
+                try {
+                    model.deleteMovie(movieClass);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
+        
+        MenuItem play = new MenuItem("Play Movie");
+        play.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        MenuItem addGengre = new MenuItem("Add Genre");
+        addGengre.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    model.addGenres(movieClass);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        
+        
+        
         
 
 
@@ -178,6 +232,39 @@ public class FXMLDocumentController implements Initializable
         moviegrid.add(imegeviwe, 0, 0);
         moviegrid.add(imegeviwe2, 1, 0);
         
+        
+        imegeviwe.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+ 
+            @Override
+            public void handle(ContextMenuEvent event) {
+            contexMenu.show(imegeviwe, event.getScreenX(), event.getScreenY());
+            }
+        });
+
+            
+            
+            
+
+           
+        
+        imegeviwe.setOnMouseClicked(new EventHandler<MouseEvent>()
+            {
+                @Override
+                public void handle(MouseEvent mouseEvent)
+                {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
+                    {
+                        if (mouseEvent.getClickCount() == 2)
+                        {
+                            bringToFront(null);
+                            
+                        }
+                    }
+                }
+
+               
+                
+            });
 
         col = 0;
         row = 0;
