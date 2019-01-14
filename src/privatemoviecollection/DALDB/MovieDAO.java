@@ -12,7 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.ServerConnect;
 
@@ -92,7 +95,7 @@ public class MovieDAO
             String lastView = rs.getNString("lastView");
             String path = rs.getNString("fileLink");
 
-            Movie movie = new Movie(id, title, rating, lastView, path);
+            Movie movie = new Movie(id, title, rating, path);
 
             movies.add(movie);
         }
@@ -134,7 +137,7 @@ public class MovieDAO
 
         }
         con.close();
-        Movie movie = new Movie(id, title, rating, fileLink, lastView);
+        Movie movie = new Movie(id, title, rating, fileLink);
         
         return movie;
 
@@ -162,5 +165,28 @@ public class MovieDAO
             movie.addGenre(rs.getNString("Category"));
         }
 
+    }
+    
+    
+    
+    public void lastePlayDate(Movie movie) throws SQLServerException, SQLException{
+        
+        Calendar cal = Calendar.getInstance();
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        
+        movie.setLastView(df.format(cal.getTime()));
+        
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET lastView = ? WHERE id =" + movie.getId();
+        
+        Connection con = sc.getConnection();
+        
+        PreparedStatement pst = con.prepareStatement(sql);
+        
+        String date = df.format(cal.getTime());
+        
+        pst.setString(1, date);
+        
+        movie.setLastView(date);
+        
     }
 }

@@ -293,6 +293,8 @@ public class FXMLDocumentController implements Initializable
                 row++;
                 movieGrid.addRow(row, (Node) null);
             }
+            
+            //model.getlastView()
 
         }
 //        window.widthProperty().addListener(new ChangeListener<Number>()
@@ -348,10 +350,11 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void play(MouseEvent event)
+    private void play(MouseEvent event) throws IOException, SQLException
     {
+        MediaPlayer.openMediaPlayer(activeMovie);
+        model.lastePlayDate(activeMovie);
     }
-
     @FXML
     private void bringToBack(MouseEvent event)
     {
@@ -419,14 +422,8 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void addGenre(MouseEvent event) {
     }
-
-<<<<<<< HEAD
     
-=======
 
-
-  
-
-
->>>>>>> ee2c007dd18756c2054c9f978abdd7546a660d2b
 }
+
+

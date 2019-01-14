@@ -62,6 +62,11 @@ public class MovieManeger {
         return cateDAO.getAllCategory();
     }
     
+    public void lastPlayDate (Movie movie) throws SQLException{
+       movieDAO.lastePlayDate(movie);
+       
+    }
+    
 //    public void updateCategory(Category category) throws SQLException {
 //        cateDAO.updateCategory(category);
 //    }
