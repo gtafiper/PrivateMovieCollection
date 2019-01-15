@@ -13,17 +13,18 @@ import javafx.scene.image.ImageView;
  */
 public class MovieImage
 {
-    
+
     private ImageView imageview;
     private Movie movie;
 
     public MovieImage(Movie movie)
     {
-       
+
         this.movie = movie;
-        imageview = new ImageView(movie.getImageURL());
+        imageview = new ImageView(movie.getPoster());
+        imageview.setFitHeight(210);
+        imageview.setFitWidth(140);
     }
-    
 
     /**
      * Get the value of movie
@@ -44,7 +45,6 @@ public class MovieImage
     {
         this.movie = movie;
     }
-
 
     /**
      * Get the value of imageview

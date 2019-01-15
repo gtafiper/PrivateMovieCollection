@@ -11,13 +11,13 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import privatemoviecollection.BE.Movie;
@@ -31,6 +31,7 @@ import privatemoviecollection.GUI.FXMLDocumentController;
 public class CheckMediaPlayer {
 
     private static final String PROP_FILE = "src/privatemoviecollection/DAL/mediaplayerpath.path";
+    //public static final String PROP_FILE = "src/privatemoviecollection/DAL/mediaplayerpath.path";
     public static final String TEMP_PROPFILE = "src/privatemoviecollection/DAL/temp_mediaplayerpath.path";
 
     public static Boolean CheckMediaPlayerPath() throws IOException {
@@ -43,7 +44,6 @@ public class CheckMediaPlayer {
         is.close();
         if (!file.exists()) {
             return false;
-
         }
         return true;
     }
