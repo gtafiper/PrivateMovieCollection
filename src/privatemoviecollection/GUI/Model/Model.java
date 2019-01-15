@@ -12,8 +12,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -88,7 +86,7 @@ public class Model {
             logiclayer.deleteMovie(movie);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not delete movie", movie + " is already deleted");
         }
     }
 
@@ -96,7 +94,7 @@ public class Model {
         
         for (Movie movie : movies) {
             if (movie.getFilePath().equals(fileLink)) {
-                new MovieCollectionException("Error", "Movie already exist", fileLink + "already exists");
+                new MovieCollectionException("Error", "Movie already exist", fileLink + " already exists");
                 return null;
             } 
         }
@@ -111,7 +109,7 @@ public class Model {
             return logiclayer.getAllMovies();
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not find movies", "Contact tech team");
         }
         return null;
     }
@@ -122,7 +120,7 @@ public class Model {
             return logiclayer.updateMovie(movie);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not update movie", movie + " does not exist");
         }
         return false;
     }
@@ -133,7 +131,7 @@ public class Model {
             logiclayer.addGenres(genre, movie);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not add " + genre + " to " + movie, movie + " or " + genre + " does not exist");
         }
     }
     
@@ -144,7 +142,7 @@ public class Model {
             logiclayer.getGenres(movie);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not get genres", movie + " does not have any genres");
         }
     }
 
@@ -155,7 +153,7 @@ public class Model {
             return logiclayer.setRating(movie, rating);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not set " + rating, movie + " already have a rating");
         }
         return false;
     }
@@ -166,7 +164,7 @@ public class Model {
             logiclayer.createCategory(name);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not create genre", name + " does not exist");
         }
     }
 
@@ -176,7 +174,7 @@ public class Model {
             logiclayer.addMovieToCategory(movie, category);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not add " + movie + " to " + category, "movie or genre does not exist");
         }
     }
 
@@ -186,7 +184,7 @@ public class Model {
             logiclayer.getMoviesFromCategory(category);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not find movie from genre", category + " does not exist");
         }
     }
 
@@ -196,7 +194,7 @@ public class Model {
             return logiclayer.getAllCategory();
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not recieve genres", "genres does not exist");
         }
         return null;
     }
@@ -208,7 +206,7 @@ public class Model {
             logiclayer.setPlayDatetToday(movie);
         } catch (SQLException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not find last time played", movie + " does not have a last seen date");
         }
     }
     
@@ -218,7 +216,7 @@ public class Model {
             logiclayer.getMediaPlayer(movie);
         } catch (IOException ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Could not open mediaplayer", movie + " does not exist");
         }
     }
     
