@@ -149,6 +149,8 @@ public class FXMLDocumentController implements Initializable
     private MenuItem aboutTab;
     @FXML
     private AnchorPane anchorGrid;
+    @FXML
+    private Label runtime;
 
     /**
      * Initializes the controller class.
@@ -215,6 +217,8 @@ public class FXMLDocumentController implements Initializable
         });
 
         contexMenu.getItems().addAll(delete, play, addGengre);
+        
+                
 
         // create new constraints for columns and set their percentage
         columnConstraints = new ColumnConstraints();
@@ -259,7 +263,7 @@ public class FXMLDocumentController implements Initializable
         {
 
             MovieImage image = new MovieImage(movie);
-            
+
             image.getImageview().setOnMouseClicked(new EventHandler<MouseEvent>()
             {
                 @Override
@@ -271,20 +275,28 @@ public class FXMLDocumentController implements Initializable
                         {
                             bringToFront(null);
                             title.setText(movie.getMovieTitle());
-                            Year.setText(movie.getYear());
+                            Year.setText("Year: " + movie.getYear());
                             ArrayList<String> genres = movie.getGenres();
-                            String allGenres = "";
-                            for (String genre1 : genres)
+                            String allGenres = "Genres: ";
+                            for (int i = 0; i < genres.size(); i++)
                             {
-                                allGenres += genre1 + ", ";
+                                allGenres += genres.get(i) + ", ";
+                                if (i >= genres.size() - 2)
+                                {
+                                    allGenres += genres.get(i + 1);
+                                    i++;
+                                }
                             }
                             genre.setText(allGenres);
-                            director.setText(movie.getDirector());
-                            actors.setText(movie.getActors());
-                            summery.setText(movie.getPlot());
+                            director.setText("Director: " + movie.getDirector());
+                            actors.setText("Actors: " + movie.getActors());
+                            summery.setText("Summary: " + movie.getPlot());
+                            runtime.setText("runtime: " + movie.getRuntime());
                             rating.setText(String.valueOf(movie.getRating()));
                             IMDbRating.setText(movie.getImdb_rating());
                             imegePreview.setImage(new Image(movie.getPoster()));
+                            imegePreview.setFitHeight(210);
+                            imegePreview.setFitWidth(140);
                             activeMovie = movie;
 
                         }
@@ -310,11 +322,11 @@ public class FXMLDocumentController implements Initializable
                 moviesToDelete.add(movie);
             }
             movieImages.add(image);
+
             
-            
-            reloadGrid();
             //model.getlastView()
         }
+        reloadGrid();
 
         if (moviesToDelete.size() > 0)
         {
@@ -344,14 +356,15 @@ public class FXMLDocumentController implements Initializable
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
             {
-               resizeGrit(newValue.doubleValue());
+                resizeGrit(newValue.doubleValue());
             }
         });
 
     }
-    
+
     private void reloadGrid()
     {
+        System.out.println("go");
         anchorGrid.getChildren().clear();
         moviegrid = new GridPane();
         moviegrid.getRowConstraints().add(rowConstraints);
@@ -361,13 +374,12 @@ public class FXMLDocumentController implements Initializable
         Insets in = new Insets(10, 10, 10, 10);
         moviegrid.setPadding(in);
         anchorGrid.getChildren().add(moviegrid);
-        
+
         col = 0;
         row = 0;
-        ArrayList<Movie> moviesToDelete = new ArrayList<>();
         for (MovieImage image : movieImages)
         {
-            
+
             moviegrid.add(image.getImageview(), col, row);
             col++;
             if (col > collumNum - 1)
@@ -379,7 +391,7 @@ public class FXMLDocumentController implements Initializable
                 moviegrid.addRow(row, imnull);
             }
         }
-        
+
     }
 
     private void resizeGrit(double width)
@@ -388,7 +400,7 @@ public class FXMLDocumentController implements Initializable
         if (width > COLLUMTHRESHOLD * (collumNum + 1) - 20)
         {
             System.out.println("up:" + COLLUMTHRESHOLD * collumNum);
-            
+
             collumNum++;
             reloadGrid();
             resizeGrit(width);

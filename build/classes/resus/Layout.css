@@ -1,0 +1,252 @@
+.menu-bar {
+    -fx-background-color: #333333;
+
+    -fx-text-fill: #3399ff;
+    -fx-font-family: "Arial";
+    -fx-font-smoothing-type: lcd;
+    
+}
+
+.menu-bar .menu-button:hover, .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+    -fx-background: -fx-accent;
+    -fx-background-color:  #333333;
+
+    -fx-text-fill: -fx-selection-bar-text;
+    -fx-font-smoothing-type: lcd;
+    
+}
+
+
+
+.menu-item {
+    -fx-font-family: "Arial";
+    -fx-background-color: #333333 ;
+    -fx-padding: 0.75em 5em 0.75em 1em;
+    -fx-text-fill: #e4d3d3;
+    -fx-font-smoothing-type: lcd;
+   
+}
+
+.menu .label{
+    -fx-font-family: "Arial";
+    -fx-text-fill: #e4d3d3;
+    -fx-font-smoothing-type: lcd;
+    
+}
+
+
+.menu-item .label{
+    -fx-font-family: "Arial";
+    -fx-text-fill: #e4d3d3;
+    -fx-font-smoothing-type: lcd;
+    
+}
+
+.context-menu {
+
+    -fx-background-color: #333333;
+    -fx-background-insets: 0, 1, 2;
+    -fx-padding: 0.333333em 0.083333em 0.666667em 0.083333em; /* 4 1 8 1 */
+
+}
+
+.table-view{
+    -fx-background-color: transparent;
+}
+
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-family: "Arial";
+    -fx-text-fill: #3399ff;
+    -fx-font-smoothing-type: lcd;
+    -fx-stroke: white;
+    -fx-stroke-width: 3px;
+/*    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 3, 0.0 , 0 , 2 );*/
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-font-family: "Arial";
+    -fx-text-fill: #3399ff;
+    -fx-font-smoothing-type: lcd;
+/*    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 3, 0.0 , 0 , 2 );*/
+    -fx-stroke: white;
+    -fx-stroke-width: 4px;
+}
+
+.table-row-cell{
+    -fx-background-color: linear-gradient(#404040 90%, #131313 100%);
+
+/*    -fx-background-color: #4d4d4d;*/
+    -fx-background-insets: 0, 0 0 1 0;  
+    -fx-font-weight: bold;
+    -fx-table-cell-border-color:transparent;
+    -fx-stroke: white;
+    -fx-stroke-width: 4px;
+}
+/*
+.table-row-cell:odd{
+    -fx-background-color:  #404040;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.1em;  
+    
+}*/
+
+.table-row-cell:selected {
+    -fx-font-family: "Arial";
+    -fx-text-fill: white;
+    -fx-background-color: #b3daff;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
+
+.table-view:focused {
+  -fx-background-color: red /* or transparent or other preferred color */,-fx-box-border,-fx-control-inner-background;
+  -fx-background-insets: -1.4, 0, 1;
+  -fx-background-radius: 1.4, 0, 0;
+  /*....*/
+  -fx-padding: 1; /* 0.083333em; */
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
+.table-view > .virtual-flow > .scroll-bar:horizontal,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .filler{
+    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button, 
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+}
+
+
+
+
+
+
+.list-cell {
+    -fx-text-fill: #e4d3d3;
+    -fx-font-family: "Arial";
+    -fx-font-smoothing-type: lcd;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 3, 0.0 , 0 , 2 );
+    -fx-background-color:  #424242;
+    
+    -fx-font-weight: bold;
+    
+    
+}
+
+/*.list-cell:odd {
+    -fx-background-color:  #424242;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.5em;   
+}*/
+
+
+.list-cell .text {
+    -fx-text-fill: #e4d3d3 ;
+    -fx-font-family: "Arial";
+    -fx-font-smoothing-type: lcd;
+    
+    
+}
+
+.label {
+
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e4d3d3;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,20) , 1,0,1,0 );
+    
+    -fx-font-smoothing-type: lcd;
+}
+
+
+
+
+
+#IMDbRating {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill:  #212020;
+    
+    
+    -fx-font-smoothing-type: lcd;
+}
+#rating {
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    
+    -fx-text-fill:  #212020;
+    
+    
+    -fx-font-smoothing-type: lcd;
+}
+
+.text-field {
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-background-color:  #404040;
+    
+    
+    -fx-text-fill: #e4d3d3;
+    -fx-font-smoothing-type: lcd;
+}
+
+.text-field:focused {
+    -fx-font-family: "Arial";
+    -fx-background-color:  #404040;
+    
+    
+    -fx-text-fill: #e4d3d3;
+    -fx-font-smoothing-type: lcd;
+}
+.text
+{
+    -fx-text-fill: #e4d3d3;
+    -fx-font-smoothing-type: lcd;
+
+}
+.button {
+    -fx-background-color: 
+        #090a0c,
+        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+        linear-gradient(#20262b, #191d22),
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: #e4d3d3;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+    -fx-font-smoothing-type: lcd;
+}
+.button Text {
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,0,1 );
+}
