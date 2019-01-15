@@ -4,12 +4,15 @@
  * and open the template in the editor.
  */
 package privatemoviecollection.BLL;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.DALDB.MovieDAO;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.DAL.CheckMediaPlayer;
 import privatemoviecollection.DALDB.CategoryDAO;
 import privatemoviecollection.DAL.MediaPlayer;
 
@@ -73,13 +76,25 @@ public class MovieManeger {
         MediaPlayer.openMediaPlayer(movie);
     }
 
-     public void addGenres(Movie movie)
-     {
-         //TO DO
-
+    public void setMediaPlayerPath(File file) throws IOException {
+        CheckMediaPlayer.setMediaPlayerPath(file);
     }
+    
+    public boolean checkMediaPath() throws IOException {
+        return CheckMediaPlayer.CheckMediaPlayerPath();
+    }
+    
+     public void addGenres(String genre, Movie movie) throws SQLException
+     {
+         movieDAO.addGenre(genre, movie);
+     }
 
 //    public void updateCategory(Category category) throws SQLException {
 //        cateDAO.updateCategory(category);
 //    }
+
+    public boolean setRating(Movie movie, int rating) throws SQLServerException, SQLException 
+    {
+        return movieDAO.setRating(movie, rating);
+    }
 }

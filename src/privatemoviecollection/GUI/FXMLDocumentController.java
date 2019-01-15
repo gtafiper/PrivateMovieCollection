@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.GUI;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -48,8 +49,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.BLL.Exception.MovieCollectionException;
 import privatemoviecollection.GUI.Model.Model;
 
 /**
@@ -154,6 +157,14 @@ public class FXMLDocumentController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if (!model.checkMediaPlayerPath()) {
+            new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Executables", "*.exe"));
+            fc.setTitle("Open Windows Mediaplayer");
+            File file = fc.showOpenDialog(null);
+            model.setMediaPlayerPath(file);
+        }
         movies = new ArrayList<>();
         contexMenu = new ContextMenu();
 
@@ -163,11 +174,7 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
 
-                try {
-                    model.deleteMovie(movieClass);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                model.deleteMovie(movieClass);
 
             }
         });
@@ -184,12 +191,8 @@ public class FXMLDocumentController implements Initializable {
         addGengre.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    model.addGenres(movieClass);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
+            //model.addGenres(movieClass);
+                               
             }
         });
 
@@ -263,7 +266,7 @@ public class FXMLDocumentController implements Initializable {
                             director.setText(movie.getDirector());
                             actors.setText(movie.getActors());
                             summery.setText(movie.getSummry());
-                            rating.setText(movie.getRating());
+                            rating.setText(String.valueOf(movie.getRating()));
                             imegePreview.setImage(new Image(movie.getImageURL()));
                             activeMovie = movie;
 
@@ -339,7 +342,7 @@ public class FXMLDocumentController implements Initializable {
                         director.setText(movie.getDirector());
                         actors.setText(movie.getActors());
                         summery.setText(movie.getSummry());
-                        rating.setText(movie.getRating());
+                        rating.setText(String.valueOf(movie.getRating()));
                         imegePreview.setImage(new Image(movie.getImageURL()));
                         activeMovie = movie;
 

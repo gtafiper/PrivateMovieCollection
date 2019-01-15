@@ -40,7 +40,12 @@ public class MovieDAO
     }
 
 
-    //updates a movie with new Title, Path,  rating, lastView.
+    /**
+     * updates a movie with new Title, Path,  rating, lastView.
+     * @param movie
+     * @return
+     * @throws SQLException 
+     */
     public boolean updateMovie(Movie movie) throws SQLException {
         String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET name = ?, fileLink = ?, rating = ?, lastView = ?  WHERE id =" + movie.getId();
 
@@ -50,7 +55,7 @@ public class MovieDAO
 
         pst.setString(1, movie.getTitle());
         pst.setString(2, movie.getFilePath());
-        pst.setString(3, movie.getRating());
+        pst.setInt(3, movie.getRating());
         pst.setString(4, movie.getlastView());
 
         int rowsAffected = pst.executeUpdate();
@@ -92,16 +97,29 @@ public class MovieDAO
         //runs all the movies through
         while (rs.next()) {
             int id = rs.getInt("id");
-            String title = rs.getNString("title");
-            String rating = rs.getNString("user_rating");
-            //String lastView = rs.getNString("lastView");
-            String path = rs.getNString("fileLink");
+            String movieTitle = rs.getNString("title");
+            int rating = rs.getInt("user_rating");
+            String fileLink = rs.getNString("fileLink");
+            String lastView = rs.getNString("lastView");
+            String year = rs.getNString("year");
+            String runtime = rs.getNString("runtime");
+            String director = rs.getNString("director");
+            String actors = rs.getNString("actors");
+            String plot = rs.getNString("plot");
+            String imdb_rating = rs.getNString("imdb_rating");
+            String poster = rs.getNString("poster");
+            
 
-            Movie movie = new Movie(id, title, rating, path);
-
+            Movie movie = new Movie(id, movieTitle, rating, fileLink, lastView, 
+                                    year, runtime, director, actors, plot, 
+                                    imdb_rating, poster);
+            
+            getGenres(movie);
             movies.add(movie);
+            
         }
         con.close();
+        
         return movies;
 
     }
@@ -116,7 +134,7 @@ public class MovieDAO
      */
     public Movie createMovie(String fileLink, String imdbId) throws SQLException, IOException
     {
-        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (title, fileLink, year, runtime, director,actors, plot, imdb_rating, poster) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (title, fileLink, year, runtime, director, actors, plot, imdb_rating, poster) VALUES (?, ?, ?, ?, ?, ?, ? ,? ,?);";
 
         Connection con = sc.getConnection();
 
@@ -125,17 +143,16 @@ public class MovieDAO
         HashMap<String, String> movieInfo = OmdbHandler.createHashMap(OmdbHandler.getMovieByImdbID(imdbId));
 
         st.setString(1, movieInfo.get(OmdbHandler.HASH_TITLE));
-        st.setString(10, movieInfo.get(OmdbHandler.HASH_IMDB_RATING));
-        st.setString(8, movieInfo.get(OmdbHandler.HASH_ACTORS));
-        st.setString(12, movieInfo.get(OmdbHandler.HASH_GENRE));
-        st.setString(5, movieInfo.get(OmdbHandler.HASH_YEAR));
-        st.setString(11, movieInfo.get(OmdbHandler.HASH_POSTER));
-        st.setString(6, movieInfo.get(OmdbHandler.HASH_RUNTIME));
-        st.setString(9, movieInfo.get(OmdbHandler.HASH_PLOT));
-        st.setString(7, movieInfo.get(OmdbHandler.HASH_DIRECTOR));
-        st.setString(3, fileLink);
-
-
+        st.setString(2, fileLink);
+        st.setString(3, movieInfo.get(OmdbHandler.HASH_YEAR));
+        st.setString(4, movieInfo.get(OmdbHandler.HASH_RUNTIME));
+        st.setString(5, movieInfo.get(OmdbHandler.HASH_DIRECTOR));
+        st.setString(8, movieInfo.get(OmdbHandler.HASH_IMDB_RATING));
+        st.setString(6, movieInfo.get(OmdbHandler.HASH_ACTORS));
+        st.setString(9, movieInfo.get(OmdbHandler.HASH_POSTER));
+        st.setString(7, movieInfo.get(OmdbHandler.HASH_PLOT));
+        
+       
         st.executeUpdate();
 
         ResultSet rs = st.getGeneratedKeys();
@@ -147,8 +164,29 @@ public class MovieDAO
 
         }
         con.close();
-        Movie movie = new Movie(id, movieInfo.get(OmdbHandler.HASH_TITLE), movieInfo.get(OmdbHandler.HASH_IMDB_RATING), fileLink);
-
+        int rating = 0;
+        String lastplaydate = "";
+                    
+        Movie movie = new Movie(id, 
+                movieInfo.get(OmdbHandler.HASH_TITLE), 
+                rating, 
+                fileLink, 
+                lastplaydate, 
+                movieInfo.get(OmdbHandler.HASH_YEAR), 
+                movieInfo.get(OmdbHandler.HASH_RUNTIME), 
+                movieInfo.get(OmdbHandler.HASH_DIRECTOR), 
+                movieInfo.get(OmdbHandler.HASH_ACTORS), 
+                movieInfo.get(OmdbHandler.HASH_PLOT), 
+                movieInfo.get(OmdbHandler.HASH_IMDB_RATING), 
+                movieInfo.get(OmdbHandler.HASH_POSTER));
+        
+        String[] genres = movieInfo.get(OmdbHandler.HASH_GENRE).split(", ");
+        
+        for (String genre : genres)
+        {
+            addGenre(genre, movie);
+        }
+        
         return movie;
 
     }
@@ -174,9 +212,16 @@ public class MovieDAO
         {
             movie.addGenre(rs.getNString("Category"));
         }
-
+        
     }
 
+    /**
+     * add a genre to the list of genre
+     * @param genre
+     * @param movie
+     * @throws SQLServerException
+     * @throws SQLException 
+     */
     public void addGenre (String genre, Movie movie) throws SQLServerException, SQLException
     {
         Connection con = sc.getConnection();
@@ -207,10 +252,18 @@ public class MovieDAO
             nips.setInt(1, newId);
             nips.setInt(2, movie.getId());
             nips.executeUpdate();
+            movie.addGenre(genre);
         }
-
+        con.close();
     }
 
+    /**
+     * check if the genre exist
+     * @param con
+     * @param genre
+     * @return
+     * @throws SQLException 
+     */
     public int doItExist(Connection con, String genre) throws SQLException
     {
         Statement st = con.createStatement();
@@ -224,6 +277,12 @@ public class MovieDAO
         return 0;
     }
 
+    /**
+     * last time the movie are played
+     * @param movie
+     * @throws SQLServerException
+     * @throws SQLException 
+     */
     public void lastePlayDate(Movie movie) throws SQLServerException, SQLException{
 
         Calendar cal = Calendar.getInstance();
@@ -244,4 +303,31 @@ public class MovieDAO
         movie.setLastView(date);
 
     }
+    
+    /**
+     * set and or update the rating of a movie
+     * @param movie
+     * @param rating
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException 
+     */
+    public boolean setRating(Movie movie, int rating) throws SQLServerException, SQLException
+    {
+        Connection con = sc.getConnection();
+        
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET user_rating = ? WHERE id = " + movie.getId();
+        
+        PreparedStatement pst = con.prepareStatement(sql);
+        
+        pst.setInt(1, rating);
+       
+        int rowsAffected = pst.executeUpdate();
+        if (rowsAffected >= 1) {
+            return true;
+        }
+        con.close();
+        return false;
+    }
+    
 }

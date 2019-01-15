@@ -16,36 +16,59 @@ import javafx.collections.ObservableList;
 public class Movie {
 
     private int id;
-    private String rating;
+    private int rating;
     private double duration;
     private String lastView;
     private String filePath;
     private String movieTitle;
     private String imageURL;
-
-    private ObservableList<String> moviegenre;
+    private String year;
+    private String runtime;
+    private String director;
+    private String actors;
+    private String plot;
+    private String imdb_rating;
+    private String poster;
+    
+    
+    
+    
+    private final ObservableList<String> moviegenre;
     public String getGerne;
 
     /**
      * Construct the Movie
      *
      * @param id
-     * @param name
+     * @param title
      * @param rating
      * @param lastView
+     * @param year
+     * @param runtime
+     * @param director
      * @param fileLink
+     * @param plot
+     * @param imdb_rating
+     * @param poster
+     * @param actors
      */
-    public Movie(int id, String name, String rating, String fileLink)
+    
+    public Movie(int id, String movieTitle, int rating, String fileLink, String lastView, String year, String runtime, String director, String actors, String plot, String imdb_rating, String poster)
     {
         this.id = id;
-        this.movieTitle = name;
+        this.movieTitle = movieTitle;
         this.rating = rating;
         this.filePath = fileLink;
+        this.year = year;
+        this.runtime = runtime;
+        this.director = director;
+        this.actors = actors;
+        this.plot = plot;
+        this.imdb_rating = imdb_rating;
+        this.poster = poster;
         imageURL = new String();
 
         moviegenre = FXCollections.observableArrayList();
-
-
     }
 
     public String getImageURL() {
@@ -165,7 +188,7 @@ public class Movie {
      * get the value of rating
      * @return the value of rating
      */
-    public String getRating()
+    public int getRating()
     {
         return rating;
     }
@@ -174,7 +197,7 @@ public class Movie {
      * set the value of rating in a movie
      * @param rating new rating on a movie
      */
-    public void setRating(String rating)
+    public void setRating(int rating)
     {
         this.rating = rating;
     }
