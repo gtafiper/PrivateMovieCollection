@@ -66,6 +66,7 @@ public class Movie {
         this.plot = plot;
         this.imdb_rating = imdb_rating;
         this.poster = poster;
+        this.rating = 0;
         imageURL = new String();
 
         moviegenre = FXCollections.observableArrayList();

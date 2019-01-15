@@ -283,10 +283,10 @@ public class MovieDAO
      * @throws SQLServerException
      * @throws SQLException 
      */
-    public void lastePlayDate(Movie movie) throws SQLServerException, SQLException{
+    public void setPlayDatetToday(Movie movie) throws SQLServerException, SQLException{
 
         Calendar cal = Calendar.getInstance();
-        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        DateFormat df = new SimpleDateFormat("dd MM yyyy");
 
         movie.setLastView(df.format(cal.getTime()));
 

@@ -166,37 +166,7 @@ public class FXMLDocumentController implements Initializable {
             model.setMediaPlayerPath(file);
         }
         movies = new ArrayList<>();
-        contexMenu = new ContextMenu();
-
-        MenuItem delete = new MenuItem("Delete Movie");
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-
-                model.deleteMovie(movieClass);
-
-            }
-        });
-
-        MenuItem play = new MenuItem("Play Movie");
-        play.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-
-        MenuItem addGengre = new MenuItem("Add Genre");
-        addGengre.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            //model.addGenres(movieClass);
-                               
-            }
-        });
-
-        contexMenu.getItems().addAll(delete, play, addGengre);
+        
 
         // create new constraints for columns and set their percentage
         ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -238,22 +208,26 @@ public class FXMLDocumentController implements Initializable {
         moviegrid.add(imegeviwe, 0, 0);
         moviegrid.add(imegeviwe2, 1, 0);
 
-        imegeviwe.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+        
 
-            @Override
-            public void handle(ContextMenuEvent event) {
-                contexMenu.hide();
-                contexMenu.show(imegeviwe, event.getScreenX(), event.getScreenY());
-
-            }
-        });
+            
+        
 
         col = 0;
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
         for (Movie movie : movies) {
             Image image = new Image(movie.getImageURL());
+            
             ImageView imageview = new ImageView(image);
+            
+            imegeviwe.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+            @Override
+            public void handle(ContextMenuEvent event) {
+                contexMenu.hide();
+                contexMenu.show(imageview, event.getScreenX(), event.getScreenY());
+                
             imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -276,7 +250,9 @@ public class FXMLDocumentController implements Initializable {
 
             });
             
-            if(isDoDateOver(movie))
+            
+            
+            if(model.isDoDateOver(movie))
             {
                 moviesToDelete.add(movie);
             }
@@ -291,10 +267,42 @@ public class FXMLDocumentController implements Initializable {
                 row++;
                 movieGrid.addRow(row, (Node) null);
             }
-
-            //model.getlastView()
-
-        }
+            
+//            contexMenu = new ContextMenu();
+//
+//        MenuItem delete = new MenuItem("Delete Movie");
+//        delete.setOnAction(new EventHandler<ActionEvent>() {
+//
+//            @Override
+//            public void handle(ActionEvent event) {
+//                Movie movie = 
+//                model.deleteMovie(movie);
+//
+//            }
+//        });
+//
+//        MenuItem play = new MenuItem("Play Movie");
+//        play.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                model.setPlayDatetToday(movieClass);
+//            }
+//        });
+//
+//        MenuItem addGengre = new MenuItem("Add Genre");
+//        addGengre.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//            //model.addGenres(movieClass);
+//                               
+//            }
+//        });
+//
+//        contexMenu.getItems().addAll(delete, play, addGengre);
+//
+//           
+//
+//        }
         
         if(moviesToDelete.size() > 0){
          
@@ -439,7 +447,7 @@ public class FXMLDocumentController implements Initializable {
     private void play(MouseEvent event) throws IOException, SQLException
     {
         model.getMediaPlayer(activeMovie);
-        model.lastePlayDate(activeMovie);
+        model.setPlayDatetToday(activeMovie);
     }
     @FXML
     private void bringToBack(MouseEvent event) {
@@ -466,34 +474,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-    
-    public boolean isDoDateOver(Movie movie) {
-        
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
-        
-        Date date = new Date();
-        dateformat.format(date);
-        Date lastPlayDate = new Date(); // catch in model
-        try {
-            lastPlayDate = dateformat.parse(movie.getlastView());
-        } catch (ParseException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
-        long doDate = date.getTime() - lastPlayDate.getTime();
-        
-        if(doDate >= 730) /*&& (movie.getRating() => 6)*/{
-            moviesToDelete1.add(movie);
-            return true;
-             
-            
-        }
-        else{
-            return false;
-        }
-    }
+   
 
     @FXML
     private void addGenre(ActionEvent event) {
