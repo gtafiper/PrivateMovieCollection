@@ -169,11 +169,7 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
 
-                try {
-                    model.deleteMovie(movieClass);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                model.deleteMovie(movieClass);
 
             }
         });
