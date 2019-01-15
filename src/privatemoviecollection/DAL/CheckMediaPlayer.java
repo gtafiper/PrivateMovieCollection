@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
+import privatemoviecollection.BLL.Exception.MovieCollectionException;
 
 /**
  *
@@ -37,6 +38,7 @@ public class CheckMediaPlayer {
         is.close();
         if (!file.exists()) {
             return false;
+            
         }
         return true;
     }
