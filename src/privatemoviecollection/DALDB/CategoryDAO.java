@@ -42,7 +42,7 @@ public class CategoryDAO {
         ResultSet rs = st.executeQuery();
 
         while (rs.next()) {
-            String genre = rs.getNString("Category");
+            String genre = rs.getNString("Genre");
             list.add(genre);
         }
 
@@ -54,7 +54,7 @@ public class CategoryDAO {
     public void createCategory (String name) throws SQLServerException, SQLException {
         Connection con = server.getConnection();
 
-        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Category] (Category) VALUES (?)";
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Category] (Genre) VALUES (?)";
 
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -81,7 +81,7 @@ public class CategoryDAO {
         Statement st = con.createStatement();
         ResultSet resultSet = st.executeQuery("SELECT * "
                 + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
-                + "WHERE Category = " + category);
+                + "WHERE Genre = " + category);
 
         int id = 0;
         while (resultSet.next()) {
