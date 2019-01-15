@@ -86,7 +86,16 @@ public class Model {
     }
 
     public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException{
-        return logiclayer.CreateMovie(fileLink, imdbId);
+        
+        for (Movie movie : movies) {
+            if (movie.getFilePath().equals(fileLink)) {
+                new MovieCollectionException("Error", "Movie already exist", fileLink + "already exists");
+                return null;
+            } 
+        }
+        Movie movie = logiclayer.CreateMovie(fileLink, imdbId);
+        return movie; 
+        
     }
 
     public List<Movie> getAllMovies() throws SQLException {
