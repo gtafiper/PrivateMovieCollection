@@ -17,9 +17,11 @@ public class Movie {
 
     private int id;
     private int rating;
+    private double duration;
     private String lastView;
     private String filePath;
     private String movieTitle;
+    private String imageURL;
     private String year;
     private String runtime;
     private String director;
@@ -27,8 +29,17 @@ public class Movie {
     private String plot;
     private String imdb_rating;
     private String poster;
+<<<<<<< HEAD
     private ArrayList<String> moviegenre;
     
+=======
+    
+    
+    
+    
+    private final ObservableList<String> moviegenre;
+    public String getGerne;
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
 
     /**
      * Construct the Movie
@@ -60,15 +71,48 @@ public class Movie {
         this.plot = plot;
         this.imdb_rating = imdb_rating;
         this.poster = poster;
+<<<<<<< HEAD
         
         moviegenre = new ArrayList<>();
+=======
+        this.rating = 0;
+        imageURL = new String();
+
+        moviegenre = FXCollections.observableArrayList();
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    /**
+     * gets the lastView in a string
+     * @return lastView
+     */
+    public String getlastView()
+    {
+        return lastView;
+    }
+
+    /**
+     * set the lastView in a string
+     * @param lastView
+     */
+    public void setLastView(String lastView)
+    {
+        this.lastView = lastView;
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
     }
 
     /**
      * Get the genre in a observableList
      * @return
      */
-    public ArrayList<String> getGenres()
+    public ObservableList<String> getGenres()
     {
         return moviegenre;
     }
@@ -91,124 +135,121 @@ public class Movie {
         moviegenre.remove(genre);
     }
 
-    public int getId()
+    /**
+     * Get the value of duration
+     *
+     * @return the value of duration
+     */
+    public double getDuration()
     {
-        return id;
+        return duration;
     }
 
-    public void setId(int id)
+    /**
+     * Set the value of duration
+     *
+     * @param duration new value of duration
+     */
+    public void setDuration(double duration)
     {
-        this.id = id;
+        this.duration = duration;
     }
 
-    public int getRating()
-    {
-        return rating;
-    }
-
-    public void setRating(int rating)
-    {
-        this.rating = rating;
-    }
-
-    public String getLastView()
-    {
-        return lastView;
-    }
-
-    public void setLastView(String lastView)
-    {
-        this.lastView = lastView;
-    }
-
+    /**
+     * Get the value of filePath
+     *
+     * @return the value of filePath
+     */
     public String getFilePath()
     {
         return filePath;
     }
 
-    public void setFilePath(String filePath)
+    /**
+     * Set the value of filePath
+     *
+     * @param fileParth new value of filePath
+     */
+    public void setFilePath(String fileParth)
     {
-        this.filePath = filePath;
+        this.filePath = fileParth;
     }
 
-    public String getMovieTitle()
+    /**
+     * Get the value of movieTitle
+     *
+     * @return the value of movieTitle
+     */
+    public String getTitle()
     {
         return movieTitle;
     }
 
-    public void setMovieTitle(String movieTitle)
+    /**
+     * Set the value of movieTitle
+     *
+     * @param title new value of movieTitle
+     */
+    public void setTitle(String title)
     {
-        this.movieTitle = movieTitle;
+        this.movieTitle = title;
     }
 
-    public String getYear()
+    /**
+     * get the value of rating
+     * @return the value of rating
+     */
+    public int getRating()
     {
-        return year;
+        return rating;
     }
 
-    public void setYear(String year)
+    /**
+     * set the value of rating in a movie
+     * @param rating new rating on a movie
+     */
+    public void setRating(int rating)
     {
-        this.year = year;
+        this.rating = rating;
     }
 
-    public String getRuntime()
+    /**
+     * Get the value of songId
+     *
+     * @return the song Id
+     */
+    public int getId()
     {
-        return runtime;
+        return id;
     }
 
-    public void setRuntime(String runtime)
+
+    /**
+     * get the movieTitle object into a string
+     * @return the movietitle to a string
+     */
+    @Override
+    public String toString()
     {
-        this.runtime = runtime;
+        return "ID: " + id + " Movie title: " + movieTitle + " Rating: " + rating;
     }
 
-    public String getDirector()
-    {
-        return director;
+    public String getYear() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setDirector(String director)
-    {
-        this.director = director;
+    public String getSummry() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public String getActors()
-    {
-        return actors;
+    public String getActors() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setActors(String actors)
-    {
-        this.actors = actors;
+    public String getDirector() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public String getPlot()
-    {
-        return plot;
-    }
 
-    public void setPlot(String plot)
-    {
-        this.plot = plot;
-    }
-
-    public String getImdb_rating()
-    {
-        return imdb_rating;
-    }
-
-    public void setImdb_rating(String imdb_rating)
-    {
-        this.imdb_rating = imdb_rating;
-    }
-
-    public String getPoster()
-    {
-        return poster;
-    }
-
-    public void setPoster(String poster)
-    {
-        this.poster = poster;
-    }
 
 }

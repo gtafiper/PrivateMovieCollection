@@ -19,6 +19,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="window" prefHeight="838.0" prefWidth="1119.0" stylesheets="@../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.FXMLDocumentController">
    <children>
+<<<<<<< HEAD
       <MenuBar prefHeight="25.0" prefWidth="1119.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
@@ -42,6 +43,15 @@
         </menus>
       </MenuBar>
       <StackPane fx:id="stacPane" layoutY="73.0" prefHeight="765.0" prefWidth="1119.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="69.0">
+=======
+      <AnchorPane layoutY="28.0" prefHeight="43.0" prefWidth="990.0" style="-fx-background-color: gray;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+         <children>
+            <ComboBox fx:id="genreComBox" layoutX="28.0" layoutY="20.0" onMouseClicked="#addGenre" prefWidth="150.0" promptText="Genre" visibleRowCount="5" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="10.0" />
+            <TextField layoutX="214.0" layoutY="10.0" prefHeight="31.0" prefWidth="477.0" promptText="Search" />
+         </children>
+      </AnchorPane>
+      <StackPane fx:id="stacPane" layoutY="79.0" prefHeight="661.0" prefWidth="990.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
          <children>
             <StackPane fx:id="stacPopUp" prefHeight="687.0" prefWidth="990.0">
                <StackPane.margin>
@@ -140,12 +150,16 @@
                         </HBox>
                      </children>
                   </AnchorPane>
+<<<<<<< HEAD
                   <AnchorPane fx:id="closePopUp" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#bringToBack" prefHeight="20.0" prefWidth="20.0">
                      <StackPane.margin>
                         <Insets right="400.0" />
                      </StackPane.margin>
                   </AnchorPane>
                   <AnchorPane fx:id="popUd" maxHeight="684.0" maxWidth="390.0" minHeight="684.0" minWidth="390.0" prefHeight="684.0" prefWidth="390.0" style="-fx-background-color: #494444;" StackPane.alignment="TOP_RIGHT">
+=======
+                  <AnchorPane fx:id="popUd" maxHeight="684.0" maxWidth="390.0" minHeight="684.0" minWidth="390.0" prefHeight="684.0" prefWidth="390.0" style="-fx-background-color: limegreen;" StackPane.alignment="TOP_RIGHT">
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
                      <children>
                         <ImageView fx:id="imegePreview" fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="236.0" AnchorPane.topAnchor="63.0">
                            <image>
@@ -157,6 +171,7 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
+<<<<<<< HEAD
                         <Label fx:id="Year" alignment="TOP_LEFT" layoutX="169.0" layoutY="63.0" prefHeight="43.0" prefWidth="214.0" text="Year" wrapText="true" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="63.0" />
                         <Label fx:id="genre" alignment="TOP_LEFT" layoutX="164.0" layoutY="106.0" prefHeight="43.0" prefWidth="214.0" text="Genere" wrapText="true" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="106.0" />
                         <Label fx:id="director" alignment="TOP_LEFT" layoutX="162.0" layoutY="147.0" prefHeight="43.0" prefWidth="214.0" text="Director" wrapText="true" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="147.0" />
@@ -164,42 +179,92 @@
                         <Label fx:id="summery" alignment="TOP_LEFT" layoutX="16.0" layoutY="280.0" prefHeight="252.0" prefWidth="355.0" text="Summery" wrapText="true" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="280.0" />
                         <Button layoutX="210.0" layoutY="613.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="31.0" prefWidth="140.0" text="Play" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="613.0" />
                         <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#aea4a4" height="31.0" layoutX="19.0" layoutY="556.0" stroke="BLACK" strokeType="INSIDE" width="113.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="556.0" />
+=======
+                        <Label fx:id="Year" alignment="TOP_LEFT" layoutX="169.0" layoutY="63.0" text="Year" AnchorPane.leftAnchor="165.0" />
+                        <Label fx:id="genre" alignment="TOP_LEFT" layoutX="164.0" layoutY="106.0" text="Genere" AnchorPane.leftAnchor="165.0" />
+                        <Label fx:id="director" alignment="TOP_LEFT" layoutX="162.0" layoutY="147.0" prefHeight="21.0" prefWidth="64.0" text="Director" AnchorPane.leftAnchor="165.0" />
+                        <Label fx:id="actors" alignment="TOP_LEFT" layoutX="168.0" layoutY="183.0" prefHeight="71.0" prefWidth="214.0" text="Actors" AnchorPane.leftAnchor="165.0" />
+                        <Label fx:id="summery" layoutX="14.0" layoutY="292.0" text="Summery" />
+                        <Button layoutX="241.0" layoutY="592.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="31.0" prefWidth="62.0" text="Play" />
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
                         <ImageView fx:id="persenolRating" fitHeight="64.0" fitWidth="64.0" layoutX="19.0" layoutY="539.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resus/imdb%20(1).png" />
                            </image>
                         </ImageView>
+<<<<<<< HEAD
                         <Label fx:id="rating" alignment="CENTER" layoutX="83.0" layoutY="561.0" prefHeight="21.0" prefWidth="48.0" text="3,5" textAlignment="CENTER" />
                         <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#aea4a4" height="31.0" layoutX="19.0" layoutY="613.0" stroke="BLACK" strokeType="INSIDE" width="113.0" />
+=======
+                        <Label fx:id="rating" alignment="TOP_CENTER" layoutX="83.0" layoutY="561.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
                         <ImageView fx:id="ratingStar1" fitHeight="64.0" fitWidth="64.0" layoutX="19.0" layoutY="596.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resus/imdb%20(1).png" />
                            </image>
                         </ImageView>
+<<<<<<< HEAD
                         <Label fx:id="IMDbRating" alignment="CENTER" layoutX="83.0" layoutY="618.0" prefHeight="21.0" prefWidth="48.0" text="3,5" textAlignment="CENTER" />
                         <Label fx:id="runtime" layoutX="165.0" layoutY="237.0" text="runtime" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="237.0" />
+=======
+                        <Label fx:id="IMDbRating" alignment="TOP_CENTER" layoutX="83.0" layoutY="618.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
                      </children>
                      <StackPane.margin>
                         <Insets />
+                     </StackPane.margin>
+                  </AnchorPane>
+                  <AnchorPane fx:id="closePopUp" onMouseClicked="#bringToBack" prefHeight="200.0" prefWidth="200.0">
+                     <StackPane.margin>
+                        <Insets right="400.0" />
                      </StackPane.margin>
                   </AnchorPane>
                </children>
             </StackPane>
             <AnchorPane fx:id="gridAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="793.0" prefWidth="1119.0">
                <children>
+<<<<<<< HEAD
                   <ScrollPane fx:id="scrollpane" prefHeight="685.0" prefWidth="990.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <AnchorPane fx:id="anchorGrid" prefHeight="757.0" prefWidth="1117.0" style="-fx-background-color: #895050;" />
                      </content></ScrollPane>
+=======
+                  <ScrollPane fx:id="scrollpane" prefHeight="685.0" prefWidth="990.0" style="-fx-background-color: green;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
                </children>
             </AnchorPane>
          </children>
       </StackPane>
+<<<<<<< HEAD
       <AnchorPane layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="46.0" prefWidth="1119.0" style="-fx-background-color: #494444;" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="25.0">
          <children>
             <ComboBox fx:id="genreComBox" layoutX="34.0" onMouseClicked="#addGenre" prefHeight="32.0" prefWidth="150.0" promptText="Genre" visibleRowCount="5" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0" />
             <TextField layoutX="571.0" layoutY="7.0" minHeight="27.0" prefHeight="25.0" prefWidth="477.0" promptText="Search" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="10.0" />
          </children>
       </AnchorPane>
+=======
+      <MenuBar prefHeight="32.0" prefWidth="990.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
+                  <MenuItem mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
+                  <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
+                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutTab" mnemonicParsing="false" onAction="#aboutTab" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
    </children>
 </AnchorPane>

@@ -11,8 +11,18 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
+<<<<<<< HEAD
+=======
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import privatemoviecollection.BE.Movie;
+import privatemoviecollection.BLL.Exception.MovieCollectionException;
+import privatemoviecollection.GUI.FXMLDocumentController;
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
 
 /**
  *
@@ -20,7 +30,11 @@ import java.util.Properties;
  */
 public class CheckMediaPlayer {
 
+<<<<<<< HEAD
     public static final String PROP_FILE = "src/privatemoviecollection/DAL/mediaplayerpath.path";
+=======
+    private static final String PROP_FILE = "src/privatemoviecollection/DAL/mediaplayerpath.path";
+>>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
     public static final String TEMP_PROPFILE = "src/privatemoviecollection/DAL/temp_mediaplayerpath.path";
 
     public static Boolean CheckMediaPlayerPath() throws IOException {
@@ -33,6 +47,7 @@ public class CheckMediaPlayer {
         is.close();
         if (!file.exists()) {
             return false;
+
         }
         return true;
     }

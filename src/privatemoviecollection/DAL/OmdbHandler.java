@@ -32,7 +32,19 @@ public class OmdbHandler
     public static final String HASH_PLOT = "Plot";
     public static final String HASH_POSTER = "Poster";
     public static final String HASH_IMDB_RATING = "imdbRating";
-   
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws IOException
+    {
+        String jsonResponse = getMovieByImdbID("tt3896198");
+        System.out.println(jsonResponse);
+        HashMap<String, String>  hash = createHashMap(jsonResponse);
+        System.out.println(hash.get("Title"));
+        System.out.println(hash.get("Year"));
+        System.out.println(hash.get("Plot"));
+    }
     
     public static String getMovieByImdbID(String id) throws IOException
     {

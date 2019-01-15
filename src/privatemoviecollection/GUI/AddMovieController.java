@@ -57,10 +57,10 @@ public class AddMovieController implements Initializable {
     private void OpenFileChooser(MouseEvent event) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open Movie Path");
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("mp4 files", "*.mp4", "*.mpeg4"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("mp4 files", "*.mp4"));
         chosenMovie = fc.showOpenDialog(null);
-        String[] split = chosenMovie.getPath().split("src");
-        moviePath = "src" + split[1];
+        String split = chosenMovie.getPath();
+        moviePath = split.replace("C:\\Users\\Nijas Hansen\\Documents\\GitHub\\MRS\\PrivateMovieCollection\\src\\", "");
         txtfldFileLocation.setText(moviePath);
     }
 
@@ -73,7 +73,6 @@ public class AddMovieController implements Initializable {
 
     @FXML
     private void btnToDAL(MouseEvent event) throws SQLException, IOException {
-        URL();
         model.CreateMovie(moviePath, imdbid);
 
         stage.close();
