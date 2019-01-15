@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package privatemoviecollection.DAL;
-import privatemoviecollection.DAL.CheckMediaPlayer;
+import java.io.File;
 import java.io.IOException;
 import privatemoviecollection.BE.Movie;
 
@@ -23,7 +23,8 @@ public class MediaPlayer {
      * @throws IOException
      */
     public static void openMediaPlayer(Movie movie) throws IOException {
-        Runtime.getRuntime().exec(MEDIAPLAYER_PATH+"/" + movie.getFilePath());
+        File file = new File(movie.getFilePath());
+        Runtime.getRuntime().exec(MEDIAPLAYER_PATH+"/" + file.getAbsolutePath());
 
 
 

@@ -5,10 +5,15 @@
  */
 package privatemoviecollection.DAL;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
 /**
@@ -18,23 +23,33 @@ import java.util.Properties;
 public class CheckMediaPlayer {
     
     private static final String PROP_FILE = "src/privatemoviecollection/DAL/mediaplayerpath.path";
+    public static final String TEMP_PROPFILE = "src/privatemoviecollection/DAL/temp_mediaplayerpath.path";
     
-    public String CheckMediaPlayerPath() throws IOException {
+    
+    public static Boolean CheckMediaPlayerPath() throws IOException {
         Properties mediaplayerProperties = new Properties();
-        mediaplayerProperties.load(new FileInputStream(PROP_FILE));
+        FileInputStream is = new FileInputStream(PROP_FILE);
+        mediaplayerProperties.load(is);
         
-        String path = mediaplayerProperties.getProperty(PROP_FILE);
+        String path = mediaplayerProperties.getProperty("Path");
         
-        return path;
+        File file = new File(path);
+        is.close();
+        if (!file.exists()) {
+            return false;
+        }
+        return true;
     }
     
     
-    public void setFilePath() throws IOException {
-        Path source = Paths.get(PROP_FILE);
-        Path desctination = Paths.get(PROP_FILE);
+    public static void setMediaPlayerPath(File path) throws IOException {
+        File tempPropfile = new File(TEMP_PROPFILE);
+        BufferedWriter bw = new BufferedWriter(new FileWriter(tempPropfile));
         
-        
-        
+        bw.write("Path=" + path.getAbsolutePath());
+        bw.close();
+        Files.copy(tempPropfile.toPath(), new File(PROP_FILE).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.delete(tempPropfile.toPath());
         
     }
     

@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.GUI;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -44,6 +45,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.GUI.Model.Model;
@@ -148,6 +150,13 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (!model.checkMediaPlayerPath()) {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Executables", "*.exe"));
+            fc.setTitle("Open Windows Mediaplayer");
+            File file = fc.showOpenDialog(null);
+            model.setMediaPlayerPath(file);
         }
         movies = new ArrayList<>();
         contexMenu = new ContextMenu();
