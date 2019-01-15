@@ -188,12 +188,8 @@ public class FXMLDocumentController implements Initializable {
         addGengre.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    model.addGenres(movieClass);
-                } catch (SQLException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
+            //model.addGenres(movieClass);
+                               
             }
         });
 

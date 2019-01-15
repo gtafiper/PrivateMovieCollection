@@ -96,10 +96,20 @@ public class Model {
         return logiclayer.updateMovie(movie);
     }
 
-    public void addGenres(Movie movie) throws SQLException {
-        logiclayer.addGenres(movie);
+    public void addGenres(String genre, Movie movie) throws SQLException {
+        logiclayer.addGenres(genre, movie);
+    }
+    
+    public void getGenres(Movie movie) throws SQLException
+    {
+        logiclayer.getGenres(movie);
     }
 
+    public boolean setRating(Movie movie, int rating) throws SQLException
+    {
+        return logiclayer.setRating(movie, rating);
+    }
+    
     public void createCategory(String name) throws SQLException {
         logiclayer.createCategory(name);
     }

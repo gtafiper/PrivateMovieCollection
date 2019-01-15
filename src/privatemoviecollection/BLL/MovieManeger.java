@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package privatemoviecollection.BLL;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -83,13 +84,17 @@ public class MovieManeger {
         return CheckMediaPlayer.CheckMediaPlayerPath();
     }
     
-     public void addGenres(Movie movie)
+     public void addGenres(String genre, Movie movie) throws SQLException
      {
-         //TO DO
-
-    }
+         movieDAO.addGenre(genre, movie);
+     }
 
 //    public void updateCategory(Category category) throws SQLException {
 //        cateDAO.updateCategory(category);
 //    }
+
+    public boolean setRating(Movie movie, int rating) throws SQLServerException, SQLException 
+    {
+        return movieDAO.setRating(movie, rating);
+    }
 }
