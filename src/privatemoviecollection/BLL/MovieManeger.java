@@ -8,7 +8,6 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.DALDB.MovieDAO;
@@ -16,7 +15,6 @@ import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DAL.CheckMediaPlayer;
 import privatemoviecollection.DALDB.CategoryDAO;
 import privatemoviecollection.DAL.MediaPlayer;
-import privatemoviecollection.DAL.CheckMediaPlayer;
 
 /**
  *
@@ -26,7 +24,6 @@ public class MovieManeger {
 
     MovieDAO movieDAO;
     CategoryDAO cateDAO;
-    CheckMediaPlayer checkMediaPlayer;
     
     
 
@@ -71,8 +68,8 @@ public class MovieManeger {
         return cateDAO.getAllCategory();
     }
 
-    public void setPlayDatetToday(Movie movie) throws SQLException{
-       movieDAO.setPlayDatetToday(movie);
+    public void lastPlayDate (Movie movie) throws SQLException{
+       movieDAO.lastePlayDate(movie);
      }
     
     public void getMediaPlayer(Movie movie) throws IOException {
@@ -90,10 +87,6 @@ public class MovieManeger {
      public void addGenres(String genre, Movie movie) throws SQLException
      {
          movieDAO.addGenre(genre, movie);
-     }
-     
-     public boolean isDoDateOver(Movie movie) throws ParseException{
-         return checkMediaPlayer.isDoDateOver(movie);
      }
 
 //    public void updateCategory(Category category) throws SQLException {

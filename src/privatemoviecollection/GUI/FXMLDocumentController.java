@@ -179,7 +179,6 @@ public class FXMLDocumentController implements Initializable
             File file = fc.showOpenDialog(null);
             model.setMediaPlayerPath(file);
         }
-        movies = new ArrayList<>();
 
         contexMenu = new ContextMenu();
 
@@ -218,8 +217,8 @@ public class FXMLDocumentController implements Initializable
         });
 
         contexMenu.getItems().addAll(delete, play, addGengre);
-
-
+        
+                
 
         // create new constraints for columns and set their percentage
         columnConstraints = new ColumnConstraints();
@@ -251,53 +250,17 @@ public class FXMLDocumentController implements Initializable
         // suppose your scroll pane id is scrollPane
         scrollpane.setFitToHeight(true);
         scrollpane.setFitToWidth(true);
-        ImageView imegeviwe = new ImageView(new Image("resus/test.jpg"));
-        imegeviwe.setFitHeight(210);
-        imegeviwe.setFitWidth(140);
-        ImageView imegeviwe2 = new ImageView(new Image("resus/test.jpg"));
-        imegeviwe2.setFitHeight(210);
-        imegeviwe2.setFitWidth(140);
-        moviegrid.add(imegeviwe, 0, 0);
-        moviegrid.add(imegeviwe2, 1, 0);
-
-
         anchorGrid.getChildren().add(moviegrid);
         ImageView imageviewnull = new ImageView();
         imageviewnull.setImage(null);
         moviegrid.addRow(0, imageviewnull);
 
-
-
-
-
-
         col = 0;
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
-        for (Movie movie : movies) {
-            Image image = new Image(movie.getImageURL());
-
-
-/*ImageView imageview = new ImageView(image);
-
-imegeviwe.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-
-@Override
-public void handle(ContextMenuEvent event) {
-    contexMenu.hide();
-    contexMenu.show(imageview, event.getScreenX(), event.getScreenY());
-
-imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-  movieImages = new ArrayList<>();
-  for (Movie movie : movies)
-  {
-
-      MovieImage image = new MovieImage(movie);
-
-      image.getImageview().setOnMouseClicked(new EventHandler<MouseEvent>()
-      {*/
-
+        movieImages = new ArrayList<>();
+        for (Movie movie : movies)
+        {
 
             MovieImage image = new MovieImage(movie);
 
@@ -342,8 +305,6 @@ imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             });
 
-            if(model.isDoDateOver(movie))
-
             image.getImageview().setOnContextMenuRequested(new EventHandler<ContextMenuEvent>()
             {
 
@@ -362,67 +323,16 @@ imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
             }
             movieImages.add(image);
 
-
+            
             //model.getlastView()
         }
         reloadGrid();
 
+        if (moviesToDelete.size() > 0)
+        {
 
-            movieGrid.add(imageview, col, row);
-            col++;
-
-            if (col > 7) {
-                col = 0;
-
-                row++;
-                movieGrid.addRow(row, (Node) null);
-            }
-
-//            contexMenu = new ContextMenu();
-//
-//        MenuItem delete = new MenuItem("Delete Movie");
-//        delete.setOnAction(new EventHandler<ActionEvent>() {
-//
-//            @Override
-//            public void handle(ActionEvent event) {
-//                Movie movie =
-//                model.deleteMovie(movie);
-//
-//            }
-//        });
-//
-//        MenuItem play = new MenuItem("Play Movie");
-//        play.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                model.setPlayDatetToday(movieClass);
-//            }
-//        });
-//
-//        MenuItem addGengre = new MenuItem("Add Genre");
-//        addGengre.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//            //model.addGenres(movieClass);
-//
-//            }
-//        });
-//
-//        contexMenu.getItems().addAll(delete, play, addGengre);
-//
-//
-//
-//        }
-
-          reloadGrid();
-          //model.getlastView()
-          }
-
-          if (moviesToDelete.size() > 0)
-          {
-
-          try
-          {
+            try
+            {
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/MoviesToDelete.fxml"));
 
                 Parent root = loader.load();
@@ -516,7 +426,7 @@ imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
     private void play(MouseEvent event) throws IOException, SQLException
     {
         model.getMediaPlayer(activeMovie);
-        model.setPlayDatetToday(activeMovie);
+        model.lastePlayDate(activeMovie);
     }
 
     @FXML

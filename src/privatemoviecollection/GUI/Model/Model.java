@@ -8,7 +8,6 @@ package privatemoviecollection.GUI.Model;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -200,10 +199,10 @@ public class Model {
     }
     
     
-    public void setPlayDatetToday(Movie movie){
+    public void lastePlayDate(Movie movie){
         try
         {
-            logiclayer.setPlayDatetToday(movie);
+            logiclayer.lastPlayDate(movie);
         } catch (SQLException ex)
         {
             new MovieCollectionException("Error", "Could not find last time played", movie + " does not have a last seen date");
@@ -233,15 +232,6 @@ public class Model {
             return logiclayer.checkMediaPath();
         } catch (IOException ex) {
             new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
-        }
-        return false;
-    }
-    
-    public boolean isDoDateOver(Movie movie){
-        try {
-            return logiclayer.isDoDateOver(movie);
-        } catch (ParseException ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
