@@ -153,7 +153,7 @@ public class MovieDAO {
         st.setString(9, movieInfo.get(OmdbHandler.HASH_POSTER));
         st.setString(7, movieInfo.get(OmdbHandler.HASH_PLOT));
         st.setInt(10, 0);
-        
+
 
         st.executeUpdate();
 
@@ -287,10 +287,10 @@ public class MovieDAO {
      * @throws SQLServerException
      * @throws SQLException
      */
-    public void lastePlayDate(Movie movie) throws SQLServerException, SQLException {
+    public void setPlayDatetToday(Movie movie) throws SQLServerException, SQLException{
 
         Calendar cal = Calendar.getInstance();
-        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        DateFormat df = new SimpleDateFormat("dd MM yyyy");
 
         movie.setLastView(df.format(cal.getTime()));
 

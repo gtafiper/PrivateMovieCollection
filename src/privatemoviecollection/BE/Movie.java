@@ -28,7 +28,7 @@ public class Movie {
     private String imdb_rating;
     private String poster;
     private ArrayList<String> moviegenre;
-    
+
 
     /**
      * Construct the Movie
@@ -46,7 +46,7 @@ public class Movie {
      * @param poster
      * @param actors
      */
-    
+
     public Movie(int id, String movieTitle, int rating, String fileLink, String lastView, String year, String runtime, String director, String actors, String plot, String imdb_rating, String poster)
     {
         this.id = id;
@@ -60,8 +60,39 @@ public class Movie {
         this.plot = plot;
         this.imdb_rating = imdb_rating;
         this.poster = poster;
-        
-        moviegenre = new ArrayList<>();
+        this.rating = 0;
+        imageURL = new String();
+
+        moviegenre = FXCollections.observableArrayList();
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    /**
+     * gets the lastView in a string
+     * @return lastView
+     */
+    public String getlastView()
+    {
+        return lastView;
+    }
+
+    /**
+     * set the lastView in a string
+     * @param lastView
+     */
+    public void setLastView(String lastView)
+    {
+        this.lastView = lastView;
+    }
+
+    moviegenre = new ArrayList<>();
     }
 
     /**
