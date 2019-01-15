@@ -33,7 +33,6 @@ public class CheckMediaPlayer {
         mediaplayerProperties.load(is);
         
         String path = mediaplayerProperties.getProperty("Path");
-        
         File file = new File(path);
         is.close();
         if (!file.exists()) {
@@ -48,7 +47,7 @@ public class CheckMediaPlayer {
         File tempPropfile = new File(TEMP_PROPFILE);
         BufferedWriter bw = new BufferedWriter(new FileWriter(tempPropfile));
         
-        bw.write("Path=" + path.getAbsolutePath());
+        bw.write("Path=" + path.getAbsolutePath().replaceAll("\\\\", "/"));
         bw.close();
         Files.copy(tempPropfile.toPath(), new File(PROP_FILE).toPath(), StandardCopyOption.REPLACE_EXISTING);
         Files.delete(tempPropfile.toPath());
