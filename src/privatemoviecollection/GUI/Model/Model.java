@@ -5,11 +5,14 @@
  */
 package privatemoviecollection.GUI.Model;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -123,6 +126,23 @@ public class Model {
     
     public void getMediaPlayer(Movie movie) throws IOException {
         logiclayer.getMediaPlayer(movie);
+    }
+    
+    public void setMediaPlayerPath(File file) {
+        try {
+            logiclayer.setMediaPlayerPath(file);
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public boolean checkMediaPlayerPath() {
+        try {
+            return logiclayer.checkMediaPath();
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
 
