@@ -258,7 +258,7 @@ public class FXMLDocumentController implements Initializable {
                             director.setText(movie.getDirector());
                             actors.setText(movie.getActors());
                             summery.setText(movie.getSummry());
-                            rating.setText(movie.getRating());
+                            rating.setText(String.valueOf(movie.getRating()));
                             imegePreview.setImage(new Image(movie.getImageURL()));
                             activeMovie = movie;
 
@@ -307,7 +307,7 @@ public class FXMLDocumentController implements Initializable {
                         director.setText(movie.getDirector());
                         actors.setText(movie.getActors());
                         summery.setText(movie.getSummry());
-                        rating.setText(movie.getRating());
+                        rating.setText(String.valueOf(movie.getRating()));
                         imegePreview.setImage(new Image(movie.getImageURL()));
                         activeMovie = movie;
 
