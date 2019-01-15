@@ -8,7 +8,10 @@ package privatemoviecollection.GUI;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -16,6 +19,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -109,7 +113,8 @@ public class FXMLDocumentController implements Initializable {
     private int col;
     private int row;
     private GridPane moviegrid;
-
+    
+    public ObservableList<Movie> moviesToDelete1;
     Movie movieClass;
     Model model;
 
@@ -242,7 +247,7 @@ public class FXMLDocumentController implements Initializable {
 
         col = 0;
         row = 0;
-
+        ArrayList<Movie> moviesToDelete = new ArrayList<>();
         for (Movie movie : movies) {
             Image image = new Image(movie.getImageURL());
             ImageView imageview = new ImageView(image);
@@ -267,7 +272,13 @@ public class FXMLDocumentController implements Initializable {
                 }
 
             });
-
+            
+            if(isDoDateOver(movie))
+            {
+                moviesToDelete.add(movie);
+            }
+            
+            
             movieGrid.add(imageview, col, row);
             col++;
 
@@ -281,7 +292,28 @@ public class FXMLDocumentController implements Initializable {
             //model.getlastView()
 
         }
-
+        
+        if(moviesToDelete.size() > 0){
+         
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/MoviesToDelete.fxml"));
+                
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Movies to delete");
+                stage.setScene(new Scene(root));
+                stage.show();
+                MoviesToDeleteController controller = loader.getController();
+                controller.setModel(model);
+                controller.setStage(stage);
+                controller.setMoviesTodelete(moviesToDelete);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        
         window.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -430,6 +462,34 @@ public class FXMLDocumentController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+    
+    public boolean isDoDateOver(Movie movie) {
+        
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
+        
+        Date date = new Date();
+        dateformat.format(date);
+        Date lastPlayDate = new Date(); // catch in model
+        try {
+            lastPlayDate = dateformat.parse(movie.getlastView());
+        } catch (ParseException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        long doDate = date.getTime() - lastPlayDate.getTime();
+        
+        if(doDate >= 730) /*&& (movie.getRating() => 6)*/{
+            moviesToDelete1.add(movie);
+            return true;
+             
+            
+        }
+        else{
+            return false;
+        }
     }
 
     @FXML

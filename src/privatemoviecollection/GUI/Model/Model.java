@@ -113,9 +113,6 @@ public class Model {
         return logiclayer.getAllCategory();
     }
     
-    public String getlastView(){
-       return movie.getlastView();
-    }
     
     public void lastePlayDate(Movie movie) throws SQLException {
         logiclayer.lastPlayDate(movie);
