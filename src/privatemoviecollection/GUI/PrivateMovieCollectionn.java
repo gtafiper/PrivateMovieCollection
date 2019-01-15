@@ -6,20 +6,12 @@
 package privatemoviecollection.GUI;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import privatemoviecollection.BE.Movie;
-import privatemoviecollection.DALDB.CategoryDAO;
-import privatemoviecollection.DALDB.MovieDAO;
 
 /**
  *

@@ -52,6 +52,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.BE.MovieImage;
 import privatemoviecollection.BLL.Exception.MovieCollectionException;
 import privatemoviecollection.GUI.Model.Model;
 
@@ -60,7 +61,8 @@ import privatemoviecollection.GUI.Model.Model;
  *
  * @author Christian
  */
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController implements Initializable
+{
 
     @FXML
     private StackPane stacPane;
@@ -109,17 +111,19 @@ public class FXMLDocumentController implements Initializable {
 
     private boolean ratingWindowIsOpen = false;
     private List<Movie> movies;
-    private GridPane movieGrid;
     private Movie activeMovie;
-    private final double COLLUMTHRESHOLD = 180;
-    private int collumNum = 7;
+    private final double COLLUMTHRESHOLD = 170;
+    private int collumNum = 6;
     private int col;
     private int row;
     private GridPane moviegrid;
-    
-    public ObservableList<Movie> moviesToDelete1;
-    Movie movieClass;
-    Model model;
+    private ColumnConstraints columnConstraints;
+    private RowConstraints rowConstraints;
+    private ArrayList<MovieImage> movieImages;
+
+    private ObservableList<Movie> moviesToDelete1;
+    private Movie movieClass;
+    private Model model;
 
     @FXML
     private ImageView imegePreview;
@@ -143,28 +147,31 @@ public class FXMLDocumentController implements Initializable {
     private ScrollPane scrollpane;
     @FXML
     private MenuItem aboutTab;
-<<<<<<< HEAD
     @FXML
     private AnchorPane anchorGrid;
     @FXML
     private Label runtime;
-=======
->>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
 
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        try {
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        try
+        {
             model = new Model();
             genreComBox.getItems().setAll(model.getAllgenres());
-        } catch (IOException ex) {
+            movies = model.getAllMovies();
+        } catch (IOException ex)
+        {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (!model.checkMediaPlayerPath()) {
+        if (!model.checkMediaPlayerPath())
+        {
             new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Executables", "*.exe"));
@@ -172,7 +179,6 @@ public class FXMLDocumentController implements Initializable {
             File file = fc.showOpenDialog(null);
             model.setMediaPlayerPath(file);
         }
-<<<<<<< HEAD
 
         contexMenu = new ContextMenu();
 
@@ -213,13 +219,9 @@ public class FXMLDocumentController implements Initializable {
         contexMenu.getItems().addAll(delete, play, addGengre);
         
                 
-=======
-        movies = new ArrayList<>();
-        
->>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
 
         // create new constraints for columns and set their percentage
-        ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints = new ColumnConstraints();
         columnConstraints.setHgrow(Priority.NEVER);
 
         columnConstraints.setMaxWidth(140.0);
@@ -228,7 +230,7 @@ public class FXMLDocumentController implements Initializable {
         columnConstraints.setHalignment(HPos.RIGHT);
 
         // create new constraints for row and set their percentage
-        RowConstraints rowConstraints = new RowConstraints();
+        rowConstraints = new RowConstraints();
         rowConstraints.setVgrow(Priority.NEVER);
 
         rowConstraints.setMaxHeight(210.0);
@@ -237,7 +239,7 @@ public class FXMLDocumentController implements Initializable {
         rowConstraints.setValignment(VPos.TOP);
 
         // don't set preferred size or anything on gridpane
-        GridPane moviegrid = new GridPane();
+        moviegrid = new GridPane();
         moviegrid.getRowConstraints().add(rowConstraints);
         moviegrid.getColumnConstraints().add(columnConstraints);
         moviegrid.setHgap(30);
@@ -246,34 +248,16 @@ public class FXMLDocumentController implements Initializable {
         moviegrid.setPadding(in);
 
         // suppose your scroll pane id is scrollPane
-        scrollpane.setContent(moviegrid);
         scrollpane.setFitToHeight(true);
         scrollpane.setFitToWidth(true);
-<<<<<<< HEAD
         anchorGrid.getChildren().add(moviegrid);
         ImageView imageviewnull = new ImageView();
         imageviewnull.setImage(null);
         moviegrid.addRow(0, imageviewnull);
-=======
-        ImageView imegeviwe = new ImageView(new Image("resus/test.jpg"));
-        imegeviwe.setFitHeight(210);
-        imegeviwe.setFitWidth(140);
-        ImageView imegeviwe2 = new ImageView(new Image("resus/test.jpg"));
-        imegeviwe2.setFitHeight(210);
-        imegeviwe2.setFitWidth(140);
-        moviegrid.add(imegeviwe, 0, 0);
-        moviegrid.add(imegeviwe2, 1, 0);
-
-        
-
-            
-        
->>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
 
         col = 0;
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
-<<<<<<< HEAD
         movieImages = new ArrayList<>();
         for (Movie movie : movies)
         {
@@ -282,27 +266,14 @@ public class FXMLDocumentController implements Initializable {
 
             image.getImageview().setOnMouseClicked(new EventHandler<MouseEvent>()
             {
-=======
-        for (Movie movie : movies) {
-            Image image = new Image(movie.getImageURL());
-            
-            ImageView imageview = new ImageView(image);
-            
-            imegeviwe.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-
-            @Override
-            public void handle(ContextMenuEvent event) {
-                contexMenu.hide();
-                contexMenu.show(imageview, event.getScreenX(), event.getScreenY());
-                
-            imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
->>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
                 @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                        if (mouseEvent.getClickCount() == 2) {
+                public void handle(MouseEvent mouseEvent)
+                {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
+                    {
+                        if (mouseEvent.getClickCount() == 2)
+                        {
                             bringToFront(null);
-<<<<<<< HEAD
                             title.setText(movie.getMovieTitle());
                             Year.setText("Year: " + movie.getYear());
                             ArrayList<String> genres = movie.getGenres();
@@ -326,16 +297,6 @@ public class FXMLDocumentController implements Initializable {
                             imegePreview.setImage(new Image(movie.getPoster()));
                             imegePreview.setFitHeight(210);
                             imegePreview.setFitWidth(140);
-=======
-                            title.setText(movie.getTitle());
-                            Year.setText(movie.getYear());
-                            genre.setText(movie.getGerne);
-                            director.setText(movie.getDirector());
-                            actors.setText(movie.getActors());
-                            summery.setText(movie.getSummry());
-                            rating.setText(String.valueOf(movie.getRating()));
-                            imegePreview.setImage(new Image(movie.getImageURL()));
->>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
                             activeMovie = movie;
 
                         }
@@ -343,7 +304,6 @@ public class FXMLDocumentController implements Initializable {
                 }
 
             });
-<<<<<<< HEAD
 
             image.getImageview().setOnContextMenuRequested(new EventHandler<ContextMenuEvent>()
             {
@@ -373,68 +333,8 @@ public class FXMLDocumentController implements Initializable {
 
             try
             {
-=======
-            
-            
-            
-            if(model.isDoDateOver(movie))
-            {
-                moviesToDelete.add(movie);
-            }
-            
-            
-            movieGrid.add(imageview, col, row);
-            col++;
-
-            if (col > 7) {
-                col = 0;
-
-                row++;
-                movieGrid.addRow(row, (Node) null);
-            }
-            
-//            contexMenu = new ContextMenu();
-//
-//        MenuItem delete = new MenuItem("Delete Movie");
-//        delete.setOnAction(new EventHandler<ActionEvent>() {
-//
-//            @Override
-//            public void handle(ActionEvent event) {
-//                Movie movie = 
-//                model.deleteMovie(movie);
-//
-//            }
-//        });
-//
-//        MenuItem play = new MenuItem("Play Movie");
-//        play.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                model.setPlayDatetToday(movieClass);
-//            }
-//        });
-//
-//        MenuItem addGengre = new MenuItem("Add Genre");
-//        addGengre.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//            //model.addGenres(movieClass);
-//                               
-//            }
-//        });
-//
-//        contexMenu.getItems().addAll(delete, play, addGengre);
-//
-//           
-//
-//        }
-        
-        if(moviesToDelete.size() > 0){
-         
-            try {
->>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/MoviesToDelete.fxml"));
-                
+
                 Parent root = loader.load();
                 Stage stage = new Stage();
                 stage.setTitle("Movies to delete");
@@ -444,32 +344,24 @@ public class FXMLDocumentController implements Initializable {
                 controller.setModel(model);
                 controller.setStage(stage);
                 controller.setMoviesTodelete(moviesToDelete);
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-        
-        
-        window.widthProperty().addListener(new ChangeListener<Number>() {
+
+        window.widthProperty().addListener(new ChangeListener<Number>()
+        {
             @Override
-<<<<<<< HEAD
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
             {
                 resizeGrit(newValue.doubleValue());
-=======
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (newValue.intValue() > COLLUMTHRESHOLD * collumNum) {
-                    collumNum++;
-                    System.out.println("hej");
-                }
->>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
             }
         });
 
     }
 
-<<<<<<< HEAD
     private void reloadGrid()
     {
         System.out.println("go");
@@ -487,109 +379,44 @@ public class FXMLDocumentController implements Initializable {
         row = 0;
         for (MovieImage image : movieImages)
         {
-=======
-    private void setUpMovieAction(ImageView imageview, Movie movie) {
-        imageview.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    if (mouseEvent.getClickCount() == 2) {
-                        bringToFront(null);
-                        title.setText(movie.getTitle());
-                        Year.setText(movie.getYear());
-                        genre.setText(movie.getGerne);
-                        director.setText(movie.getDirector());
-                        actors.setText(movie.getActors());
-                        summery.setText(movie.getSummry());
-                        rating.setText(String.valueOf(movie.getRating()));
-                        imegePreview.setImage(new Image(movie.getImageURL()));
-                        activeMovie = movie;
 
-                    }
-                }
+            moviegrid.add(image.getImageview(), col, row);
+            col++;
+            if (col > collumNum - 1)
+            {
+                col = 0;
+                row++;
+                ImageView imnull = new ImageView();
+                imnull.setImage(null);
+                moviegrid.addRow(row, imnull);
             }
-        });
-    }
-
-    private void reloadGrid() {
-
-        int collumcount = 0;
-        int rowcount = 0;
-        for (int i = 0; i < moviegrid.getChildren().size(); i++) {
-
-            if (movies.size() >= i) {
-                ImageView imageV = (ImageView) moviegrid.getChildren().get(i);
-                imageV.setImage(new Image(movies.get(i).getImageURL()));
-                setUpMovieAction(imageV, movies.get(i));
->>>>>>> parent of 7db8491... Merge branch 'master' of https://github.com/gtafiper/PrivateMovieCollection
-
-            }
-
-            if (movies.size() < i) {
-                moviegrid.getChildren().get(i);
-                ImageView imageV = (ImageView) moviegrid.getChildren().get(i);
-                imageV.setImage(null);
-                imageV.setOnMouseClicked(null);
-
-            }
-
-            collumcount++;
-            if (collumcount == collumNum) {
-                rowcount++;
-                collumcount = 0;
-            }
-
         }
+
     }
 
-    private void resizeGrit(double width) {
-        if (width > COLLUMTHRESHOLD * collumNum) {
-            movieGrid.addColumn(collumNum, new ImageView());
+    private void resizeGrit(double width)
+    {
+        System.out.println("s:" + width);
+        if (width > COLLUMTHRESHOLD * (collumNum + 1) - 20)
+        {
+            System.out.println("up:" + COLLUMTHRESHOLD * collumNum);
+
             collumNum++;
             reloadGrid();
             resizeGrit(width);
         }
-        if (width < COLLUMTHRESHOLD * collumNum - 1) {
-            movieGrid.getChildren().removeIf(node -> GridPane.getRowIndex(node) == collumNum);
+        if (width < COLLUMTHRESHOLD * (collumNum) - 20)
+        {
+            System.out.println("ned:" + COLLUMTHRESHOLD * (collumNum - 1));
             collumNum--;
             reloadGrid();
             resizeGrit(width);
         }
 
     }
-//
-//    private void resizeGrit(double width)
-//    {
-//        if (width > COLLUMTHRESHOLD * collumNum)
-//        {
-//            movieGrid.addColumn(collumNum, null);
-//            collumNum++;
-//            movieGrid.addColumn(collumNum, null);
-//            for (int i = 0; i < row; i++)
-//            {
-//                getNodeFromGridPane(movieGrid, 0, i);
-//            }
-//            resizeGrit(width);
-//        }
-//        if (width < COLLUMTHRESHOLD * collumNum - 1)
-//        {
-//            collumNum--;
-//            //fjern en collum og tilpas film
-//            resizeGrit(width);
-//        }
-//
-//    }
 
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return node;
-            }
-        }
-        return null;
-    }
-
-    private void bringToFront(MouseEvent event) {
+    private void bringToFront(MouseEvent event)
+    {
         stacPopUp.toFront();
         popUd.toFront();
 
@@ -601,14 +428,18 @@ public class FXMLDocumentController implements Initializable {
         model.getMediaPlayer(activeMovie);
         model.lastePlayDate(activeMovie);
     }
+
     @FXML
-    private void bringToBack(MouseEvent event) {
+    private void bringToBack(MouseEvent event)
+    {
         stacPopUp.toBack();
     }
 
     @FXML
-    private void addMovie(ActionEvent event) {
-        try {
+    private void addMovie(ActionEvent event)
+    {
+        try
+        {
 
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/AddMovie.fxml"));
 
@@ -621,38 +452,77 @@ public class FXMLDocumentController implements Initializable {
             controller.setModel(model);
             controller.setStage(stage);
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
 
     }
-   
 
-    @FXML
-    private void addGenre(ActionEvent event) {
+    public boolean isDoDateOver(Movie movie)
+    {
+
+        if (movie.getLastView() != null)
+        {
+            SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
+
+            Date date = new Date();
+            dateformat.format(date);
+            Date lastPlayDate = new Date(); // catch in model
+            try
+            {
+                lastPlayDate = dateformat.parse(movie.getLastView());
+            } catch (ParseException ex)
+            {
+
+            }
+
+            long doDate = date.getTime() - lastPlayDate.getTime();
+
+            if (doDate >= 730)
+            /*&& (movie.getRating() => 6)*/
+            {
+                moviesToDelete1.add(movie);
+                return true;
+
+            }
+        }
+        return false;
+
     }
 
     @FXML
-    private void rencentlyWatched(ActionEvent event) {
+    private void addGenre(ActionEvent event)
+    {
     }
 
     @FXML
-    private void exit(ActionEvent event) {
+    private void rencentlyWatched(ActionEvent event)
+    {
+    }
+
+    @FXML
+    private void exit(ActionEvent event)
+    {
         Platform.exit();
         System.exit(0);
     }
 
     @FXML
-    private void deleteMovie(ActionEvent event) {
+    private void deleteMovie(ActionEvent event)
+    {
     }
 
     @FXML
-    private void rate(MouseEvent event) {
-        if (ratingWindowIsOpen) {
+    private void rate(MouseEvent event)
+    {
+        if (ratingWindowIsOpen)
+        {
             rateWindow.toBack();
             ratingWindowIsOpen = false;
 
-        } else {
+        } else
+        {
             rateWindow.toFront();
             ratingWindowIsOpen = true;
         }
@@ -660,11 +530,13 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void addGenre(MouseEvent event) {
+    private void addGenre(MouseEvent event)
+    {
     }
 
     @FXML
-    private void aboutTab(ActionEvent event) {
+    private void aboutTab(ActionEvent event)
+    {
 
     }
 
