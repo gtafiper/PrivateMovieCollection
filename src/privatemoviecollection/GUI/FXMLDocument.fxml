@@ -25,6 +25,28 @@
             <TextField layoutX="214.0" layoutY="10.0" prefHeight="31.0" prefWidth="477.0" promptText="Search" />
          </children>
       </AnchorPane>
+      <MenuBar prefHeight="32.0" prefWidth="990.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
+                  <MenuItem mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
+                  <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
+                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutTab" mnemonicParsing="false" onAction="#aboutTab" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
       <StackPane fx:id="stacPane" layoutY="79.0" prefHeight="661.0" prefWidth="990.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
          <children>
             <StackPane fx:id="stacPopUp" prefHeight="687.0" prefWidth="990.0">
@@ -124,6 +146,11 @@
                         </HBox>
                      </children>
                   </AnchorPane>
+                  <AnchorPane fx:id="closePopUp" onMouseClicked="#bringToBack" prefHeight="200.0" prefWidth="200.0">
+                     <StackPane.margin>
+                        <Insets right="400.0" />
+                     </StackPane.margin>
+                  </AnchorPane>
                   <AnchorPane fx:id="popUd" maxHeight="684.0" maxWidth="390.0" minHeight="684.0" minWidth="390.0" prefHeight="684.0" prefWidth="390.0" style="-fx-background-color: limegreen;" StackPane.alignment="TOP_RIGHT">
                      <children>
                         <ImageView fx:id="imegePreview" fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
@@ -136,64 +163,40 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="Year" alignment="TOP_LEFT" layoutX="169.0" layoutY="63.0" text="Year" AnchorPane.leftAnchor="165.0" />
-                        <Label fx:id="genre" alignment="TOP_LEFT" layoutX="164.0" layoutY="106.0" text="Genere" AnchorPane.leftAnchor="165.0" />
-                        <Label fx:id="director" alignment="TOP_LEFT" layoutX="162.0" layoutY="147.0" prefHeight="21.0" prefWidth="64.0" text="Director" AnchorPane.leftAnchor="165.0" />
-                        <Label fx:id="actors" alignment="TOP_LEFT" layoutX="168.0" layoutY="183.0" prefHeight="71.0" prefWidth="214.0" text="Actors" AnchorPane.leftAnchor="165.0" />
-                        <Label fx:id="summery" layoutX="14.0" layoutY="292.0" text="Summery" />
+                        <Label fx:id="Year" alignment="TOP_LEFT" layoutX="169.0" layoutY="63.0" prefHeight="43.0" prefWidth="214.0" text="Year" wrapText="true" AnchorPane.leftAnchor="165.0" />
+                        <Label fx:id="genre" alignment="TOP_LEFT" layoutX="164.0" layoutY="106.0" prefHeight="43.0" prefWidth="214.0" text="Genere" wrapText="true" AnchorPane.leftAnchor="165.0" />
+                        <Label fx:id="director" alignment="TOP_LEFT" layoutX="162.0" layoutY="147.0" prefHeight="43.0" prefWidth="214.0" text="Director" wrapText="true" AnchorPane.leftAnchor="165.0" />
+                        <Label fx:id="actors" alignment="TOP_LEFT" layoutX="168.0" layoutY="183.0" prefHeight="71.0" prefWidth="214.0" text="Actors" wrapText="true" AnchorPane.leftAnchor="165.0" />
+                        <Label fx:id="summery" alignment="TOP_LEFT" layoutX="14.0" layoutY="292.0" prefHeight="252.0" prefWidth="351.0" text="Summery" wrapText="true" />
                         <Button layoutX="241.0" layoutY="592.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="31.0" prefWidth="62.0" text="Play" />
                         <ImageView fx:id="persenolRating" fitHeight="64.0" fitWidth="64.0" layoutX="19.0" layoutY="539.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resus/imdb%20(1).png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="rating" alignment="TOP_CENTER" layoutX="83.0" layoutY="561.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
+                        <Label fx:id="rating" alignment="TOP_LEFT" layoutX="83.0" layoutY="561.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
                         <ImageView fx:id="ratingStar1" fitHeight="64.0" fitWidth="64.0" layoutX="19.0" layoutY="596.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resus/imdb%20(1).png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="IMDbRating" alignment="TOP_CENTER" layoutX="83.0" layoutY="618.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
+                        <Label fx:id="IMDbRating" alignment="TOP_LEFT" layoutX="83.0" layoutY="618.0" prefHeight="21.0" prefWidth="48.0" text="3,5" />
                      </children>
                      <StackPane.margin>
                         <Insets left="600.0" />
-                     </StackPane.margin>
-                  </AnchorPane>
-                  <AnchorPane fx:id="closePopUp" onMouseClicked="#bringToBack" prefHeight="200.0" prefWidth="200.0">
-                     <StackPane.margin>
-                        <Insets right="400.0" />
                      </StackPane.margin>
                   </AnchorPane>
                </children>
             </StackPane>
             <AnchorPane fx:id="gridAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="734.0" prefWidth="990.0" style="-fx-background-color: pink;">
                <children>
-                  <ScrollPane fx:id="scrollpane" prefHeight="685.0" prefWidth="990.0" style="-fx-background-color: green;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ScrollPane fx:id="scrollpane" prefHeight="685.0" prefWidth="990.0" style="-fx-background-color: green;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <AnchorPane fx:id="anchorGrid" prefHeight="757.0" prefWidth="1117.0" />
+                     </content></ScrollPane>
                </children>
             </AnchorPane>
          </children>
       </StackPane>
-      <MenuBar prefHeight="32.0" prefWidth="990.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
-                  <MenuItem mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
-                  <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
-                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem fx:id="aboutTab" mnemonicParsing="false" onAction="#aboutTab" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
    </children>
 </AnchorPane>

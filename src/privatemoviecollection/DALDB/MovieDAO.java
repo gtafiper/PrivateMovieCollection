@@ -53,10 +53,10 @@ public class MovieDAO {
 
         PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, movie.getTitle());
+        pst.setString(1, movie.getMovieTitle());
         pst.setString(2, movie.getFilePath());
         pst.setInt(3, movie.getRating());
-        pst.setString(4, movie.getlastView());
+        pst.setString(4, movie.getLastView());
 
         int rowsAffected = pst.executeUpdate();
         if (rowsAffected >= 1) {
@@ -134,7 +134,8 @@ public class MovieDAO {
      */
     public Movie createMovie(String fileLink, String imdbId) throws SQLException, IOException {
         System.out.println(imdbId);
-        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (title, fileLink, year, runtime, director, actors, plot, imdb_rating, poster) VALUES (?, ?, ?, ?, ?, ?, ? ,? ,?);";
+        String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (title, fileLink, "
+                + "year, runtime, director, actors, plot, imdb_rating, poster, user_rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         Connection con = sc.getConnection();
 
@@ -151,6 +152,8 @@ public class MovieDAO {
         st.setString(6, movieInfo.get(OmdbHandler.HASH_ACTORS));
         st.setString(9, movieInfo.get(OmdbHandler.HASH_POSTER));
         st.setString(7, movieInfo.get(OmdbHandler.HASH_PLOT));
+        st.setInt(10, 0);
+        
 
         st.executeUpdate();
 
@@ -207,7 +210,7 @@ public class MovieDAO {
                 + "WHERE MovieId = " + movie.getId());
 
         while (rs.next()) {
-            movie.addGenre(rs.getNString("Category"));
+            movie.addGenre(rs.getNString("Genre"));
         }
 
     }
@@ -267,7 +270,7 @@ public class MovieDAO {
 
         System.out.println(genre);
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Category] "
-                + "WHERE Genre = " + genre);
+                + "WHERE Genre = '" + genre + "';");
 
         while (rs.next()) {
 

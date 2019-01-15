@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 public class CheckMediaPlayer {
 
-    private static final String PROP_FILE = "src/privatemoviecollection/DAL/mediaplayerpath.path";
+    public static final String PROP_FILE = "src/privatemoviecollection/DAL/mediaplayerpath.path";
     public static final String TEMP_PROPFILE = "src/privatemoviecollection/DAL/temp_mediaplayerpath.path";
 
     public static Boolean CheckMediaPlayerPath() throws IOException {
