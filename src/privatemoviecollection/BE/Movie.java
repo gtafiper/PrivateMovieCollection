@@ -35,7 +35,7 @@ public class Movie {
      * @param lastView
      * @param fileLink
      */
-    public Movie(int id, String name, double rating, String fileLink)
+    public Movie(int id, String name, String rating, String fileLink)
     {
         this.id = id;
         this.movieTitle = name;

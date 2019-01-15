@@ -11,6 +11,7 @@ import java.util.List;
 import privatemoviecollection.DALDB.MovieDAO;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.DALDB.CategoryDAO;
+import privatemoviecollection.DAL.MediaPlayer;
 
 /**
  *
@@ -20,6 +21,8 @@ public class MovieManeger {
 
     MovieDAO movieDAO;
     CategoryDAO cateDAO;
+    
+    
 
     public MovieManeger() throws IOException {
     this.movieDAO = new MovieDAO();
@@ -65,6 +68,10 @@ public class MovieManeger {
     public void lastPlayDate (Movie movie) throws SQLException{
        movieDAO.lastePlayDate(movie);
      }
+    
+    public void getMediaPlayer(Movie movie) throws IOException {
+        MediaPlayer.openMediaPlayer(movie);
+    }
 
      public void addGenres(Movie movie)
      {
