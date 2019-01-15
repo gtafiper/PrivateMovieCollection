@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.BLL.Exception.MovieCollectionException;
 import privatemoviecollection.BLL.MovieManeger;
 
 /**
@@ -142,7 +143,7 @@ public class Model {
         try {
             logiclayer.setMediaPlayerPath(file);
         } catch (IOException ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
         }
     }
     
@@ -150,7 +151,7 @@ public class Model {
         try {
             return logiclayer.checkMediaPath();
         } catch (IOException ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
         }
         return false;
     }

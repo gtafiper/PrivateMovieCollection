@@ -48,6 +48,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.BLL.Exception.MovieCollectionException;
 import privatemoviecollection.GUI.Model.Model;
 
 /**
@@ -152,6 +153,7 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (!model.checkMediaPlayerPath()) {
+            new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Executables", "*.exe"));
             fc.setTitle("Open Windows Mediaplayer");

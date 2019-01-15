@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
+import privatemoviecollection.BLL.Exception.MovieCollectionException;
 
 /**
  *
@@ -32,11 +33,11 @@ public class CheckMediaPlayer {
         mediaplayerProperties.load(is);
         
         String path = mediaplayerProperties.getProperty("Path");
-        
         File file = new File(path);
         is.close();
         if (!file.exists()) {
             return false;
+            
         }
         return true;
     }
@@ -46,7 +47,7 @@ public class CheckMediaPlayer {
         File tempPropfile = new File(TEMP_PROPFILE);
         BufferedWriter bw = new BufferedWriter(new FileWriter(tempPropfile));
         
-        bw.write("Path=" + path.getAbsolutePath());
+        bw.write("Path=" + path.getAbsolutePath().replaceAll("\\\\", "/"));
         bw.close();
         Files.copy(tempPropfile.toPath(), new File(PROP_FILE).toPath(), StandardCopyOption.REPLACE_EXISTING);
         Files.delete(tempPropfile.toPath());
