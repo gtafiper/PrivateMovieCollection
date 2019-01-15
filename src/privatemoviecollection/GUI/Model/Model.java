@@ -45,7 +45,7 @@ public class Model {
      * @throws IOException
      * @throws SQLException
      */
-    private void createGenreMoviePairs() throws IOException, SQLException {
+    private void createGenreMoviePairs(){
         for (Movie movy : movies) {
             addMoviesToCategory(movy);
         }
@@ -81,8 +81,14 @@ public class Model {
        return ListOfCategorys;
    }
 
-      public void deleteMovie(Movie movie) throws SQLException{
-        logiclayer.deleteMovie(movie);
+      public void deleteMovie(Movie movie){
+        try
+        {
+            logiclayer.deleteMovie(movie);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException{
@@ -98,44 +104,124 @@ public class Model {
         
     }
 
-    public List<Movie> getAllMovies() throws SQLException {
-        return logiclayer.getAllMovies();
+    public List<Movie> getAllMovies(){
+        try
+        {
+            return logiclayer.getAllMovies();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-    public boolean updateMovie(Movie movie) throws SQLException {
-        return logiclayer.updateMovie(movie);
+    public boolean updateMovie(Movie movie){
+        try
+        {
+            return logiclayer.updateMovie(movie);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
-    public void addGenres(Movie movie) throws SQLException {
-        logiclayer.addGenres(movie);
+    public void addGenres(String genre, Movie movie){
+        try
+        {
+            logiclayer.addGenres(genre, movie);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void getGenres(Movie movie)
+    {
+        try
+        {
+            logiclayer.getGenres(movie);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void createCategory(String name) throws SQLException {
-        logiclayer.createCategory(name);
+    public boolean setRating(Movie movie, int rating)
+    {
+        try
+        {
+            return logiclayer.setRating(movie, rating);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public void createCategory(String name){
+        try
+        {
+            logiclayer.createCategory(name);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void addMovieToCategory(Movie movie, String category) throws SQLException {
-        logiclayer.addMovieToCategory(movie, category);
+    public void addMovieToCategory(Movie movie, String category){
+        try
+        {
+            logiclayer.addMovieToCategory(movie, category);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void getMoviesFromCategory(String category) throws SQLException {
-        logiclayer.getMoviesFromCategory(category);
+    public void getMoviesFromCategory(String category){
+        try
+        {
+            logiclayer.getMoviesFromCategory(category);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public ArrayList getAllCategory() throws SQLException {
-        return logiclayer.getAllCategory();
+    public ArrayList getAllCategory(){
+        try
+        {
+            return logiclayer.getAllCategory();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public String getlastView(){
        return movie.getlastView();
     }
     
-    public void lastePlayDate(Movie movie) throws SQLException {
-        logiclayer.lastPlayDate(movie);
+    public void lastePlayDate(Movie movie){
+        try
+        {
+            logiclayer.lastPlayDate(movie);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void getMediaPlayer(Movie movie) throws IOException {
-        logiclayer.getMediaPlayer(movie);
+    public void getMediaPlayer(Movie movie){
+        try
+        {
+            logiclayer.getMediaPlayer(movie);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void setMediaPlayerPath(File file) {
