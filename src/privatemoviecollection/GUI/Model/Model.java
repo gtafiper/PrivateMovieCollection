@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -165,6 +167,14 @@ public class Model {
         } catch (SQLException ex)
         {
             new MovieCollectionException("Error", "Could not create genre", name + " does not exist");
+        }
+    }
+    
+    public void deleteCategory(String category) {
+        try {
+            logiclayer.deleteCategory(category);
+        } catch (SQLException ex) {
+            new MovieCollectionException("Error", "Could not delete genre", category + " does not exist");
         }
     }
 

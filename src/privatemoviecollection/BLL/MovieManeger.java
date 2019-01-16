@@ -25,8 +25,8 @@ public class MovieManeger {
 
     MovieDAO movieDAO;
     CategoryDAO cateDAO;
-    
-    
+
+
 
     public MovieManeger() throws IOException {
     this.movieDAO = new MovieDAO();
@@ -72,7 +72,7 @@ public class MovieManeger {
     public void lastPlayDate (Movie movie) throws SQLException{
        movieDAO.lastePlayDate(movie);
      }
-    
+
     public void getMediaPlayer(Movie movie) throws IOException {
         MediaPlayer.openMediaPlayer(movie);
     }
@@ -80,25 +80,29 @@ public class MovieManeger {
     public void setMediaPlayerPath(File file) throws IOException {
         CheckMediaPlayer.setMediaPlayerPath(file);
     }
-    
+
     public boolean checkMediaPath() throws IOException {
         return CheckMediaPlayer.CheckMediaPlayerPath();
     }
-    
+
      public void addGenres(String genre, Movie movie) throws SQLException
      {
          movieDAO.addGenre(genre, movie);
      }
-     
+
      public boolean isDoDateOver(Movie movie) throws ParseException{
          return CheckMediaPlayer.isDoDateOver(movie);
+       }
+       
+       public void deleteCategory(String category) throws SQLException {
+           cateDAO.deleteCategory(category);
      }
 
 //    public void updateCategory(Category category) throws SQLException {
 //        cateDAO.updateCategory(category);
 //    }
 
-    public boolean setRating(Movie movie, int rating) throws SQLServerException, SQLException 
+    public boolean setRating(Movie movie, int rating) throws SQLServerException, SQLException
     {
         return movieDAO.setRating(movie, rating);
     }
