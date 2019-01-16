@@ -120,7 +120,6 @@ public class FXMLDocumentController implements Initializable
     private ColumnConstraints columnConstraints;
     private RowConstraints rowConstraints;
     private ArrayList<MovieImage> movieImages;
-
     private ObservableList<Movie> moviesToDelete1;
     private Movie movieClass;
     private Model model;
@@ -201,7 +200,7 @@ public class FXMLDocumentController implements Initializable
             @Override
             public void handle(ActionEvent event)
             {
-                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
+                play(null);
             }
         });
 
@@ -211,7 +210,7 @@ public class FXMLDocumentController implements Initializable
             @Override
             public void handle(ActionEvent event)
             {
-                //model.addGenres(movieClass);
+                //model.addGenre(;
 
             }
         });
@@ -313,7 +312,7 @@ public class FXMLDocumentController implements Initializable
                 {
                     contexMenu.hide();
                     contexMenu.show(image.getImageview(), event.getScreenX(), event.getScreenY());
-
+                    activeMovie = image.getMovie();
                 }
             });
 
@@ -423,7 +422,7 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void play(MouseEvent event) throws IOException, SQLException
+    private void play(MouseEvent event)
     {
         model.getMediaPlayer(activeMovie);
         model.lastePlayDate(activeMovie);
