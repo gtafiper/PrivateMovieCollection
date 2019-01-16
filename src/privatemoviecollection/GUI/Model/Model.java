@@ -8,6 +8,7 @@ package privatemoviecollection.GUI.Model;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -232,6 +233,15 @@ public class Model {
             return logiclayer.checkMediaPath();
         } catch (IOException ex) {
             new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
+        }
+        return false;
+    }
+    
+     public boolean isDoDateOver(Movie movie){
+        try {
+            return logiclayer.isDoDateOver(movie);
+        } catch (ParseException ex) {
+             new MovieCollectionException("", "", "to do");
         }
         return false;
     }

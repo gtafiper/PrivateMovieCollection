@@ -8,6 +8,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.DALDB.MovieDAO;
@@ -87,6 +88,10 @@ public class MovieManeger {
      public void addGenres(String genre, Movie movie) throws SQLException
      {
          movieDAO.addGenre(genre, movie);
+     }
+     
+     public boolean isDoDateOver(Movie movie) throws ParseException{
+         return CheckMediaPlayer.isDoDateOver(movie);
      }
 
 //    public void updateCategory(Category category) throws SQLException {

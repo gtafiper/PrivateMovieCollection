@@ -109,10 +109,10 @@ public class MovieDAO {
             String imdb_rating = rs.getNString("imdb_rating");
             String poster = rs.getNString("poster");
 
-            Movie movie = new Movie(id, movieTitle, rating, fileLink, lastView,
+            Movie movie = new Movie(id, movieTitle, rating, fileLink,
                     year, runtime, director, actors, plot,
                     imdb_rating, poster);
-
+            movie.setLastView(lastView);
             getGenres(movie);
             movies.add(movie);
 
@@ -167,13 +167,12 @@ public class MovieDAO {
         }
         con.close();
         int rating = 0;
-        String lastplaydate = "";
+        
 
         Movie movie = new Movie(id,
                 movieInfo.get(OmdbHandler.HASH_TITLE),
                 rating,
                 fileLink,
-                lastplaydate,
                 movieInfo.get(OmdbHandler.HASH_YEAR),
                 movieInfo.get(OmdbHandler.HASH_RUNTIME),
                 movieInfo.get(OmdbHandler.HASH_DIRECTOR),
@@ -290,7 +289,7 @@ public class MovieDAO {
     public void lastePlayDate(Movie movie) throws SQLServerException, SQLException {
 
         Calendar cal = Calendar.getInstance();
-        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        DateFormat df = new SimpleDateFormat("dd MM yyyy");
 
         movie.setLastView(df.format(cal.getTime()));
 
@@ -303,8 +302,11 @@ public class MovieDAO {
         String date = df.format(cal.getTime());
 
         pst.setString(1, date);
+        
+        pst.executeUpdate();
 
         movie.setLastView(date);
+        System.out.println(date);
 
     }
 
