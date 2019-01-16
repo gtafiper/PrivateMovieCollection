@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="632.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddMovieController">
+<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="632.0" style="-fx-background-color: #595959;" stylesheets="@../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddMovieController">
    <children>
       <Button fx:id="btnChooseFile" layoutX="290.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#OpenFileChooser" text="Choose file" AnchorPane.rightAnchor="15.800000000000011" />
-      <Text layoutX="26.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Location" />
-      <Text layoutX="26.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDB URL" wrappingWidth="95.55978393554688" />
+      <Text fill="#e4d3d3" layoutX="26.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Location" />
+      <Text fill="#e4d3d3" layoutX="26.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDB URL" wrappingWidth="95.55978393554688" />
       <TextField fx:id="txtfldURL" layoutX="26.0" layoutY="119.0" prefHeight="26.0" prefWidth="478.0" promptText="Enter URL" />
       <Button fx:id="runbtn" layoutX="328.0" layoutY="166.0" mnemonicParsing="false" onMouseClicked="#btnToDAL" text="OK" AnchorPane.rightAnchor="20.19999999999999" />
       <TextField fx:id="txtfldFileLocation" layoutX="26.0" layoutY="39.0" prefHeight="26.0" prefWidth="477.0" />

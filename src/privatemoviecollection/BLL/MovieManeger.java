@@ -88,6 +88,10 @@ public class MovieManeger {
      {
          movieDAO.addGenre(genre, movie);
      }
+     
+     public void deleteCategory(String category) throws SQLException {
+         cateDAO.deleteCategory(category);
+     }
 
 //    public void updateCategory(Category category) throws SQLException {
 //        cateDAO.updateCategory(category);

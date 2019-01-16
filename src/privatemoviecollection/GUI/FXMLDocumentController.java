@@ -35,6 +35,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -214,9 +215,17 @@ public class FXMLDocumentController implements Initializable
                 throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
             }
         });
+        
+        MenuItem deleteGenre = new MenuItem("Delete Genre");
+        deleteGenre.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                deleteCategoryAction();
+            }
+        });
 
-        MenuItem addGengre = new MenuItem("Add Genre");
-        addGengre.setOnAction(new EventHandler<ActionEvent>()
+        MenuItem addGenre = new MenuItem("Add Genre");
+        addGenre.setOnAction(new EventHandler<ActionEvent>()
         {
             @Override
             public void handle(ActionEvent event)
@@ -226,7 +235,7 @@ public class FXMLDocumentController implements Initializable
             }
         });
 
-        contexMenu.getItems().addAll(delete, play, addGengre);
+        contexMenu.getItems().addAll(play, addGenre, delete, deleteGenre);
 
         // create new constraints for columns and set their percentage
         columnConstraints = new ColumnConstraints();
@@ -540,7 +549,13 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void aboutTab(ActionEvent event)
     {
-
+       Alert aboutUs = new Alert(Alert.AlertType.INFORMATION);
+                
+        aboutUs.setTitle("About Us");
+        aboutUs.setHeaderText("Disaster Respone Unit");
+        aboutUs.setContentText("We made this program with love and care :) ");
+        
+        aboutUs.showAndWait();
     }
     
     @FXML
@@ -611,6 +626,25 @@ public class FXMLDocumentController implements Initializable
     private void searchBarAction(KeyEvent event)
     {
         reloadGrid();
+    }
+    
+    private void deleteCategoryAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/DeleteCategory.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Delete genre from movie");
+            stage.setScene(new Scene(root));
+
+            stage.show();
+            
+            DeleteCategoryController control = loader.getController();
+            control.setModel(model);
+            control.setStage(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     }
 
 }

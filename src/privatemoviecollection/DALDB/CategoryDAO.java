@@ -113,6 +113,21 @@ public class CategoryDAO {
             
         }
     }
+    
+    public void deleteCategory(String category) throws SQLServerException, SQLException {
+        Connection con = server.getConnection();
+        Statement st = con.createStatement();
+        
+        st.executeQuery("DELETE FROM"
+                + "[PrivateMovieCollectionName].[dbo].[CatMovie] WHERE = " + getCategoryId(category)
+        );
+        
+        st.executeQuery("DELETE FROM"
+            + "[PrivateMovieCollectionName].[dbo].[Category] WHERE Genre = " + category
+        );
+        
+        con.close();
+    }
 
 
 

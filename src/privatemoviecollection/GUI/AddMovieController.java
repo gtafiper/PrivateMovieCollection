@@ -73,8 +73,14 @@ public class AddMovieController implements Initializable {
 
     @FXML
     private void btnToDAL(MouseEvent event) throws SQLException, IOException {
-        URL();
-        model.CreateMovie(moviePath, imdbid);
+        
+        
+        try {
+            URL();
+            model.CreateMovie(moviePath, imdbid);
+        } catch (Exception e) {
+            
+        }
 
         stage.close();
     }
