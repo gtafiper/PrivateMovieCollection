@@ -545,7 +545,9 @@ public class FXMLDocumentController implements Initializable
     {
 
     }
-
+    /**
+     * search bar 
+     */
     private void searchBarMovie()
     {
         movieImage = new FilteredList(movieImages, p -> true);
