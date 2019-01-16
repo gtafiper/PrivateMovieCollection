@@ -130,7 +130,6 @@ public class FXMLDocumentController implements Initializable
     private Movie movieClass;
     private Model model;
     private FilteredList<MovieImage> movieImage;
-    private FilteredList<MovieImage> movieImages;
     private SortedList<MovieImage> sortedData;
 
     @FXML
