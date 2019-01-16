@@ -127,7 +127,6 @@ public class FXMLDocumentController implements Initializable
     private RowConstraints rowConstraints;
     private ObservableList<MovieImage> allMovieImages;
     private ObservableList<MovieImage> activeMovieImages;
-
     private ObservableList<Movie> moviesToDelete1;
     private Movie movieClass;
     private Model model;
@@ -212,7 +211,7 @@ public class FXMLDocumentController implements Initializable
             @Override
             public void handle(ActionEvent event)
             {
-                throw new UnsupportedOperationException(""); //To change body of generated methods, choose Tools | Templates.
+                play(null);
             }
         });
         
@@ -230,7 +229,7 @@ public class FXMLDocumentController implements Initializable
             @Override
             public void handle(ActionEvent event)
             {
-                //model.addGenres(movieClass);
+                //model.addGenre(;
 
             }
         });
@@ -330,7 +329,7 @@ public class FXMLDocumentController implements Initializable
                 {
                     contexMenu.hide();
                     contexMenu.show(image.getImageview(), event.getScreenX(), event.getScreenY());
-
+                    activeMovie = image.getMovie();
                 }
             });
 
@@ -344,7 +343,7 @@ public class FXMLDocumentController implements Initializable
         }
         activeMovieImages = FXCollections.observableArrayList();
         activeMovieImages.addAll(allMovieImages);
-        
+
         reloadGrid();
 
         if (moviesToDelete.size() > 0)
@@ -379,7 +378,7 @@ public class FXMLDocumentController implements Initializable
             }
         });
 
-       searchBarMovie(); 
+       searchBarMovie();
 
     }
 
@@ -439,7 +438,7 @@ public class FXMLDocumentController implements Initializable
     }
 
     @FXML
-    private void play(MouseEvent event) throws IOException, SQLException
+    private void play(MouseEvent event)
     {
         model.getMediaPlayer(activeMovie);
         model.lastePlayDate(activeMovie);
@@ -557,12 +556,12 @@ public class FXMLDocumentController implements Initializable
         
         aboutUs.showAndWait();
     }
-    
+
     @FXML
     private void sortByGenre(Event event) {
         String genre = genreComBox.getSelectionModel().getSelectedItem();
         ObservableList<MovieImage> movimg = FXCollections.observableArrayList();
-        
+
 
         for (MovieImage movie : allMovieImages) {
             if (movie.getMovie().getGenres().contains(genre)) {
@@ -572,9 +571,9 @@ public class FXMLDocumentController implements Initializable
         }
 
         activeMovieImages = movimg;
-        
+
         searchBarMovie();
-        
+
         reloadGrid();
       }
 
