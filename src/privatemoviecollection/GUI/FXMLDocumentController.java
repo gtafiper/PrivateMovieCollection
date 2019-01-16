@@ -25,6 +25,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +33,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -123,11 +123,14 @@ public class FXMLDocumentController implements Initializable
     private GridPane moviegrid;
     private ColumnConstraints columnConstraints;
     private RowConstraints rowConstraints;
-    private ObservableList<MovieImage> movieImages;
+    private ArrayList<MovieImage> allMovieImages;
+    private ArrayList<MovieImage> activeMovieImages;
+
     private ObservableList<Movie> moviesToDelete1;
     private Movie movieClass;
     private Model model;
     private FilteredList<MovieImage> movieImage;
+    private FilteredList<MovieImage> movieImages;
     private SortedList<MovieImage> sortedData;
 
     @FXML
@@ -263,7 +266,7 @@ public class FXMLDocumentController implements Initializable
         col = 0;
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
-        movieImages = FXCollections.observableArrayList();
+        allMovieImages = new ArrayList<>();
         for (Movie movie : movies)
         {
 
@@ -326,10 +329,12 @@ public class FXMLDocumentController implements Initializable
             {
                 moviesToDelete.add(movie);
             }
-            movieImages.add(image);
+            allMovieImages.add(image);
 
             //model.getlastView()
         }
+        activeMovieImages = new ArrayList<>();
+        activeMovieImages.addAll(allMovieImages);
         reloadGrid();
 
         if (moviesToDelete.size() > 0)
@@ -365,12 +370,11 @@ public class FXMLDocumentController implements Initializable
         });
 
         searchBarMovie();
-        
+
     }
 
     private void reloadGrid()
     {
-        System.out.println("go");
         anchorGrid.getChildren().clear();
         moviegrid = new GridPane();
         moviegrid.getRowConstraints().add(rowConstraints);
@@ -383,7 +387,7 @@ public class FXMLDocumentController implements Initializable
 
         col = 0;
         row = 0;
-        for (MovieImage image : movieImages)
+        for (MovieImage image : activeMovieImages)
         {
 
             moviegrid.add(image.getImageview(), col, row);
@@ -402,18 +406,14 @@ public class FXMLDocumentController implements Initializable
 
     private void resizeGrit(double width)
     {
-        System.out.println("s:" + width);
         if (width > COLLUMTHRESHOLD * (collumNum + 1) - 20)
         {
-            System.out.println("up:" + COLLUMTHRESHOLD * collumNum);
-
             collumNum++;
             reloadGrid();
             resizeGrit(width);
         }
         if (width < COLLUMTHRESHOLD * (collumNum) - 20)
         {
-            System.out.println("ned:" + COLLUMTHRESHOLD * (collumNum - 1));
             collumNum--;
             reloadGrid();
             resizeGrit(width);
@@ -535,10 +535,6 @@ public class FXMLDocumentController implements Initializable
 
     }
 
-    @FXML
-    private void addGenre(MouseEvent event)
-    {
-    }
 
     @FXML
     private void aboutTab(ActionEvent event)
@@ -546,7 +542,7 @@ public class FXMLDocumentController implements Initializable
 
     }
     /**
-     * search bar 
+     * search bar
      */
     private void searchBarMovie()
     {
@@ -563,30 +559,61 @@ public class FXMLDocumentController implements Initializable
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter))
-                {
-                    return true;
-                } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter))
-                {
-                    return true;
-                } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter))
-                {
-                    return true;
-                } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter))
-                {
-                    return true;
-                }
-                
-                for (String genre1 : movie.getMovie().getGenres())
-                {
-                    if (genre1.toLowerCase().contains(lowerCaseFilter))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            });
-        });
+    @FXML
+    private void sortByGenre(Event event) {
+        String genre = genreComBox.getSelectionModel().getSelectedItem();
+        ArrayList<MovieImage> movimg = new ArrayList<>();
+
+        for (MovieImage movie : allMovieImages) {
+            if (movie.getMovie().getGenres().contains(genre)) {
+                movimg.add(movie);
+            }
+
+        }
+
+        activeMovieImages = movimg;
+        reloadGrid();
+      }
+
+      private void searchBarMovie()
+      {
+          movieImage = new FilteredList(movieImages, p -> true);
+          searchBar.textProperty().addListener((observable, oldValue, newValue)
+                  ->
+          {
+              movieImage.setPredicate(movie
+                      ->
+              {
+                  if (newValue == null || newValue.isEmpty())
+                  {
+                      return true;
+                  }
+                  String lowerCaseFilter = newValue.toLowerCase();
+
+                  if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter))
+                  {
+                      return true;
+                  } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter))
+                  {
+                      return true;
+                  } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter))
+                  {
+                      return true;
+                  } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter))
+                  {
+                      return true;
+                  }
+
+                  for (String genre1 : movie.getMovie().getGenres())
+                  {
+                      if (genre1.toLowerCase().contains(lowerCaseFilter))
+                      {
+                          return true;
+                      }
+                  }
+                  return false;
+              });
+          });
     }
 
 }

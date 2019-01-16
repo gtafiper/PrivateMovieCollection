@@ -81,7 +81,7 @@ public class CategoryDAO {
         Statement st = con.createStatement();
         ResultSet resultSet = st.executeQuery("SELECT * "
                 + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
-                + "WHERE Genre = " + category);
+                + "WHERE Genre =" + category);
 
         int id = 0;
         while (resultSet.next()) {
@@ -110,7 +110,7 @@ public class CategoryDAO {
 
         ArrayList<Movie> moives = new ArrayList<>();
         while (rs.next()) {
-
+            
         }
     }
 
