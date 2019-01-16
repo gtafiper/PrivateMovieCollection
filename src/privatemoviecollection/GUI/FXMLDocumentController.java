@@ -22,6 +22,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +30,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -119,7 +119,8 @@ public class FXMLDocumentController implements Initializable
     private GridPane moviegrid;
     private ColumnConstraints columnConstraints;
     private RowConstraints rowConstraints;
-    private ArrayList<MovieImage> movieImages;
+    private ArrayList<MovieImage> allMovieImages;
+    private ArrayList<MovieImage> activeMovieImages;
 
     private ObservableList<Movie> moviesToDelete1;
     private Movie movieClass;
@@ -258,7 +259,7 @@ public class FXMLDocumentController implements Initializable
         col = 0;
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
-        movieImages = new ArrayList<>();
+        allMovieImages = new ArrayList<>();
         for (Movie movie : movies)
         {
 
@@ -321,11 +322,13 @@ public class FXMLDocumentController implements Initializable
             {
                 moviesToDelete.add(movie);
             }
-            movieImages.add(image);
+            allMovieImages.add(image);
 
             
             //model.getlastView()
         }
+        activeMovieImages = new ArrayList<>();
+        activeMovieImages.addAll(allMovieImages);
         reloadGrid();
 
         if (moviesToDelete.size() > 0)
@@ -364,7 +367,6 @@ public class FXMLDocumentController implements Initializable
 
     private void reloadGrid()
     {
-        System.out.println("go");
         anchorGrid.getChildren().clear();
         moviegrid = new GridPane();
         moviegrid.getRowConstraints().add(rowConstraints);
@@ -377,7 +379,7 @@ public class FXMLDocumentController implements Initializable
 
         col = 0;
         row = 0;
-        for (MovieImage image : movieImages)
+        for (MovieImage image : activeMovieImages)
         {
 
             moviegrid.add(image.getImageview(), col, row);
@@ -396,18 +398,14 @@ public class FXMLDocumentController implements Initializable
 
     private void resizeGrit(double width)
     {
-        System.out.println("s:" + width);
         if (width > COLLUMTHRESHOLD * (collumNum + 1) - 20)
         {
-            System.out.println("up:" + COLLUMTHRESHOLD * collumNum);
-
             collumNum++;
             reloadGrid();
             resizeGrit(width);
         }
         if (width < COLLUMTHRESHOLD * (collumNum) - 20)
         {
-            System.out.println("ned:" + COLLUMTHRESHOLD * (collumNum - 1));
             collumNum--;
             reloadGrid();
             resizeGrit(width);
@@ -529,15 +527,42 @@ public class FXMLDocumentController implements Initializable
 
     }
 
-    @FXML
-    private void addGenre(MouseEvent event)
-    {
-    }
 
     @FXML
     private void aboutTab(ActionEvent event)
     {
 
+    }
+
+//    private void sortByGenre(MouseEvent event) throws SQLException {
+//        String genre = genreComBox.getSelectionModel().getSelectedItem();
+//        ArrayList<MovieImage> movimg = new ArrayList<>();
+//        
+//        for (MovieImage movie : activeMovieImages) {
+//            if (movie.getMovie().getGenres().contains(genre)) {
+//                movimg.add(movie);
+//            }
+//            
+//        }
+//        
+//        activeMovieImages = movimg;
+//        reloadGrid();
+//    }
+
+    @FXML
+    private void sortByGenre(Event event) {
+        String genre = genreComBox.getSelectionModel().getSelectedItem();
+        ArrayList<MovieImage> movimg = new ArrayList<>();
+        
+        for (MovieImage movie : allMovieImages) {
+            if (movie.getMovie().getGenres().contains(genre)) {
+                movimg.add(movie);
+            }
+            
+        }
+        
+        activeMovieImages = movimg;
+        reloadGrid();
     }
 
 }

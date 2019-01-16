@@ -197,7 +197,7 @@
       </StackPane>
       <AnchorPane layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="46.0" prefWidth="1119.0" style="-fx-background-color: #494444;" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="25.0">
          <children>
-            <ComboBox fx:id="genreComBox" layoutX="34.0" onMouseClicked="#addGenre" prefHeight="32.0" prefWidth="150.0" promptText="Genre" visibleRowCount="5" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0" />
+            <ComboBox fx:id="genreComBox" layoutX="34.0" onHiding="#sortByGenre" prefHeight="32.0" prefWidth="150.0" promptText="Genre" visibleRowCount="5" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0" />
             <TextField layoutX="571.0" layoutY="7.0" minHeight="27.0" prefHeight="25.0" prefWidth="477.0" promptText="Search" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="10.0" />
          </children>
       </AnchorPane>
