@@ -74,7 +74,7 @@
                         <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#aea4a4" height="31.0" layoutX="19.0" layoutY="556.0" stroke="BLACK" strokeType="INSIDE" width="113.0" AnchorPane.rightAnchor="258.0" AnchorPane.topAnchor="556.0" />
                         <ImageView fx:id="persenolRating" fitHeight="64.0" fitWidth="64.0" layoutX="19.0" layoutY="539.0" onMouseClicked="#rate" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../resus/imdb%20(1).png" />
+                              <Image url="@../../resus/gimp.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="lblRating" alignment="CENTER" layoutX="83.0" layoutY="561.0" prefHeight="21.0" prefWidth="48.0" text="3,5" textAlignment="CENTER" />
@@ -189,7 +189,7 @@
                <children>
                   <ScrollPane fx:id="scrollpane" prefHeight="685.0" prefWidth="990.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <AnchorPane fx:id="anchorGrid" prefHeight="757.0" prefWidth="1117.0" style="-fx-background-color: #895050;" />
+                        <AnchorPane fx:id="anchorGrid" prefHeight="774.0" prefWidth="1123.0" style="-fx-background-color: #895050;" />
                      </content></ScrollPane>
                </children>
             </AnchorPane>

@@ -487,9 +487,6 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @FXML
-    private void addGenre(MouseEvent event) {
-    }
 
 
     private void rateMovie(int rating) {
@@ -676,6 +673,10 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    @FXML
+    private void searchBarAction(ActionEvent event) {
     }
 
 }

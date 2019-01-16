@@ -69,6 +69,7 @@ public class MoviesToDeleteController implements Initializable {
     public void deleteAllOverDoMovies(){
         for(Movie m: moviestoDelete){
         model.deleteMovie(m);
+        moviestoDelete.clear();
     }
         stage.close();
     }
@@ -76,7 +77,8 @@ public class MoviesToDeleteController implements Initializable {
     @FXML
     public void postePoneAllMovies(){
         for(Movie m: moviestoDelete){
-            model.lastePlayDate(m);
+         model.lastePlayDate(m);
+         moviestoDelete.clear();
         }
     }
     
@@ -109,6 +111,7 @@ public class MoviesToDeleteController implements Initializable {
             public void handle(ActionEvent event) {
                  Movie movie = listview.getSelectionModel().getSelectedItem();
                 model.deleteMovie(movie);
+                moviestoDelete.remove(movie);
 
             }
         });
@@ -122,6 +125,7 @@ public class MoviesToDeleteController implements Initializable {
            public void handle(ActionEvent event) {
                Movie movie = listview.getSelectionModel().getSelectedItem();
                model.lastePlayDate(movie);
+               
            }
        });
 
