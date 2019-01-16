@@ -45,6 +45,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -123,8 +124,8 @@ public class FXMLDocumentController implements Initializable
     private GridPane moviegrid;
     private ColumnConstraints columnConstraints;
     private RowConstraints rowConstraints;
-    private ArrayList<MovieImage> allMovieImages;
-    private ArrayList<MovieImage> activeMovieImages;
+    private ObservableList<MovieImage> allMovieImages;
+    private ObservableList<MovieImage> activeMovieImages;
 
     private ObservableList<Movie> moviesToDelete1;
     private Movie movieClass;
@@ -265,7 +266,7 @@ public class FXMLDocumentController implements Initializable
         col = 0;
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
-        allMovieImages = new ArrayList<>();
+        allMovieImages = FXCollections.observableArrayList();
         for (Movie movie : movies)
         {
 
@@ -332,8 +333,9 @@ public class FXMLDocumentController implements Initializable
 
             //model.getlastView()
         }
-        activeMovieImages = new ArrayList<>();
+        activeMovieImages = FXCollections.observableArrayList();
         activeMovieImages.addAll(allMovieImages);
+        
         reloadGrid();
 
         if (moviesToDelete.size() > 0)
@@ -368,7 +370,7 @@ public class FXMLDocumentController implements Initializable
             }
         });
 
-        searchBarMovie();
+       searchBarMovie(); 
 
     }
 
@@ -544,7 +546,8 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void sortByGenre(Event event) {
         String genre = genreComBox.getSelectionModel().getSelectedItem();
-        ArrayList<MovieImage> movimg = new ArrayList<>();
+        ObservableList<MovieImage> movimg = FXCollections.observableArrayList();
+        
 
         for (MovieImage movie : allMovieImages) {
             if (movie.getMovie().getGenres().contains(genre)) {
@@ -554,12 +557,15 @@ public class FXMLDocumentController implements Initializable
         }
 
         activeMovieImages = movimg;
+        
+        searchBarMovie();
+        
         reloadGrid();
       }
 
       private void searchBarMovie()
       {
-          movieImage = new FilteredList(movieImages, p -> true);
+          movieImage = new FilteredList(activeMovieImages, p -> true);
           searchBar.textProperty().addListener((observable, oldValue, newValue)
                   ->
           {
@@ -596,6 +602,15 @@ public class FXMLDocumentController implements Initializable
                   return false;
               });
           });
+          sortedData = new SortedList<>(movieImage); // Wrap the FilteredList in a SortedList.
+          activeMovieImages = movieImage;
+    }
+
+
+    @FXML
+    private void searchBarAction(KeyEvent event)
+    {
+        reloadGrid();
     }
 
 }
