@@ -540,7 +540,23 @@ public class FXMLDocumentController implements Initializable
     {
 
     }
-
+    /**
+     * search bar
+     */
+    private void searchBarMovie()
+    {
+        movieImage = new FilteredList(movieImages, p -> true);
+        searchBar.textProperty().addListener((observable, oldValue, newValue)
+                ->
+        {
+            movieImage.setPredicate(movie
+                    ->
+            {
+                if (newValue == null || newValue.isEmpty())
+                {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
 
     @FXML
     private void sortByGenre(Event event) {
