@@ -20,8 +20,12 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +33,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -38,9 +41,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -119,10 +124,13 @@ public class FXMLDocumentController implements Initializable
     private GridPane moviegrid;
     private ColumnConstraints columnConstraints;
     private RowConstraints rowConstraints;
-    private ArrayList<MovieImage> movieImages;
+    private ObservableList<MovieImage> allMovieImages;
+    private ObservableList<MovieImage> activeMovieImages;
     private ObservableList<Movie> moviesToDelete1;
     private Movie movieClass;
     private Model model;
+    private FilteredList<MovieImage> movieImage;
+    private SortedList<MovieImage> sortedData;
 
     @FXML
     private ImageView imegePreview;
@@ -150,6 +158,8 @@ public class FXMLDocumentController implements Initializable
     private AnchorPane anchorGrid;
     @FXML
     private Label runtime;
+    @FXML
+    private TextField searchBar;
 
     /**
      * Initializes the controller class.
@@ -216,8 +226,6 @@ public class FXMLDocumentController implements Initializable
         });
 
         contexMenu.getItems().addAll(delete, play, addGengre);
-        
-                
 
         // create new constraints for columns and set their percentage
         columnConstraints = new ColumnConstraints();
@@ -257,7 +265,7 @@ public class FXMLDocumentController implements Initializable
         col = 0;
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
-        movieImages = new ArrayList<>();
+        allMovieImages = FXCollections.observableArrayList();
         for (Movie movie : movies)
         {
 
@@ -320,11 +328,13 @@ public class FXMLDocumentController implements Initializable
             {
                 moviesToDelete.add(movie);
             }
-            movieImages.add(image);
+            allMovieImages.add(image);
 
-            
             //model.getlastView()
         }
+        activeMovieImages = FXCollections.observableArrayList();
+        activeMovieImages.addAll(allMovieImages);
+
         reloadGrid();
 
         if (moviesToDelete.size() > 0)
@@ -359,11 +369,12 @@ public class FXMLDocumentController implements Initializable
             }
         });
 
+       searchBarMovie();
+
     }
 
     private void reloadGrid()
     {
-        System.out.println("go");
         anchorGrid.getChildren().clear();
         moviegrid = new GridPane();
         moviegrid.getRowConstraints().add(rowConstraints);
@@ -376,7 +387,7 @@ public class FXMLDocumentController implements Initializable
 
         col = 0;
         row = 0;
-        for (MovieImage image : movieImages)
+        for (MovieImage image : activeMovieImages)
         {
 
             moviegrid.add(image.getImageview(), col, row);
@@ -395,18 +406,14 @@ public class FXMLDocumentController implements Initializable
 
     private void resizeGrit(double width)
     {
-        System.out.println("s:" + width);
         if (width > COLLUMTHRESHOLD * (collumNum + 1) - 20)
         {
-            System.out.println("up:" + COLLUMTHRESHOLD * collumNum);
-
             collumNum++;
             reloadGrid();
             resizeGrit(width);
         }
         if (width < COLLUMTHRESHOLD * (collumNum) - 20)
         {
-            System.out.println("ned:" + COLLUMTHRESHOLD * (collumNum - 1));
             collumNum--;
             reloadGrid();
             resizeGrit(width);
@@ -528,15 +535,81 @@ public class FXMLDocumentController implements Initializable
 
     }
 
-    @FXML
-    private void addGenre(MouseEvent event)
-    {
-    }
 
     @FXML
     private void aboutTab(ActionEvent event)
     {
 
+    }
+
+    @FXML
+    private void sortByGenre(Event event) {
+        String genre = genreComBox.getSelectionModel().getSelectedItem();
+        ObservableList<MovieImage> movimg = FXCollections.observableArrayList();
+
+
+        for (MovieImage movie : allMovieImages) {
+            if (movie.getMovie().getGenres().contains(genre)) {
+                movimg.add(movie);
+            }
+
+        }
+
+        activeMovieImages = movimg;
+
+        searchBarMovie();
+
+        reloadGrid();
+      }
+
+      private void searchBarMovie()
+      {
+          movieImage = new FilteredList(activeMovieImages, p -> true);
+          searchBar.textProperty().addListener((observable, oldValue, newValue)
+                  ->
+          {
+              movieImage.setPredicate(movie
+                      ->
+              {
+                  if (newValue == null || newValue.isEmpty())
+                  {
+                      return true;
+                  }
+                  String lowerCaseFilter = newValue.toLowerCase();
+
+                  if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter))
+                  {
+                      return true;
+                  } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter))
+                  {
+                      return true;
+                  } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter))
+                  {
+                      return true;
+                  } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter))
+                  {
+                      return true;
+                  }
+
+                  for (String genre1 : movie.getMovie().getGenres())
+                  {
+                      if (genre1.toLowerCase().contains(lowerCaseFilter))
+                      {
+                          return true;
+                      }
+                  }
+                  return false;
+              });
+          });
+          sortedData = new SortedList<>(movieImage); // Wrap the FilteredList in a SortedList.
+          activeMovieImages = movieImage;
+    }
+
+
+    @FXML
+    private void searchBarAction(KeyEvent event)
+    {
+        reloadGrid();
     }
 
 }
