@@ -20,7 +20,10 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,6 +41,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
@@ -119,11 +123,12 @@ public class FXMLDocumentController implements Initializable
     private GridPane moviegrid;
     private ColumnConstraints columnConstraints;
     private RowConstraints rowConstraints;
-    private ArrayList<MovieImage> movieImages;
-
+    private ObservableList<MovieImage> movieImages;
     private ObservableList<Movie> moviesToDelete1;
     private Movie movieClass;
     private Model model;
+    private FilteredList<MovieImage> movieImage;
+    private SortedList<MovieImage> sortedData;
 
     @FXML
     private ImageView imegePreview;
@@ -151,6 +156,8 @@ public class FXMLDocumentController implements Initializable
     private AnchorPane anchorGrid;
     @FXML
     private Label runtime;
+    @FXML
+    private TextField searchBar;
 
     /**
      * Initializes the controller class.
@@ -217,8 +224,6 @@ public class FXMLDocumentController implements Initializable
         });
 
         contexMenu.getItems().addAll(delete, play, addGengre);
-        
-                
 
         // create new constraints for columns and set their percentage
         columnConstraints = new ColumnConstraints();
@@ -258,7 +263,7 @@ public class FXMLDocumentController implements Initializable
         col = 0;
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
-        movieImages = new ArrayList<>();
+        movieImages = FXCollections.observableArrayList();
         for (Movie movie : movies)
         {
 
@@ -323,7 +328,6 @@ public class FXMLDocumentController implements Initializable
             }
             movieImages.add(image);
 
-            
             //model.getlastView()
         }
         reloadGrid();
@@ -360,6 +364,8 @@ public class FXMLDocumentController implements Initializable
             }
         });
 
+        searchBarMovie();
+        
     }
 
     private void reloadGrid()
@@ -538,6 +544,47 @@ public class FXMLDocumentController implements Initializable
     private void aboutTab(ActionEvent event)
     {
 
+    }
+
+    private void searchBarMovie()
+    {
+        movieImage = new FilteredList(movieImages, p -> true);
+        searchBar.textProperty().addListener((observable, oldValue, newValue)
+                ->
+        {
+            movieImage.setPredicate(movie
+                    ->
+            {
+                if (newValue == null || newValue.isEmpty())
+                {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter))
+                {
+                    return true;
+                } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter))
+                {
+                    return true;
+                } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter))
+                {
+                    return true;
+                } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter))
+                {
+                    return true;
+                }
+                
+                for (String genre1 : movie.getMovie().getGenres())
+                {
+                    if (genre1.toLowerCase().contains(lowerCaseFilter))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        });
     }
 
 }
