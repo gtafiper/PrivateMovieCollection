@@ -97,7 +97,11 @@ public class MovieManeger {
        public void deleteCategory(String category) throws SQLException {
            cateDAO.deleteCategory(category);
      }
-
+       
+       public void deleteCategoryFromMovie(Movie movie, String category) throws SQLException {
+           cateDAO.deleteCategoryFromMovie(movie, category);
+       }
+       
 //    public void updateCategory(Category category) throws SQLException {
 //        cateDAO.updateCategory(category);
 //    }

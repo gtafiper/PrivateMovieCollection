@@ -24,7 +24,7 @@
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
-                  <MenuItem mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
+                  <MenuItem mnemonicParsing="false" onAction="#addGenreAndDeleteGenre" text="Add Genre/Delete Genre" />
                   <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
                   <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
             </items>
@@ -197,9 +197,31 @@
       </StackPane>
       <AnchorPane layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="46.0" prefWidth="1119.0" style="-fx-background-color: #494444;" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="25.0">
          <children>
-            <ComboBox fx:id="genreComBox" layoutX="34.0" onHiding="#sortByGenre" prefHeight="32.0" prefWidth="150.0" promptText="Genre" visibleRowCount="5" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0" />
-            <TextField fx:id="searchBar" layoutX="571.0" layoutY="7.0" minHeight="27.0" onAction="#searchBarAction" onKeyTyped="#searchBarAction" prefHeight="25.0" prefWidth="477.0" promptText="Search" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="10.0" />
+            <ComboBox fx:id="genreComBox" layoutX="34.0" onHiding="#sortByGenre" prefHeight="32.0" prefWidth="150.0" promptText="Genre" visibleRowCount="5" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="11.0" />
+            <TextField fx:id="searchBar" layoutX="571.0" layoutY="7.0" minHeight="27.0" onKeyTyped="#searchBarAction" prefHeight="25.0" prefWidth="477.0" promptText="Search" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="11.0" />
          </children>
       </AnchorPane>
+      <MenuBar prefHeight="25.0" prefWidth="1119.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
+                  <MenuItem mnemonicParsing="false" onAction="#addGenreAndDeleteGenre" text="Add Genre and Delete Genre" />
+                  <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
+                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutTab" mnemonicParsing="false" onAction="#aboutTab" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>
