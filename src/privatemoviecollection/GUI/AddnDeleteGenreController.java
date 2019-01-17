@@ -7,15 +7,17 @@ package privatemoviecollection.GUI;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import privatemoviecollection.GUI.Model.Model;
-
-
 
 /**
  * FXML Controller class
@@ -30,22 +32,29 @@ public class AddnDeleteGenreController implements Initializable {
     @FXML
     private TextField txtfldAddGenre;
     private String highlight;
-    
+
     private Stage stage;
+    @FXML
+    private Text label;
 
     public void setModel(Model model) {
         this.model = model;
         lstviewGenres.getItems().setAll(model.getAllCategory());
     }
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        lstviewGenres.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                label.setText("You Selected " + newValue);
+            }
+        });
+    }
+
     @FXML
     private void addGenreBTN(MouseEvent event) {
         String genre = txtfldAddGenre.getText();
@@ -59,7 +68,7 @@ public class AddnDeleteGenreController implements Initializable {
         model.deleteCategory(genre);
         lstviewGenres.getItems().setAll(model.getAllgenres());
     }
-    
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -73,7 +82,5 @@ public class AddnDeleteGenreController implements Initializable {
     private void highlight(MouseEvent event) {
         highlight = lstviewGenres.getSelectionModel().getSelectedItem();
     }
-    
-    
-    
+
 }

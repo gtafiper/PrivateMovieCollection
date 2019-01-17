@@ -449,6 +449,8 @@ public class FXMLDocumentController implements Initializable {
 
             Parent root = loader.load();
             Stage stage = new Stage();
+            stage.setAlwaysOnTop(true);
+            stage.setResizable(false);
             stage.setTitle("Add Movie");
             stage.setScene(new Scene(root));
             stage.show();
@@ -469,6 +471,8 @@ public class FXMLDocumentController implements Initializable {
             
             Parent root = loader.load();
             Stage stage = new Stage();
+            stage.setAlwaysOnTop(true);
+            stage.setResizable(false);
             stage.setTitle("Add or Delete Category");
             stage.setScene(new Scene(root));
             stage.show();
