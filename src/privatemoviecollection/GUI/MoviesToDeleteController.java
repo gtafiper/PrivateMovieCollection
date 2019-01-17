@@ -70,8 +70,9 @@ public class MoviesToDeleteController implements Initializable {
     public void postePoneAllMovies() {
         for (Movie m : moviestoDelete) {
             model.lastePlayDate(m);
-            moviestoDelete.clear();
+            listview.getItems().remove(m);
         }
+        
     }
 
     @FXML
