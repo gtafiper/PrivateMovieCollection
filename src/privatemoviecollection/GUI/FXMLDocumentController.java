@@ -472,7 +472,7 @@ public class FXMLDocumentController implements Initializable
                             model.deleteCategoryFromMovie(activeMovie, genre);
                             sort(null);
                             genreComBox.getItems().setAll(model.getAllHashGenres());
-                            
+
                         }
                     });
                     deleteGenre.getItems().add(genreItem);
@@ -818,35 +818,38 @@ public class FXMLDocumentController implements Initializable
         reloadGrid();
     }
 
-    private void searchBarMovie()
-    {
-
+    /**
+     *  a searchbar to search for movie title, actors, director, genre and the year it been make
+     */
+    private void searchBarMovie() {
+        //making a Filteredlist named movieImage and connect the searchbar with the movieImage
         searchBar.textProperty().addListener((observable, oldValue, newValue)
                 ->
         {
             movieImage.setPredicate(movie
                     ->
             {
+                //if the searchbar is empty show all movies
                 if (newValue == null || newValue.isEmpty())
                 {
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter))
+                if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter))//Filter the list with movie titles
                 {
                     return true;
-                } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter))
+                } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter))//Filter the list with the actors
                 {
                     return true;
-                } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter))
+                } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter)) //Filter the list to the director
                 {
                     return true;
-                } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter))
+                } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter)) //filter the list when the movie are made
                 {
                     return true;
                 }
-
+                //checking the list with genre though
                 for (String genre1 : movie.getMovie().getGenres())
                 {
                     if (genre1.toLowerCase().contains(lowerCaseFilter))
