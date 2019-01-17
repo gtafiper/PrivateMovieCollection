@@ -577,8 +577,12 @@ public class FXMLDocumentController implements Initializable
         reloadGrid();
       }
 
+    /**
+     * a searchbar to search for movie title, actors, director, genre and the year it been make
+     */
       private void searchBarMovie()
       {
+          //making a Filteredlist named movieImage and connect the searchbar with 
           movieImage = new FilteredList(activeMovieImages, p -> true);
           searchBar.textProperty().addListener((observable, oldValue, newValue)
                   ->
@@ -586,26 +590,30 @@ public class FXMLDocumentController implements Initializable
               movieImage.setPredicate(movie
                       ->
               {
+                  //if the search bar is empty it will show everything
                   if (newValue == null || newValue.isEmpty())
                   {
                       return true;
                   }
                   String lowerCaseFilter = newValue.toLowerCase();
-
+                  //filter the list with movietitle
                   if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter))
                   {
                       return true;
+                  //filter the list with actors
                   } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter))
                   {
                       return true;
+                  //filter the list with the directors of the movies
                   } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter))
                   {
                       return true;
+                  // filter the list of what year it has been made
                   } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter))
                   {
                       return true;
                   }
-
+                  //filter the list with genres
                   for (String genre1 : movie.getMovie().getGenres())
                   {
                       if (genre1.toLowerCase().contains(lowerCaseFilter))
