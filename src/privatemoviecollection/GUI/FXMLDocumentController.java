@@ -249,7 +249,7 @@ public class FXMLDocumentController implements Initializable {
         Menu addGenre = new Menu("Add to Genre:  ");
 
         for (String genre : model.getAllCategory()) {
-            System.out.println(genre);
+
             MenuItem genreItem = new MenuItem(genre);
             genreItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -266,26 +266,27 @@ public class FXMLDocumentController implements Initializable {
         Menu deleteGenre = new Menu("Delete Genre:  ");
 
         for (String genre : model.getAllCategory()) {
-            System.out.println(genre);
+
             MenuItem genreItem = new MenuItem(genre);
             genreItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println(genre);
-                    System.out.println(activeMovie);
                     model.deleteCategoryFromMovie(activeMovie, genre);
                 }
             });
             deleteGenre.getItems().add(genreItem);
 
         }
-
+        System.out.println("list");
         contexMenu.getItems().addAll(play, addGenre, edit, delete, deleteGenre);
         genreMovies = FXCollections.observableArrayList();
-        movieImage = new FilteredList(genreMovies, p -> true);
-        searchBarMovie();
-
         genreMovies.addAll(movies);
+        movieImage = new FilteredList(genreMovies, p -> true);
+        System.out.println("seachbar");
+        searchBarMovie();
+        System.out.println("50%");
+
+
 
         //adds rate imeges to rateListe
         rateListe = new ArrayList<>();
@@ -452,9 +453,9 @@ public class FXMLDocumentController implements Initializable {
 
         col = 0;
         row = 0;
-        for (Movie image : genreMovies) {
+        for (Movie movie : movieImage) {
 
-            moviegrid.add(image.getImageview(), col, row);
+            moviegrid.add(movie.getImageview(), col, row);
             col++;
             if (col > collumNum - 1) {
                 col = 0;
@@ -690,10 +691,11 @@ public class FXMLDocumentController implements Initializable {
     private void sortByGenre(Event event) {
         String genre = genreComBox.getSelectionModel().getSelectedItem();
         ObservableList<Movie> movimg = FXCollections.observableArrayList();
-
+        System.out.println("1");
         movimg = model.getMoviesByGenre(genre);
+        System.out.println("2");
         genreMovies.setAll(movimg);
-
+        System.out.println("3");
 //        for (MovieImage movie : allMovies) {
 //            if (movie.getMovie().getGenres().contains(genre)) {
 //                movimg.add(movie);
@@ -702,6 +704,8 @@ public class FXMLDocumentController implements Initializable {
 //        }
 //
 //        activeMovies = movimg;
+System.out.println("4");
+        searchBarMovie();
         reloadGrid();
     }
 
@@ -718,7 +722,7 @@ public class FXMLDocumentController implements Initializable {
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();//make everything to lowercase
-                
+
                 if (movie.getMovieTitle().toLowerCase().contains(lowerCaseFilter)) { //Filter the list with movie titles
                     return true;
                 } else if (movie.getActors().toLowerCase().contains(lowerCaseFilter)) { //Filter the list with the actors
@@ -738,7 +742,7 @@ public class FXMLDocumentController implements Initializable {
             });
         });
         sortedData = new SortedList<>(movieImage); // Wrap the FilteredList in a SortedList.
-        genreMovies.setAll(movieImage); 
+        genreMovies.setAll(sortedData);
     }
 
     @FXML
