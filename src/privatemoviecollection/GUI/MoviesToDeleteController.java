@@ -30,8 +30,9 @@ import privatemoviecollection.GUI.Model.Model;
  *
  * @author Christian
  */
+//a windiw that opens if there is movies to delete 
 public class MoviesToDeleteController implements Initializable {
-
+    //list of movies to delete 
     private ArrayList<Movie> moviestoDelete;
     private Model model;
     private Stage stage;
@@ -39,40 +40,41 @@ public class MoviesToDeleteController implements Initializable {
     private Button deleteAll;
 
     private ContextMenu contexMenu;
+    //the liste view that contains the movies to delete 
     @FXML
     private ListView<Movie> listview;
-
+    //sets the model
     public void setModel(Model model) {
         this.model = model;
     }
-
+    // gets the list of movies to delete and adds them to the listview
     public void setMoviesTodelete(ArrayList<Movie> list) {
         this.moviestoDelete = list;
         listview.getItems().setAll(moviestoDelete);
     }
-
+    
     public void setStage(Stage stage) {
         this.stage = stage;
 
     }
-
+    //goes through alle the overdo movies and delets them
     @FXML
     public void deleteAllOverDoMovies() {
         for (Movie m : moviestoDelete) {
             model.deleteMovie(m);
-            moviestoDelete.clear();
+            listview.getItems().remove(m);
 
         }
         stage.close();
     }
-
+    // sets all the movies lastPlayDate to the todays date 
     @FXML
     public void postePoneAllMovies() {
         for (Movie m : moviestoDelete) {
             model.lastePlayDate(m);
             listview.getItems().remove(m);
         }
-        
+        stage.close();
     }
 
     @FXML
@@ -85,9 +87,9 @@ public class MoviesToDeleteController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        //adds a contexMenu 
         contexMenu = new ContextMenu();
-
+        //a Menu item that lets you delete a movie 
         MenuItem delete = new MenuItem("Delete Movie");
         delete.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -100,7 +102,7 @@ public class MoviesToDeleteController implements Initializable {
 
             }
         });
-
+        // a menu item that sets the latPlayDate to today 
         MenuItem postpone = new MenuItem("reminde me later");
         postpone.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -113,7 +115,7 @@ public class MoviesToDeleteController implements Initializable {
 
             }
         });
-
+        //adds the menuItems to the contexboks 
         contexMenu.getItems().addAll(delete, postpone);
 
         listview.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
@@ -125,7 +127,8 @@ public class MoviesToDeleteController implements Initializable {
             }
         });
     }
-
+    
+    // set all movies lastPlayDate to today 
     private void postePoneAllMovies(MouseEvent event, Movie movie) {
         for (Movie m : moviestoDelete) {
             model.lastePlayDate(movie);

@@ -542,7 +542,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void deleteMovie(ActionEvent event) {
     }
-
+    //opens ore closes the ratinf window 
     @FXML
     private void rate(MouseEvent event) {
         if (ratingWindowIsOpen) {
@@ -577,7 +577,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-    // rates the movie one strar
+    // rates the movie 1 strar
     @FXML
     private void rate_1(MouseEvent event) {
         int rating = 1;
@@ -585,7 +585,7 @@ public class FXMLDocumentController implements Initializable {
         rateMovie(1);
 
     }
-    //// rates the movie two strar
+    //// rates the movie 2 strar
     @FXML
     private void rate_2(MouseEvent event) {
         int rating = 2;
