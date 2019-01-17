@@ -17,8 +17,30 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="window" prefHeight="838.0" prefWidth="1119.0" stylesheets="@../../resus/Layout.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="window" prefHeight="838.0" prefWidth="1119.0" stylesheets="@../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.FXMLDocumentController">
    <children>
+      <MenuBar prefHeight="25.0" prefWidth="1119.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
+                  <MenuItem mnemonicParsing="false" onAction="#addGenreAndDeleteGenre" text="Add Genre/Delete Genre" />
+                  <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
+                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutTab" mnemonicParsing="false" onAction="#aboutTab" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
       <StackPane fx:id="stacPane" layoutY="73.0" prefHeight="765.0" prefWidth="1119.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="69.0">
          <children>
             <StackPane fx:id="stacPopUp" prefHeight="687.0" prefWidth="990.0">

@@ -128,6 +128,20 @@ public class CategoryDAO {
         
         con.close();
     }
+    
+    public void deleteCategoryFromMovie(Movie movie, String category) throws SQLServerException, SQLException {
+        Connection con = server.getConnection();
+        Statement st = con.createStatement();
+
+        int id = getCategoryId(category);
+
+
+        ResultSet rs = st.executeQuery("DELETE "
+                + "FROM [PrivateMovieCollectionName].[dbo].[CatMovie] "
+                + "WHERE CategoryId = " + id + " AND MovieId = " + movie.getId());
+        
+        con.close();
+    }
 
 
 

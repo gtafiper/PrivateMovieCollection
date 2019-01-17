@@ -12,8 +12,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -29,6 +27,7 @@ public class Model {
 
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
     private HashMap<String, ObservableList> hashMap = new HashMap<>();
+    private ObservableList<String> hashGenres = FXCollections.observableArrayList();
     private ObservableList<String> genres = FXCollections.observableArrayList();
     private MovieManeger logiclayer;
     private Movie movie;
@@ -47,6 +46,10 @@ public class Model {
      * @throws SQLException
      */
     private void createGenreMoviePairs(){
+        
+        hashMap.put("All Movies", movies);
+        hashGenres.add("All Movies");
+        
         for (Movie movy : movies) {
             addMoviesToCategory(movy);
         }
@@ -67,14 +70,15 @@ public class Model {
                     ObservableList<Movie> extraMovies = FXCollections.observableArrayList();
                     extraMovies.add(movy);
                     hashMap.put(genre, extraMovies);
+                    hashGenres.add(genre);
                 }
             }
         }
-
+        hashMap.put("All Movies", hashGenres);
     }
 
    public ObservableList<String> getAllgenres(){
-       return genres;
+       return hashGenres;
    }
 
    public List<String> getHashMap() {
@@ -101,9 +105,14 @@ public class Model {
             } 
         }
         Movie movie = logiclayer.CreateMovie(fileLink, imdbId);
+        movies.addAll(movie);
         return movie; 
         
     }
+    
+    public ObservableList<Movie> getMoviesByGenre(String genre) {
+        return hashMap.get(genre);
+    } 
 
     public List<Movie> getAllMovies(){
         try
@@ -131,6 +140,7 @@ public class Model {
         try
         {
             logiclayer.addGenres(genre, movie);
+            hashMap.put(genre, movies);
         } catch (SQLException ex)
         {
             new MovieCollectionException("Error", "Could not add " + genre + " to " + movie, movie + " or " + genre + " does not exist");
@@ -164,6 +174,7 @@ public class Model {
         try
         {
             logiclayer.createCategory(name);
+            genres.add(name);
         } catch (SQLException ex)
         {
             new MovieCollectionException("Error", "Could not create genre", name + " does not exist");
@@ -173,6 +184,7 @@ public class Model {
     public void deleteCategory(String category) {
         try {
             logiclayer.deleteCategory(category);
+            genres.remove(category);
         } catch (SQLException ex) {
             new MovieCollectionException("Error", "Could not delete genre", category + " does not exist");
         }
@@ -182,6 +194,7 @@ public class Model {
         try
         {
             logiclayer.addMovieToCategory(movie, category);
+            hashMap.put(movie.toString(), hashGenres);
         } catch (SQLException ex)
         {
             new MovieCollectionException("Error", "Could not add " + movie + " to " + category, "movie or genre does not exist");
@@ -198,15 +211,8 @@ public class Model {
         }
     }
 
-    public ArrayList getAllCategory(){
-        try
-        {
-            return logiclayer.getAllCategory();
-        } catch (SQLException ex)
-        {
-            new MovieCollectionException("Error", "Could not recieve genres", "genres does not exist");
-        }
-        return null;
+    public ObservableList<String> getAllCategory(){
+        return genres;
     }
     
     
@@ -255,6 +261,15 @@ public class Model {
         }
         return false;
     }
+     
+     public void deleteCategoryFromMovie(Movie movie, String genre) {
+         try {
+             hashMap.get(genre).remove(movie);
+             movie.deleteGenre(genre);
+         } catch (Exception e) {
+             new MovieCollectionException("Error", "Couldn't delete genre from movie", "Contact tech team");
+         }
+     }
 
 
 }

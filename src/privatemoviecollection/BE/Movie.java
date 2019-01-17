@@ -6,8 +6,7 @@
 package privatemoviecollection.BE;
 
 import java.util.ArrayList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.scene.image.ImageView;
 
 /**
  *
@@ -28,6 +27,7 @@ public class Movie {
     private String imdb_rating;
     private String poster;
     private ArrayList<String> moviegenre;
+    private ImageView imageview;
     
 
     /**
@@ -61,6 +61,9 @@ public class Movie {
         this.imdb_rating = imdb_rating;
         this.poster = poster;
         lastView = null;
+        imageview = new ImageView(poster);
+        imageview.setFitHeight(210);
+        imageview.setFitWidth(140);
         
         moviegenre = new ArrayList<>();
     }
@@ -212,6 +215,14 @@ public class Movie {
         this.poster = poster;
     }
 
+    public ImageView getImageview() {
+        return imageview;
+    }
+
+    public void setImageview(ImageView imageview) {
+        this.imageview = imageview;
+    }
+    
     @Override
     public String toString() {
         return movieTitle;
