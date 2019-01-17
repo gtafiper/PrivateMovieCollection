@@ -200,8 +200,41 @@ public class FXMLDocumentController implements Initializable {
                 allMovies.remove(activeMovie);
                 genreMovies.remove(activeMovie);
                 reloadGrid();
-                
 
+
+            }
+        });
+
+        /**
+         * Right click function with a menu item with change info
+         */
+        MenuItem edit = new MenuItem("Change info");
+        edit.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                try
+                {
+                    //sets which window to open
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/movieInfo.fxml"));
+
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.setAlwaysOnTop(true);
+                    stage.setResizable(false);
+                    stage.setTitle("Change info");
+                    stage.setScene(new Scene(root));
+
+                    stage.show();
+                    MovieInfoController controller = loader.getController();
+                    controller.setModel(model);
+                    controller.setStage(stage);
+                    controller.setMovie(activeMovie);
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -212,7 +245,7 @@ public class FXMLDocumentController implements Initializable {
                 play(null);
             }
         });
-        
+
         Menu addGenre = new Menu("Add to Genre:  ");
 
         for (String genre : model.getAllCategory()) {
@@ -229,7 +262,7 @@ public class FXMLDocumentController implements Initializable {
             addGenre.getItems().add(genreItem);
 
         }
-        
+
         Menu deleteGenre = new Menu("Delete Genre:  ");
 
         for (String genre : model.getAllCategory()) {
@@ -247,7 +280,7 @@ public class FXMLDocumentController implements Initializable {
 
         }
 
-        contexMenu.getItems().addAll(play, addGenre, delete, deleteGenre);
+        contexMenu.getItems().addAll(play, addGenre, edit, delete, deleteGenre);
         genreMovies = FXCollections.observableArrayList();
         movieImage = new FilteredList(genreMovies, p -> true);
         searchBarMovie();
@@ -365,7 +398,7 @@ public class FXMLDocumentController implements Initializable {
         activeMovies.addAll(allMovies);
 
         reloadGrid();
-        //opens a new window if there is movies on the movisToDelerte list 
+        //opens a new window if there is movies on the movisToDelerte list
         if (moviesToDelete.size() > 0) {
 
             try {
@@ -377,7 +410,7 @@ public class FXMLDocumentController implements Initializable {
                 stage.setResizable(false);
                 stage.setTitle("Movies to delete");
                 stage.setScene(new Scene(root));
-                //updates the movieGrid when the window closes 
+                //updates the movieGrid when the window closes
                 stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                     @Override
                     public void handle(WindowEvent event) {
@@ -448,7 +481,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    // brings the movie info AnchorPane to the front of the viw en mose clik 
+    // brings the movie info AnchorPane to the front of the viw en mose clik
     private void bringToFront(MouseEvent event) {
         stacPopUp.toFront();
         popUd.toFront();
@@ -462,7 +495,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    //a transparent AnchorPane that when you clic outsaid the movie info window sends the movie grid to the front 
+    //a transparent AnchorPane that when you clic outsaid the movie info window sends the movie grid to the front
     @FXML
     private void bringToBack(MouseEvent event) {
         stacPopUp.toBack();
@@ -507,6 +540,7 @@ public class FXMLDocumentController implements Initializable {
             controller.setModel(model);
             controller.setStage(stage);
 
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -526,7 +560,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void deleteMovie(ActionEvent event) {
     }
-
+    //opens ore closes the ratinf window
     @FXML
     private void rate(MouseEvent event) {
         if (ratingWindowIsOpen) {
@@ -540,7 +574,8 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    //sets the imege of the rate icon acrording to its rating 
+
+    //sets the imege of the rate icon acrording to its rating
     private void rateMovie(int rating) {
         model.setRating(activeMovie, rating);
         activeMovie.setRating(rating);
@@ -560,8 +595,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
-    // rates the movie one strar
+    // rates the movie 1 strar
     @FXML
     private void rate_1(MouseEvent event) {
         int rating = 1;
@@ -569,8 +603,7 @@ public class FXMLDocumentController implements Initializable {
         rateMovie(1);
 
     }
-
-    //// rates the movie two strar
+    //// rates the movie 2 strar
     @FXML
     private void rate_2(MouseEvent event) {
         int rating = 2;
