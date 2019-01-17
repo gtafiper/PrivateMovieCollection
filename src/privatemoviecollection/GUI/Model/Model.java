@@ -114,6 +114,11 @@ public class Model {
     }
 
     public ObservableList<Movie> getMoviesByGenre(String genre) {
+        ObservableList<Movie> bob = hashMap.get(genre);
+        System.out.println(genre);
+//        for (Movie object : bob) {
+//            System.out.println(object);
+//        }
         return hashMap.get(genre);
     }
 
