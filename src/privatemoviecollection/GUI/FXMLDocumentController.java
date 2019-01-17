@@ -228,10 +228,10 @@ public class FXMLDocumentController implements Initializable {
         genreMovies = FXCollections.observableArrayList();
         movieImage = new FilteredList(genreMovies, p -> true);
         searchBarMovie();
-        
+
         genreMovies.addAll(movies);
-        
-        
+
+
         //adds rate imeges to rateListe
         rateListe = new ArrayList<>();
         rateListe.add(rate1);
@@ -286,7 +286,7 @@ public class FXMLDocumentController implements Initializable {
         allMovies = FXCollections.observableArrayList();
         for (Movie movie : movies) {
 
-            
+
 
             movie.getImageview().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -377,7 +377,7 @@ public class FXMLDocumentController implements Initializable {
             }
         });
 
-        
+
 
     }
 
@@ -610,8 +610,8 @@ public class FXMLDocumentController implements Initializable {
     private void sortByGenre(Event event) {
         String genre = genreComBox.getSelectionModel().getSelectedItem();
         ObservableList<Movie> movimg = FXCollections.observableArrayList();
-        
-        
+
+
         movimg = model.getMoviesByGenre(genre);
         genreMovies.setAll(movimg);
 
@@ -624,13 +624,13 @@ public class FXMLDocumentController implements Initializable {
 //
 //        activeMovies = movimg;
 
-        
+
 
         reloadGrid();
-    }
+      }
 
     private void searchBarMovie() {
-        
+
         searchBar.textProperty().addListener((observable, oldValue, newValue)
                 -> {
             movieImage.setPredicate(movie
@@ -661,6 +661,7 @@ public class FXMLDocumentController implements Initializable {
         sortedData = new SortedList<>(movieImage); // Wrap the FilteredList in a SortedList.
         genreMovies.setAll(movieImage);
     }
+
 
     @FXML
     private void searchBarAction(KeyEvent event) {
