@@ -24,7 +24,7 @@
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#addMovie" text="Add Movie" />
-                  <MenuItem mnemonicParsing="false" onAction="#addGenre" text="Add Genre" />
+                  <MenuItem mnemonicParsing="false" onAction="#addGenreAndDeleteGenre" text="Add Genre/Delete Genre" />
                   <MenuItem mnemonicParsing="false" onAction="#rencentlyWatched" text="Recently Watched" />
                   <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
             </items>

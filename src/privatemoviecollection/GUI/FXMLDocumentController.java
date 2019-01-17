@@ -449,7 +449,7 @@ public class FXMLDocumentController implements Initializable {
 
             Parent root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Create Playlist");
+            stage.setTitle("Add Movie");
             stage.setScene(new Scene(root));
             stage.show();
             AddMovieController controller = loader.getController();
@@ -463,7 +463,23 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void addGenre(ActionEvent event) {
+    private void addGenreAndDeleteGenre(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/AddnDeleteGenre.fxml"));
+            
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Add or Delete Category");
+            stage.setScene(new Scene(root));
+            stage.show();
+            AddnDeleteGenreController controller = loader.getController();
+            controller.setModel(model);
+            controller.setStage(stage);
+            
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML

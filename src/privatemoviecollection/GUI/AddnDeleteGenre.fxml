@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="344.0" prefWidth="600.0" style="-fx-background-color: #969696;" stylesheets="@../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddnDeleteGenreController">
+   <children>
+      <ListView fx:id="lstviewGenres" layoutX="14.0" layoutY="14.0" onMouseClicked="#highlight" prefHeight="240.0" prefWidth="573.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.399999999999977" AnchorPane.topAnchor="14.0" />
+      <TextField fx:id="txtfldAddGenre" layoutX="14.0" layoutY="298.0" promptText="Enter Genre" AnchorPane.bottomAnchor="76.4" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="437.2" AnchorPane.topAnchor="298.0" />
+      <Text layoutX="14.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Or Add Genre" AnchorPane.bottomAnchor="105.98828125" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="512.587890625" AnchorPane.topAnchor="278.05078125" />
+      <Button layoutX="419.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#addGenreBTN" text="Add Genre" AnchorPane.bottomAnchor="13.399999999999999" AnchorPane.rightAnchor="12.400000000000006" />
+      <Button layoutX="371.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#deleteGenreBTN" text="Delete Genre" AnchorPane.bottomAnchor="13.800000000000011" AnchorPane.rightAnchor="114.60000000000002" />
+      <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#cancelBTN" stylesheets="@../../resus/Layout.css" text="Cancel" AnchorPane.bottomAnchor="13.399999999999977" AnchorPane.leftAnchor="14.0" />
+   </children>
+</AnchorPane>
