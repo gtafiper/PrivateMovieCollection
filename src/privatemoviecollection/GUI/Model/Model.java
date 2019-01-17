@@ -12,8 +12,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -36,7 +34,7 @@ public class Model {
     public Model() throws IOException, SQLException {
         logiclayer = new MovieManeger();
         movies.setAll(logiclayer.getAllMovies());
-        genres.setAll(logiclayer.getAllCategory());
+//        genres.setAll(logiclayer.getAllCategory());
         createGenreMoviePairs();
     }
 
@@ -47,6 +45,10 @@ public class Model {
      * @throws SQLException
      */
     private void createGenreMoviePairs(){
+        
+        hashMap.put("All Movies", movies);
+        genres.add("All Movies");
+        
         for (Movie movy : movies) {
             addMoviesToCategory(movy);
         }
@@ -67,6 +69,7 @@ public class Model {
                     ObservableList<Movie> extraMovies = FXCollections.observableArrayList();
                     extraMovies.add(movy);
                     hashMap.put(genre, extraMovies);
+                    genres.add(genre);
                 }
             }
         }
@@ -104,6 +107,10 @@ public class Model {
         return movie; 
         
     }
+    
+    public ObservableList<Movie> getMoviesByGenre(String genre) {
+        return hashMap.get(genre);
+    } 
 
     public List<Movie> getAllMovies(){
         try
