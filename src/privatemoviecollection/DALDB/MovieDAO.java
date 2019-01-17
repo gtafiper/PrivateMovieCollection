@@ -47,18 +47,19 @@ public class MovieDAO {
      */
     public boolean updateMovie(Movie movie) throws SQLException {
         //Tells the database where to update
+        System.out.println("her");
         String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] "
-                + "SET name = ?, "
+                + "SET title = ?, "
                 + "fileLink = ?, "
-                + "rating = ?, "
+                + "user_rating = ?, "
                 + "lastView = ?, "
-                + "year = ?,"
-                + "runtime = ?,"
-                + "director = ?,"
-                + "actors = ?,"
-                + "plot = ?,"
-                + "imdb_rating = ?,"
-                + "WHERE id =" + movie.getId();
+                + "year = ?, "
+                + "runtime = ?, "
+                + "director = ?, "
+                + "actors = ?, "
+                + "plot = ?, "
+                + "imdb_rating = ? "
+                + "WHERE id = " + movie.getId();
         //connect to database
         Connection con = sc.getConnection();
         //Make a preparedt statement for security and sets the strings and int
@@ -77,6 +78,7 @@ public class MovieDAO {
         
         //send it back to the database
         int rowsAffected = pst.executeUpdate();
+        System.out.println("der");
         if (rowsAffected >= 1) {
             return true;
         }
@@ -210,6 +212,7 @@ public class MovieDAO {
         lastePlayDate(movie);
 
         for (String genre : genres) {
+            movie.addGenre(genre);
             addGenre(genre, movie);
         }
 

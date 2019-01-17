@@ -5,13 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="632.0" style="-fx-background-color: #595959;" stylesheets="@../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddMovieController">
+<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="555.0" style="-fx-background-color: #595959;" stylesheets="@../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddMovieController">
    <children>
-      <Button fx:id="btnChooseFile" layoutX="290.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#OpenFileChooser" text="Choose file" AnchorPane.rightAnchor="15.800000000000011" />
+      <Button fx:id="btnChangeFile" layoutX="508.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#OpenFileChooser" prefHeight="32.0" prefWidth="23.0" text="..." />
       <Text fill="#e4d3d3" layoutX="26.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Location" />
-      <Text fill="#e4d3d3" layoutX="26.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDB URL" wrappingWidth="95.55978393554688" />
-      <TextField fx:id="txtfldURL" layoutX="26.0" layoutY="119.0" prefHeight="26.0" prefWidth="478.0" promptText="Enter URL" />
-      <Button fx:id="runbtn" layoutX="328.0" layoutY="166.0" mnemonicParsing="false" onMouseClicked="#btnToDAL" text="OK" AnchorPane.rightAnchor="20.19999999999999" />
-      <TextField fx:id="txtfldFileLocation" layoutX="26.0" layoutY="39.0" prefHeight="26.0" prefWidth="477.0" />
+      <Text fill="#e4d3d3" layoutX="26.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDB URL" wrappingWidth="95.55978393554688" />
+      <TextField fx:id="txtfldURL" layoutX="26.0" layoutY="110.0" prefHeight="35.0" prefWidth="478.0" promptText="Enter URL" />
+      <Button fx:id="runbtn" layoutX="122.0" layoutY="157.0" mnemonicParsing="false" onMouseClicked="#btnToDAL" prefHeight="35.0" prefWidth="105.0" text="Add" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="157.0" />
+      <TextField fx:id="txtfldFileLocation" layoutX="26.0" layoutY="39.0" prefHeight="35.0" prefWidth="477.0" />
+      <Button layoutX="326.0" layoutY="157.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#btnToDAL" prefHeight="35.0" prefWidth="105.0" text="Cancel" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="157.0" />
    </children>
 </AnchorPane>

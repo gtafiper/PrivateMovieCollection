@@ -44,19 +44,19 @@ public class DeleteCategoryController implements Initializable {
     
     public void setModel(Model model) {
         this.model = model;
-        lstviewGenres.getItems().setAll(model.getAllgenres());
+        lstviewGenres.getItems().setAll(model.getAllHashGenres());
     }
 
     @FXML
     private void deleteBTN(MouseEvent event) {
         String genre = lstviewGenres.getSelectionModel().getSelectedItem();
-        model.deleteCategory(genre);
+        model.deleteGenre(genre);
     }
 
     @FXML
     private void deleteNCloseBTN(MouseEvent event) {
         String genre = lstviewGenres.getSelectionModel().getSelectedItem();
-        model.deleteCategory(genre);
+        model.deleteGenre(genre);
         stage.close();
     }
 

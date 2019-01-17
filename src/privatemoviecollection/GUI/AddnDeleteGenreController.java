@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import privatemoviecollection.GUI.Model.Model;
 
 /**
@@ -39,7 +40,7 @@ public class AddnDeleteGenreController implements Initializable {
 
     public void setModel(Model model) {
         this.model = model;
-        lstviewGenres.getItems().setAll(model.getAllCategory());
+        lstviewGenres.getItems().setAll(model.getAllGenres());
     }
 
     /**
@@ -58,15 +59,15 @@ public class AddnDeleteGenreController implements Initializable {
     @FXML
     private void addGenreBTN(MouseEvent event) {
         String genre = txtfldAddGenre.getText();
-        model.createCategory(genre);
-        lstviewGenres.getItems().setAll(model.getAllgenres());
+        model.createGenre(genre);
+        lstviewGenres.getItems().setAll(model.getAllHashGenres());
     }
 
     @FXML
     private void deleteGenreBTN(MouseEvent event) {
         String genre = lstviewGenres.getSelectionModel().getSelectedItem();
-        model.deleteCategory(genre);
-        lstviewGenres.getItems().setAll(model.getAllgenres());
+        model.deleteGenre(genre);
+        lstviewGenres.getItems().setAll(model.getAllHashGenres());
     }
 
     public void setStage(Stage stage) {
@@ -75,7 +76,7 @@ public class AddnDeleteGenreController implements Initializable {
 
     @FXML
     private void cancelBTN(MouseEvent event) {
-        stage.close();
+        stage.fireEvent(new WindowEvent(stage,WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
     @FXML

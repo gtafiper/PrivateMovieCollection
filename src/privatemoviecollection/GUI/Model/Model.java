@@ -12,10 +12,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.BE.MovieImage;
 import privatemoviecollection.BLL.Exception.MovieCollectionException;
 import privatemoviecollection.BLL.MovieManeger;
 
@@ -23,20 +26,33 @@ import privatemoviecollection.BLL.MovieManeger;
  *
  * @author Nijas Hansen
  */
-public class Model {
+public class Model
+{
 
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
-    private HashMap<String, ObservableList> hashMap = new HashMap<>();
+    private HashMap<String, ObservableList<MovieImage>> hashMap = new HashMap<>();
     private ObservableList<String> hashGenres = FXCollections.observableArrayList();
     private ObservableList<String> genres = FXCollections.observableArrayList();
     private MovieManeger logiclayer;
     private Movie movie;
 
-    public Model() throws IOException, SQLException {
-        logiclayer = new MovieManeger();
-        movies.setAll(logiclayer.getAllMovies());
-        genres.setAll(logiclayer.getAllCategory());
-        createGenreMoviePairs();
+    public static final String HASH_ALLMOVIES = "All Movies";
+
+    public Model()
+    {
+        try
+        {
+            logiclayer = new MovieManeger();
+            movies.setAll(logiclayer.getAllMovies());
+            genres.setAll(logiclayer.getAllCategory());
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -45,220 +61,292 @@ public class Model {
      * @throws IOException
      * @throws SQLException
      */
-    private void createGenreMoviePairs() {
+    public void createGenreMoviePairs(ObservableList<MovieImage> movieimage)
+    {
 
-        hashMap.put("All Movies", movies);
-        hashGenres.add("All Movies");
+        hashMap.put(HASH_ALLMOVIES, movieimage);
+        hashGenres.add(HASH_ALLMOVIES);
 
-        for (Movie movy : movies) {
-            addMoviesToCategory(movy);
+        for (MovieImage movy : movieimage)
+        {
+            addMovieToCategories(movy);
         }
     }
 
-    private void addMoviesToCategory(Movie movy) {
-        if (movy.getGenres().size() > 0) {
+    public void addMovieToCategories(MovieImage movy)
+    {
+        if (movy.getMovie().getGenres().size() > 0)
+        {
 
             ObservableList<String> lilleListe = FXCollections.observableArrayList();
-            lilleListe.addAll(movy.getGenres());
+            lilleListe.addAll(movy.getMovie().getGenres());
 
-            for (String genre : lilleListe) {
-                if (hashMap.containsKey(genre)) {
+            for (String genre : lilleListe)
+            {
+                if (hashMap.containsKey(genre))
+                {
 
                     hashMap.get(genre).add(movy);
 
-                } else {
-                    ObservableList<Movie> extraMovies = FXCollections.observableArrayList();
+                } else
+                {
+                    ObservableList<MovieImage> extraMovies = FXCollections.observableArrayList();
                     extraMovies.add(movy);
                     hashMap.put(genre, extraMovies);
                     hashGenres.add(genre);
                 }
             }
         }
-        hashMap.put("All Movies", hashGenres);
+
     }
 
-    public ObservableList<String> getAllgenres() {
+    public ObservableList<String> getAllHashGenres()
+    {
         return hashGenres;
     }
 
-    public List<String> getHashMap() {
+    public List<String> getHashMap()
+    {
         List<String> ListOfCategorys = new ArrayList(hashMap.values());
         return ListOfCategorys;
     }
 
-    public void deleteMovie(Movie movie) {
-        try {
-            for (String genre : movie.getGenres()) {
-                hashMap.get(genre).remove(movie);
+    public void deleteMovie(MovieImage delMovie)
+    {
+        try
+        {
+
+            for (String genre : delMovie.getMovie().getGenres())
+            {
+                hashMap.get(genre).remove(delMovie);
             }
-            movies.remove(movie);
-            logiclayer.deleteMovie(movie);
-            
-        } catch (SQLException ex) {
-            new MovieCollectionException("Error", "Could not delete movie", movie + " is already deleted");
+            Movie temp_movie = null;
+            for (int i = 0; i < movies.size(); i++)
+            {
+                if (movies.get(i).getFilePath().equals(delMovie.getMovie().getFilePath()))
+                {
+                    movies.remove(movies.get(i));
+                }
+            }
+            hashMap.get(HASH_ALLMOVIES).remove(delMovie);
+            logiclayer.deleteMovie(delMovie.getMovie());
+
+        } catch (SQLException ex)
+        {
+            new MovieCollectionException("Error", "Could not delete movie", delMovie + " is already deleted");
         }
     }
 
-    public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException {
-
-        for (Movie movie : movies) {
-            if (movie.getFilePath().equals(fileLink)) {
-                new MovieCollectionException("Error", "Movie already exist", fileLink + " already exists");
+    public MovieImage CreateMovie(String fileLink, String imdbId) throws SQLException, IOException
+    {
+        System.out.println("dav");
+        for (Movie movie : movies)
+        {
+            if (movie.getFilePath().equals(fileLink))
+            {
+                new MovieCollectionException("Error", "The movie:" + movie
+                        + " already exist", fileLink + " already exists");
                 return null;
             }
         }
         Movie movie = logiclayer.CreateMovie(fileLink, imdbId);
+        MovieImage movieImage = new MovieImage(movie);
+        addMovieToCategories(movieImage);
         movies.addAll(movie);
-        return movie;
+        hashMap.get(HASH_ALLMOVIES).add(movieImage);
+
+        return movieImage;
 
     }
 
-    public ObservableList<Movie> getMoviesByGenre(String genre) {
-        ObservableList<Movie> bob = hashMap.get(genre);
-        System.out.println(genre);
-//        for (Movie object : bob) {
-//            System.out.println(object);
-//        }
+    public ObservableList<MovieImage> getMoviesByGenre(String genre)
+    {
+
         return hashMap.get(genre);
     }
 
-    public List<Movie> getAllMovies() {
-        try {
+    public List<Movie> getAllMovies()
+    {
+        try
+        {
             return logiclayer.getAllMovies();
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             new MovieCollectionException("Error", "Could not find movies", "Contact tech team");
         }
         return null;
     }
 
-    public boolean updateMovie(Movie movie) {
-        try {
+    public boolean updateMovie(Movie movie)
+    {
+        try
+        {
+            System.out.println("model update");
             return logiclayer.updateMovie(movie);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
             new MovieCollectionException("Error", "Could not update movie", movie + " does not exist");
         }
         return false;
     }
 
-//    public void addGenres(String genre, Movie movie) {
-//        try {
-//            logiclayer.addGenres(genre, movie);
-//            genres.add
-//        } catch (SQLException ex) {
-//            new MovieCollectionException("Error", "Could not add " + genre + " to " + movie, movie + " or " + genre + " does not exist");
-//        }
-//    }
-
-    public void getGenres(Movie movie) {
-        try {
-            logiclayer.getGenres(movie);
-        } catch (SQLException ex) {
-            new MovieCollectionException("Error", "Could not get genres", movie + " does not have any genres");
-        }
-    }
-
-    public boolean setRating(Movie movie, int rating) {
-        try {
+    public boolean setRating(Movie movie, int rating)
+    {
+        try
+        {
             return logiclayer.setRating(movie, rating);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             new MovieCollectionException("Error", "Could not set " + rating, movie + " already have a rating");
         }
         return false;
     }
 
-    public void createCategory(String name) {
-        try {
+    public void createGenre(String name)
+    {
+        try
+        {
             logiclayer.createCategory(name);
             genres.add(name);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             new MovieCollectionException("Error", "Could not create genre", name + " does not exist");
         }
     }
 
-    public void deleteCategory(String category) {
-        try {
+    public void deleteGenre(String category)
+    {
+        try
+        {
             logiclayer.deleteCategory(category);
             genres.remove(category);
-        } catch (SQLException ex) {
+            hashGenres.remove(category);
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
             new MovieCollectionException("Error", "Could not delete genre", category + " does not exist");
         }
     }
 
-    public void addMovieToCategory(Movie movie, String category) {
-        try {
-            if (!hashMap.containsKey(category)) {
-                ObservableList<Movie> hashlist = FXCollections.observableArrayList();
-                hashMap.put(category, hashlist);
-            }
-            hashMap.get(category).add(movie);
-            movie.addGenre(category);
-            logiclayer.addMovieToCategory(movie, category);
+    public void addMovieToNewCategory(MovieImage movie, String category)
+    {
+        try
+        {
 
-        } catch (SQLException ex) {
+            if (!hashMap.get(category).contains(movie))
+            {
+                if (!hashMap.containsKey(category))
+                {
+                    ObservableList<MovieImage> hashlist = FXCollections.observableArrayList();
+                    hashMap.put(category, hashlist);
+                }
+                hashMap.get(category).add(movie);
+                movie.getMovie().addGenre(category);
+                logiclayer.addMovieToCategory(movie.getMovie(), category);
+            }
+
+        } catch (SQLException ex)
+        {
             new MovieCollectionException("Error", "Could not add " + movie + " to " + category, "movie or genre does not exist");
             ex.printStackTrace();
         }
     }
 
-    public void getMoviesFromCategory(String category) {
-        try {
+    public void getMoviesFromCategory(String category)
+    {
+        try
+        {
             logiclayer.getMoviesFromCategory(category);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             new MovieCollectionException("Error", "Could not find movie from genre", category + " does not exist");
         }
     }
 
-    public ObservableList<String> getAllCategory() {
+    public ObservableList<String> getAllGenres()
+    {
         return genres;
     }
 
-    public void lastePlayDate(Movie movie) {
-        try {
+    public void lastePlayDate(Movie movie)
+    {
+        try
+        {
             logiclayer.lastPlayDate(movie);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             new MovieCollectionException("Error", "Could not find last time played", movie + " does not have a last seen date");
         }
     }
 
-    public void getMediaPlayer(Movie movie) {
-        try {
+    public void getMediaPlayer(Movie movie)
+    {
+        try
+        {
             logiclayer.getMediaPlayer(movie);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             new MovieCollectionException("Error", "Could not open mediaplayer", movie + " does not exist");
         }
     }
 
-    public void setMediaPlayerPath(File file) {
-        try {
+    public void setMediaPlayerPath(File file)
+    {
+        try
+        {
             logiclayer.setMediaPlayerPath(file);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
         }
     }
 
-    public boolean checkMediaPlayerPath() {
-        try {
+    public boolean checkMediaPlayerPath()
+    {
+        try
+        {
             return logiclayer.checkMediaPath();
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
         }
         return false;
     }
 
-    public boolean isDoDateOver(Movie movie) {
-        try {
+    public boolean isDoDateOver(Movie movie)
+    {
+        try
+        {
             return logiclayer.isDoDateOver(movie);
-        } catch (ParseException ex) {
+        } catch (ParseException ex)
+        {
             new MovieCollectionException("", "", "to do");
         }
         return false;
     }
 
-    public void deleteCategoryFromMovie(Movie movie, String genre) {
-        try {
+    public void deleteCategoryFromMovie(MovieImage movie, String genre)
+    {
+        try
+        {
             hashMap.get(genre).remove(movie);
-            movie.deleteGenre(genre);
-        } catch (Exception e) {
+            movie.getMovie().deleteGenre(genre);
+            String temp = "";
+            for (String hashGenre : hashGenres)
+            {
+                if (hashMap.get(genre).size() <= 0)
+                {
+                    temp = hashGenre;
+
+                }
+
+            }
+            hashGenres.remove(temp);
+            logiclayer.deleteCategoryFromMovie(movie.getMovie(), genre);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
             new MovieCollectionException("Error", "Couldn't delete genre from movie", "Contact tech team");
         }
     }

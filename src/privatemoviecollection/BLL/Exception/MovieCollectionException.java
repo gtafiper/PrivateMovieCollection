@@ -26,6 +26,7 @@ public class MovieCollectionException extends Exception {
         alert.setHeaderText(header);
         alert.setContentText(contentText);
         
+        
         alert.showAndWait();
     }
     

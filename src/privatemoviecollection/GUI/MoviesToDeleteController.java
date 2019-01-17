@@ -6,8 +6,6 @@
 package privatemoviecollection.GUI;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,11 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import privatemoviecollection.BE.Movie;
+import privatemoviecollection.BE.MovieImage;
 import privatemoviecollection.GUI.Model.Model;
 
 /**
@@ -33,7 +31,7 @@ import privatemoviecollection.GUI.Model.Model;
 //a windiw that opens if there is movies to delete 
 public class MoviesToDeleteController implements Initializable {
     //list of movies to delete 
-    private ArrayList<Movie> moviestoDelete;
+    private ObservableList<MovieImage> moviestoDelete;
     private Model model;
     private Stage stage;
     @FXML
@@ -42,13 +40,13 @@ public class MoviesToDeleteController implements Initializable {
     private ContextMenu contexMenu;
     //the liste view that contains the movies to delete 
     @FXML
-    private ListView<Movie> listview;
+    private ListView<MovieImage> listview;
     //sets the model
     public void setModel(Model model) {
         this.model = model;
     }
     // gets the list of movies to delete and adds them to the listview
-    public void setMoviesTodelete(ArrayList<Movie> list) {
+    public void setMoviesTodelete(ObservableList<MovieImage> list) {
         this.moviestoDelete = list;
         listview.getItems().setAll(moviestoDelete);
     }
@@ -60,7 +58,7 @@ public class MoviesToDeleteController implements Initializable {
     //goes through alle the overdo movies and delets them
     @FXML
     public void deleteAllOverDoMovies() {
-        for (Movie m : moviestoDelete) {
+        for (MovieImage m : moviestoDelete) {
             model.deleteMovie(m);
             listview.getItems().remove(m);
 
@@ -70,8 +68,8 @@ public class MoviesToDeleteController implements Initializable {
     // sets all the movies lastPlayDate to the todays date 
     @FXML
     public void postePoneAllMovies() {
-        for (Movie m : moviestoDelete) {
-            model.lastePlayDate(m);
+        for (MovieImage m : moviestoDelete) {
+            model.lastePlayDate(m.getMovie());
             listview.getItems().remove(m);
         }
         stage.close();
@@ -95,7 +93,7 @@ public class MoviesToDeleteController implements Initializable {
 
             @Override
             public void handle(ActionEvent event) {
-                Movie movie = listview.getSelectionModel().getSelectedItem();
+                MovieImage movie = listview.getSelectionModel().getSelectedItem();
                 model.deleteMovie(movie);
                 moviestoDelete.remove(movie);
                 listview.getItems().remove(movie);
@@ -108,8 +106,8 @@ public class MoviesToDeleteController implements Initializable {
 
             @Override
             public void handle(ActionEvent event) {
-                Movie movie = listview.getSelectionModel().getSelectedItem();
-                model.lastePlayDate(movie);
+                MovieImage movie = listview.getSelectionModel().getSelectedItem();
+                model.lastePlayDate(movie.getMovie());
                 listview.getItems().remove(movie);
                 moviestoDelete.remove(movie);
 
@@ -130,7 +128,7 @@ public class MoviesToDeleteController implements Initializable {
     
     // set all movies lastPlayDate to today 
     private void postePoneAllMovies(MouseEvent event, Movie movie) {
-        for (Movie m : moviestoDelete) {
+        for (MovieImage m : moviestoDelete) {
             model.lastePlayDate(movie);
             stage.close();
         }
