@@ -67,8 +67,7 @@ import privatemoviecollection.GUI.Model.Model;
  *
  * @author Christian
  */
-public class FXMLDocumentController implements Initializable
-{
+public class FXMLDocumentController implements Initializable {
 
     @FXML
     private StackPane stacPane;
@@ -127,6 +126,7 @@ public class FXMLDocumentController implements Initializable
     private RowConstraints rowConstraints;
     private ObservableList<MovieImage> allMovieImages;
     private ObservableList<MovieImage> activeMovieImages;
+    private ArrayList<ImageView> rateListe;
     private ObservableList<Movie> moviesToDelete1;
     private Movie movieClass;
     private Model model;
@@ -148,7 +148,7 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private Label summery;
     @FXML
-    private Label rating;
+    private Label lblRating;
     @FXML
     private Label IMDbRating;
     @FXML
@@ -166,22 +166,17 @@ public class FXMLDocumentController implements Initializable
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
-        try
-        {
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
             model = new Model();
             genreComBox.getItems().setAll(model.getAllgenres());
             movies = model.getAllMovies();
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (!model.checkMediaPlayerPath())
-        {
+        if (!model.checkMediaPlayerPath()) {
             new MovieCollectionException("Error", "Couldn't find Windows Media Player", "Please navigate to wmplayer.exe");
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Executables", "*.exe"));
@@ -193,12 +188,10 @@ public class FXMLDocumentController implements Initializable
         contexMenu = new ContextMenu();
 
         MenuItem delete = new MenuItem("Delete Movie");
-        delete.setOnAction(new EventHandler<ActionEvent>()
-        {
+        delete.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(ActionEvent event)
-            {
+            public void handle(ActionEvent event) {
 
                 model.deleteMovie(movieClass);
 
@@ -206,15 +199,13 @@ public class FXMLDocumentController implements Initializable
         });
 
         MenuItem play = new MenuItem("Play Movie");
-        play.setOnAction(new EventHandler<ActionEvent>()
-        {
+        play.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event)
-            {
+            public void handle(ActionEvent event) {
                 play(null);
             }
         });
-        
+
         MenuItem deleteGenre = new MenuItem("Delete Genre");
         deleteGenre.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -224,17 +215,28 @@ public class FXMLDocumentController implements Initializable
         });
 
         MenuItem addGenre = new MenuItem("Add Genre");
-        addGenre.setOnAction(new EventHandler<ActionEvent>()
-        {
+        addGenre.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event)
-            {
+            public void handle(ActionEvent event) {
                 //model.addGenre(;
 
             }
         });
 
         contexMenu.getItems().addAll(play, addGenre, delete, deleteGenre);
+
+        //adds rate imeges to rateListe
+        rateListe = new ArrayList<>();
+        rateListe.add(rate1);
+        rateListe.add(rate2);
+        rateListe.add(rate3);
+        rateListe.add(rate4);
+        rateListe.add(rate5);
+        rateListe.add(rate6);
+        rateListe.add(rate7);
+        rateListe.add(rate8);
+        rateListe.add(rate9);
+        rateListe.add(rate10);
 
         // create new constraints for columns and set their percentage
         columnConstraints = new ColumnConstraints();
@@ -275,30 +277,23 @@ public class FXMLDocumentController implements Initializable
         row = 0;
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
         allMovieImages = FXCollections.observableArrayList();
-        for (Movie movie : movies)
-        {
+        for (Movie movie : movies) {
 
             MovieImage image = new MovieImage(movie);
 
-            image.getImageview().setOnMouseClicked(new EventHandler<MouseEvent>()
-            {
+            image.getImageview().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
-                public void handle(MouseEvent mouseEvent)
-                {
-                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
-                    {
-                        if (mouseEvent.getClickCount() == 2)
-                        {
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        if (mouseEvent.getClickCount() == 2) {
                             bringToFront(null);
                             title.setText(movie.getMovieTitle());
                             Year.setText("Year: " + movie.getYear());
                             ArrayList<String> genres = movie.getGenres();
                             String allGenres = "Genres: ";
-                            for (int i = 0; i < genres.size(); i++)
-                            {
+                            for (int i = 0; i < genres.size(); i++) {
                                 allGenres += genres.get(i) + ", ";
-                                if (i >= genres.size() - 2)
-                                {
+                                if (i >= genres.size() - 2) {
                                     allGenres += genres.get(i + 1);
                                     i++;
                                 }
@@ -308,12 +303,13 @@ public class FXMLDocumentController implements Initializable
                             actors.setText("Actors: " + movie.getActors());
                             summery.setText("Summary: " + movie.getPlot());
                             runtime.setText("runtime: " + movie.getRuntime());
-                            rating.setText(String.valueOf(movie.getRating()));
+                            lblRating.setText(String.valueOf(movie.getRating()));
                             IMDbRating.setText(movie.getImdb_rating());
                             imegePreview.setImage(new Image(movie.getPoster()));
                             imegePreview.setFitHeight(210);
                             imegePreview.setFitWidth(140);
                             activeMovie = movie;
+                            rateMovie(movie.getRating());
 
                         }
                     }
@@ -321,20 +317,17 @@ public class FXMLDocumentController implements Initializable
 
             });
 
-            image.getImageview().setOnContextMenuRequested(new EventHandler<ContextMenuEvent>()
-            {
+            image.getImageview().setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 
                 @Override
-                public void handle(ContextMenuEvent event)
-                {
+                public void handle(ContextMenuEvent event) {
                     contexMenu.hide();
                     contexMenu.show(image.getImageview(), event.getScreenX(), event.getScreenY());
                     activeMovie = image.getMovie();
                 }
             });
 
-            if (isDoDateOver(movie))
-            {
+            if (model.isDoDateOver(movie)) {
                 moviesToDelete.add(movie);
             }
             allMovieImages.add(image);
@@ -346,44 +339,42 @@ public class FXMLDocumentController implements Initializable
 
         reloadGrid();
 
-        if (moviesToDelete.size() > 0)
-        {
+        if (moviesToDelete.size() > 0) {
 
-            try
-            {
+            try {
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/MoviesToDelete.fxml"));
 
                 Parent root = loader.load();
                 Stage stage = new Stage();
+                stage.setAlwaysOnTop(true);
+                stage.setResizable(false);
                 stage.setTitle("Movies to delete");
                 stage.setScene(new Scene(root));
+
                 stage.show();
                 MoviesToDeleteController controller = loader.getController();
                 controller.setModel(model);
                 controller.setStage(stage);
                 controller.setMoviesTodelete(moviesToDelete);
-            } catch (IOException ex)
-            {
+
+            } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
 
-        window.widthProperty().addListener(new ChangeListener<Number>()
-        {
+        window.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
-            {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 resizeGrit(newValue.doubleValue());
             }
         });
 
-       searchBarMovie();
+        searchBarMovie();
 
     }
 
-    private void reloadGrid()
-    {
+    private void reloadGrid() {
         anchorGrid.getChildren().clear();
         moviegrid = new GridPane();
         moviegrid.getRowConstraints().add(rowConstraints);
@@ -396,13 +387,11 @@ public class FXMLDocumentController implements Initializable
 
         col = 0;
         row = 0;
-        for (MovieImage image : activeMovieImages)
-        {
+        for (MovieImage image : activeMovieImages) {
 
             moviegrid.add(image.getImageview(), col, row);
             col++;
-            if (col > collumNum - 1)
-            {
+            if (col > collumNum - 1) {
                 col = 0;
                 row++;
                 ImageView imnull = new ImageView();
@@ -413,16 +402,13 @@ public class FXMLDocumentController implements Initializable
 
     }
 
-    private void resizeGrit(double width)
-    {
-        if (width > COLLUMTHRESHOLD * (collumNum + 1) - 20)
-        {
+    private void resizeGrit(double width) {
+        if (width > COLLUMTHRESHOLD * (collumNum + 1) - 20) {
             collumNum++;
             reloadGrid();
             resizeGrit(width);
         }
-        if (width < COLLUMTHRESHOLD * (collumNum) - 20)
-        {
+        if (width < COLLUMTHRESHOLD * (collumNum) - 20) {
             collumNum--;
             reloadGrid();
             resizeGrit(width);
@@ -430,31 +416,27 @@ public class FXMLDocumentController implements Initializable
 
     }
 
-    private void bringToFront(MouseEvent event)
-    {
+    private void bringToFront(MouseEvent event) {
         stacPopUp.toFront();
         popUd.toFront();
 
     }
 
     @FXML
-    private void play(MouseEvent event)
-    {
+    private void play(MouseEvent event) {
         model.getMediaPlayer(activeMovie);
         model.lastePlayDate(activeMovie);
+
     }
 
     @FXML
-    private void bringToBack(MouseEvent event)
-    {
+    private void bringToBack(MouseEvent event) {
         stacPopUp.toBack();
     }
 
     @FXML
-    private void addMovie(ActionEvent event)
-    {
-        try
-        {
+    private void addMovie(ActionEvent event) {
+        try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/AddMovie.fxml"));
 
@@ -467,77 +449,38 @@ public class FXMLDocumentController implements Initializable
             controller.setModel(model);
             controller.setStage(stage);
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public boolean isDoDateOver(Movie movie)
-    {
+    @FXML
+    private void addGenre(ActionEvent event) {
+    }
 
-        if (movie.getLastView() != null)
-        {
-            SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
-
-            Date date = new Date();
-            dateformat.format(date);
-            Date lastPlayDate = new Date(); // catch in model
-            try
-            {
-                lastPlayDate = dateformat.parse(movie.getLastView());
-            } catch (ParseException ex)
-            {
-
-            }
-
-            long doDate = date.getTime() - lastPlayDate.getTime();
-
-            if (doDate >= 730)
-            /*&& (movie.getRating() => 6)*/
-            {
-                moviesToDelete1.add(movie);
-                return true;
-
-            }
-        }
-        return false;
+    @FXML
+    private void rencentlyWatched(ActionEvent event) {
 
     }
 
     @FXML
-    private void addGenre(ActionEvent event)
-    {
-    }
-
-    @FXML
-    private void rencentlyWatched(ActionEvent event)
-    {
-    }
-
-    @FXML
-    private void exit(ActionEvent event)
-    {
+    private void exit(ActionEvent event) {
         Platform.exit();
         System.exit(0);
     }
 
     @FXML
-    private void deleteMovie(ActionEvent event)
-    {
+    private void deleteMovie(ActionEvent event) {
     }
 
     @FXML
-    private void rate(MouseEvent event)
-    {
-        if (ratingWindowIsOpen)
-        {
+    private void rate(MouseEvent event) {
+        if (ratingWindowIsOpen) {
             rateWindow.toBack();
             ratingWindowIsOpen = false;
 
-        } else
-        {
+        } else {
             rateWindow.toFront();
             ratingWindowIsOpen = true;
         }
@@ -545,15 +488,114 @@ public class FXMLDocumentController implements Initializable
     }
 
 
+
+    private void rateMovie(int rating) {
+        model.setRating(activeMovie, rating);
+        activeMovie.setRating(rating);
+        lblRating.setText(String.valueOf(rating));
+        Image image1 = new Image("resus/icons8-christmas-star-96.png");
+        Image image2 = new Image("resus/icons8-star-96.png");
+
+        for (int i = 0; i < rateListe.size(); i++) {
+
+            if (i <= rating - 1) {
+                rateListe.get(i).setImage(image1);
+            }
+            if (i > rating - 1) {
+                rateListe.get(i).setImage(image2);
+            }
+
+        }
+
+    }
+
     @FXML
-    private void aboutTab(ActionEvent event)
-    {
-       Alert aboutUs = new Alert(Alert.AlertType.INFORMATION);
-                
+    private void rate_1(MouseEvent event) {
+        int rating = 1;
+
+        rateMovie(1);
+
+    }
+
+    @FXML
+    private void rate_2(MouseEvent event) {
+        int rating = 2;
+        model.setRating(activeMovie, rating);
+        rateMovie(2);
+
+    }
+
+    @FXML
+    private void rate_3(MouseEvent event) {
+        int rating = 3;
+        model.setRating(activeMovie, rating);
+        rateMovie(3);
+
+    }
+
+    @FXML
+    private void rate_4(MouseEvent event) {
+        int rating = 4;
+        model.setRating(activeMovie, rating);
+        rateMovie(4);
+
+    }
+
+    @FXML
+    private void rate_5(MouseEvent event) {
+        int rating = 5;
+        model.setRating(activeMovie, rating);
+        rateMovie(5);
+
+    }
+
+    @FXML
+    private void rate_6(MouseEvent event) {
+        int rating = 6;
+        model.setRating(activeMovie, rating);
+        rateMovie(6);
+
+    }
+
+    @FXML
+    private void rate_7(MouseEvent event) {
+        int rating = 7;
+        model.setRating(activeMovie, rating);
+        rateMovie(7);
+
+    }
+
+    @FXML
+    private void rate_8(MouseEvent event) {
+        int rating = 8;
+        model.setRating(activeMovie, rating);
+        rateMovie(8);
+
+    }
+
+    @FXML
+    private void rate_9(MouseEvent event) {
+        int rating = 9;
+        model.setRating(activeMovie, rating);
+        rateMovie(9);
+
+    }
+
+    @FXML
+    private void rate_10(MouseEvent event) {
+        int rating = 10;
+        model.setRating(activeMovie, rating);
+        rateMovie(10);
+    }
+
+    @FXML
+    private void aboutTab(ActionEvent event) {
+        Alert aboutUs = new Alert(Alert.AlertType.INFORMATION);
+
         aboutUs.setTitle("About Us");
         aboutUs.setHeaderText("Disaster Respone Unit");
         aboutUs.setContentText("We made this program with love and care :) ");
-        
+
         aboutUs.showAndWait();
     }
 
@@ -561,7 +603,6 @@ public class FXMLDocumentController implements Initializable
     private void sortByGenre(Event event) {
         String genre = genreComBox.getSelectionModel().getSelectedItem();
         ObservableList<MovieImage> movimg = FXCollections.observableArrayList();
-
 
         for (MovieImage movie : allMovieImages) {
             if (movie.getMovie().getGenres().contains(genre)) {
@@ -582,7 +623,7 @@ public class FXMLDocumentController implements Initializable
      */
       private void searchBarMovie()
       {
-          //making a Filteredlist named movieImage and connect the searchbar with 
+          //making a Filteredlist named movieImage and connect the searchbar with
           movieImage = new FilteredList(activeMovieImages, p -> true);
           searchBar.textProperty().addListener((observable, oldValue, newValue)
                   ->
@@ -628,13 +669,44 @@ public class FXMLDocumentController implements Initializable
           activeMovieImages = movieImage;
     }
 
+    private void searchBarMovie() {
+        movieImage = new FilteredList(activeMovieImages, p -> true);
+        searchBar.textProperty().addListener((observable, oldValue, newValue)
+                -> {
+            movieImage.setPredicate(movie
+                    -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+
+                for (String genre1 : movie.getMovie().getGenres()) {
+                    if (genre1.toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        });
+        sortedData = new SortedList<>(movieImage); // Wrap the FilteredList in a SortedList.
+        activeMovieImages = movieImage;
+    }
 
     @FXML
-    private void searchBarAction(KeyEvent event)
-    {
+    private void searchBarAction(KeyEvent event) {
         reloadGrid();
     }
-    
+
     private void deleteCategoryAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/DeleteCategory.fxml"));
@@ -644,14 +716,18 @@ public class FXMLDocumentController implements Initializable
             stage.setScene(new Scene(root));
 
             stage.show();
-            
+
             DeleteCategoryController control = loader.getController();
             control.setModel(model);
             control.setStage(stage);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+
+    }
+
+    @FXML
+    private void searchBarAction(ActionEvent event) {
     }
 
 }

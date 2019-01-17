@@ -47,7 +47,7 @@ public class Movie {
      * @param actors
      */
     
-    public Movie(int id, String movieTitle, int rating, String fileLink, String lastView, String year, String runtime, String director, String actors, String plot, String imdb_rating, String poster)
+    public Movie(int id, String movieTitle, int rating, String fileLink, String year, String runtime, String director, String actors, String plot, String imdb_rating, String poster)
     {
         this.id = id;
         this.movieTitle = movieTitle;
@@ -60,6 +60,7 @@ public class Movie {
         this.plot = plot;
         this.imdb_rating = imdb_rating;
         this.poster = poster;
+        lastView = null;
         
         moviegenre = new ArrayList<>();
     }
@@ -210,5 +211,11 @@ public class Movie {
     {
         this.poster = poster;
     }
+
+    @Override
+    public String toString() {
+        return movieTitle;
+    }
+    
 
 }

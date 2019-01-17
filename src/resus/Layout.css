@@ -196,7 +196,7 @@
     
     -fx-font-smoothing-type: lcd;
 }
-#rating {
+#lblRating {
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
     -fx-font-size: 14px;

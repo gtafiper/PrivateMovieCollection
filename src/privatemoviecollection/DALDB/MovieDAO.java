@@ -112,11 +112,11 @@ public class MovieDAO {
             String plot = rs.getNString("plot");
             String imdb_rating = rs.getNString("imdb_rating");
             String poster = rs.getNString("poster");
-        //making a Movie object and adds a genre
-            Movie movie = new Movie(id, movieTitle, rating, fileLink, lastView,
+
+            Movie movie = new Movie(id, movieTitle, rating, fileLink,
                     year, runtime, director, actors, plot,
                     imdb_rating, poster);
-
+            movie.setLastView(lastView);
             getGenres(movie);
             movies.add(movie);
 
@@ -129,7 +129,7 @@ public class MovieDAO {
     }
 
     /**
-     * Create a movie on the database and send it back as a object       
+     * Create a movie on the database and send it back as a object
      * @param imdbId
      * @param fileLink
      * @return
@@ -157,7 +157,7 @@ public class MovieDAO {
         st.setString(9, movieInfo.get(OmdbHandler.HASH_POSTER));
         st.setString(7, movieInfo.get(OmdbHandler.HASH_PLOT));
         st.setInt(10, 0);
-        
+
         //upload it to the database
         st.executeUpdate();
         //making a resultset that get the generatedkeys
@@ -173,13 +173,12 @@ public class MovieDAO {
         con.close();
         //making a new Movie object
         int rating = 0;
-        String lastplaydate = "";
+
 
         Movie movie = new Movie(id,
                 movieInfo.get(OmdbHandler.HASH_TITLE),
                 rating,
                 fileLink,
-                lastplaydate,
                 movieInfo.get(OmdbHandler.HASH_YEAR),
                 movieInfo.get(OmdbHandler.HASH_RUNTIME),
                 movieInfo.get(OmdbHandler.HASH_DIRECTOR),
@@ -246,7 +245,7 @@ public class MovieDAO {
             PreparedStatement nps = con.prepareStatement(newSql, Statement.RETURN_GENERATED_KEYS);
             nps.setString(1, genre);
             nps.executeUpdate();
-        
+
             ResultSet rs = nps.getGeneratedKeys();
             int newId = 0;
             while (rs.next()) {
@@ -275,7 +274,7 @@ public class MovieDAO {
         //Connect to the database
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
-        //checks if the genre exist 
+        //checks if the genre exist
         System.out.println(genre);
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Category] "
                 + "WHERE Genre = '" + genre + "';");
@@ -297,8 +296,8 @@ public class MovieDAO {
     public void lastePlayDate(Movie movie) throws SQLServerException, SQLException {
         //make a new calender object and tells how the format should be stored
         Calendar cal = Calendar.getInstance();
-        DateFormat df = new SimpleDateFormat("dd/MM/yy");
-        //set the date into the movie
+        DateFormat df = new SimpleDateFormat("dd MM yyyy");
+
         movie.setLastView(df.format(cal.getTime()));
         //tells where it should be updated to
         String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET lastView = ? WHERE id =" + movie.getId();
@@ -311,7 +310,10 @@ public class MovieDAO {
 
         pst.setString(1, date);
 
+        pst.executeUpdate();
+
         movie.setLastView(date);
+        System.out.println(date);
 
     }
 

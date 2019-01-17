@@ -12,7 +12,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
+import privatemoviecollection.BE.Movie;
 
 /**
  *
@@ -45,6 +49,27 @@ public class CheckMediaPlayer {
         bw.close();
         Files.copy(tempPropfile.toPath(), new File(PROP_FILE).toPath(), StandardCopyOption.REPLACE_EXISTING);
         Files.delete(tempPropfile.toPath());
+
+    }
+
+    public static boolean isDoDateOver(Movie movie) throws ParseException {
+
+        if (movie.getLastView() != null) {
+            SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
+
+            Date date = new Date();
+            dateformat.format(date);
+            Date lastPlayDate = dateformat.parse(movie.getLastView());
+            System.out.println(lastPlayDate.toString());
+            long doDate = date.getTime() - lastPlayDate.getTime();
+            int rating = movie.getRating();
+            if ((doDate >= 730) && (rating <= 6 && rating != 0)) {
+                System.out.println("hej");
+                return true;
+            }
+        }
+
+        return false;
 
     }
 
