@@ -705,27 +705,30 @@ public class FXMLDocumentController implements Initializable {
         reloadGrid();
     }
 
+    /**
+     *  a searchbar to search for movie title, actors, director, genre and the year it been make
+     */
     private void searchBarMovie() {
-
+        //making a Filteredlist named movieImage and connect the searchbar with the movieImage
         searchBar.textProperty().addListener((observable, oldValue, newValue)
                 -> {
             movieImage.setPredicate(movie
                     -> {
-                if (newValue == null || newValue.isEmpty()) {
+                if (newValue == null || newValue.isEmpty()) { //if the searchbar is empty show all movies
                     return true;
                 }
-                String lowerCaseFilter = newValue.toLowerCase();
-                System.out.println("mojn");
-                if (movie.getMovieTitle().toLowerCase().contains(lowerCaseFilter)) {
+                String lowerCaseFilter = newValue.toLowerCase();//make everything to lowercase
+                
+                if (movie.getMovieTitle().toLowerCase().contains(lowerCaseFilter)) { //Filter the list with movie titles
                     return true;
-                } else if (movie.getActors().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (movie.getActors().toLowerCase().contains(lowerCaseFilter)) { //Filter the list with the actors
                     return true;
-                } else if (movie.getDirector().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (movie.getDirector().toLowerCase().contains(lowerCaseFilter)) { //Filter the list to the director
                     return true;
-                } else if (movie.getYear().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (movie.getYear().toLowerCase().contains(lowerCaseFilter)) { //filter the list when the movie are made
                     return true;
                 }
-
+                //checking the list with genre though
                 for (String genre1 : movie.getGenres()) {
                     if (genre1.toLowerCase().contains(lowerCaseFilter)) {
                         return true;
@@ -735,7 +738,7 @@ public class FXMLDocumentController implements Initializable {
             });
         });
         sortedData = new SortedList<>(movieImage); // Wrap the FilteredList in a SortedList.
-        genreMovies.setAll(movieImage);
+        genreMovies.setAll(movieImage); 
     }
 
     @FXML
