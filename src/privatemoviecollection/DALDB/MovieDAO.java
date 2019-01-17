@@ -188,6 +188,7 @@ public class MovieDAO {
                 movieInfo.get(OmdbHandler.HASH_POSTER));
 
         String[] genres = movieInfo.get(OmdbHandler.HASH_GENRE).split(", ");
+        lastePlayDate(movie);
 
         for (String genre : genres) {
             addGenre(genre, movie);
@@ -313,7 +314,7 @@ public class MovieDAO {
         pst.executeUpdate();
 
         movie.setLastView(date);
-        System.out.println(date);
+       
 
     }
 

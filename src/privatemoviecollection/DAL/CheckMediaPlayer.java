@@ -51,21 +51,28 @@ public class CheckMediaPlayer {
         Files.delete(tempPropfile.toPath());
 
     }
-
+    //tjecks if it is more then 2years sins the movie has bin playd and if it has a rating belov 6
     public static boolean isDoDateOver(Movie movie) throws ParseException {
-
+        
         if (movie.getLastView() != null) {
+            //format the date String to days month and tear 
             SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
-
+            //gets todays date
             Date date = new Date();
             dateformat.format(date);
+            //formates the movies last play date string to the format vi yuse
             Date lastPlayDate = dateformat.parse(movie.getLastView());
-            System.out.println(lastPlayDate.toString());
-            long doDate = date.getTime() - lastPlayDate.getTime();
+            //doDate is the difrens between todays date and the date the movie was last played
+            long doDate = (date.getTime() - lastPlayDate.getTime())/24/3600000;
+            //gets the rating if the movie and stors it in rating
             int rating = movie.getRating();
-            if ((doDate >= 730) && (rating <= 6 && rating != 0)) {
-                System.out.println("hej");
-                return true;
+            
+            //returns true if the difrens in time is more the 730 days 
+            if (doDate >= 730 ) {
+                if (rating <= 6 && rating != 0) {
+                    return true;
+                }
+
             }
         }
 

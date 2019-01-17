@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -57,6 +58,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.BE.MovieImage;
 import privatemoviecollection.BLL.Exception.MovieCollectionException;
@@ -326,7 +328,7 @@ public class FXMLDocumentController implements Initializable {
                     activeMovie = image.getMovie();
                 }
             });
-
+            //uses the is the isDoDateOver methot on all the movies if it is thrue adds the movie to the moviesToDelete list
             if (model.isDoDateOver(movie)) {
                 moviesToDelete.add(movie);
             }
@@ -338,7 +340,7 @@ public class FXMLDocumentController implements Initializable {
         activeMovieImages.addAll(allMovieImages);
 
         reloadGrid();
-
+        //opens a new window if there is movies on the movisToDelerte list 
         if (moviesToDelete.size() > 0) {
 
             try {
@@ -350,7 +352,14 @@ public class FXMLDocumentController implements Initializable {
                 stage.setResizable(false);
                 stage.setTitle("Movies to delete");
                 stage.setScene(new Scene(root));
-
+                //updates the movieGrid when the window closes 
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        reloadGrid();
+                    }
+                });
+                
                 stage.show();
                 MoviesToDeleteController controller = loader.getController();
                 controller.setModel(model);
@@ -415,7 +424,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
+    // brings the movie info AnchorPane to the front of the viw en mose clik 
     private void bringToFront(MouseEvent event) {
         stacPopUp.toFront();
         popUd.toFront();
@@ -428,7 +437,7 @@ public class FXMLDocumentController implements Initializable {
         model.lastePlayDate(activeMovie);
 
     }
-
+    //a transparent AnchorPane that when you clic outsaid the movie info window sends the movie grid to the front 
     @FXML
     private void bringToBack(MouseEvent event) {
         stacPopUp.toBack();
@@ -488,7 +497,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
 
-
+    //sets the imege of the rate icon acrording to its rating 
     private void rateMovie(int rating) {
         model.setRating(activeMovie, rating);
         activeMovie.setRating(rating);
@@ -508,7 +517,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
+    // rates the movie one strar
     @FXML
     private void rate_1(MouseEvent event) {
         int rating = 1;
@@ -516,7 +525,7 @@ public class FXMLDocumentController implements Initializable {
         rateMovie(1);
 
     }
-
+    //// rates the movie two strar
     @FXML
     private void rate_2(MouseEvent event) {
         int rating = 2;
