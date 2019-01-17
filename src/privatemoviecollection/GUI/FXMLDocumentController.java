@@ -599,80 +599,60 @@ public class FXMLDocumentController implements Initializable {
     // rates the movie 1 strar
     @FXML
     private void rate_1(MouseEvent event) {
-        int rating = 1;
-
-        rateMovie(1);
+      rateMovie(1);
 
     }
     //// rates the movie 2 strar
     @FXML
     private void rate_2(MouseEvent event) {
-        int rating = 2;
-        model.setRating(activeMovie, rating);
         rateMovie(2);
 
     }
 
     @FXML
     private void rate_3(MouseEvent event) {
-        int rating = 3;
-        model.setRating(activeMovie, rating);
         rateMovie(3);
 
     }
 
     @FXML
     private void rate_4(MouseEvent event) {
-        int rating = 4;
-        model.setRating(activeMovie, rating);
         rateMovie(4);
 
     }
 
     @FXML
     private void rate_5(MouseEvent event) {
-        int rating = 5;
-        model.setRating(activeMovie, rating);
         rateMovie(5);
 
     }
 
     @FXML
     private void rate_6(MouseEvent event) {
-        int rating = 6;
-        model.setRating(activeMovie, rating);
         rateMovie(6);
 
     }
 
     @FXML
     private void rate_7(MouseEvent event) {
-        int rating = 7;
-        model.setRating(activeMovie, rating);
         rateMovie(7);
 
     }
 
     @FXML
     private void rate_8(MouseEvent event) {
-        int rating = 8;
-        model.setRating(activeMovie, rating);
         rateMovie(8);
 
     }
 
     @FXML
     private void rate_9(MouseEvent event) {
-        int rating = 9;
-        model.setRating(activeMovie, rating);
-        rateMovie(9);
+      rateMovie(9);
 
     }
 
     @FXML
     private void rate_10(MouseEvent event) {
-        int rating = 10;
-        model.setRating(activeMovie, rating);
         rateMovie(10);
     }
 
