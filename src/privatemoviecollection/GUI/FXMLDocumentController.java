@@ -196,7 +196,11 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
 
-                model.deleteMovie(movieClass);
+                model.deleteMovie(activeMovie);
+                allMovies.remove(activeMovie);
+                genreMovies.remove(activeMovie);
+                reloadGrid();
+                
 
             }
         });
@@ -208,23 +212,40 @@ public class FXMLDocumentController implements Initializable {
                 play(null);
             }
         });
+        
+        Menu addGenre = new Menu("Add to Genre:  ");
 
-        MenuItem deleteGenre = new MenuItem("Delete Genre");
-        deleteGenre.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                deleteCategoryAction();
-            }
-        });
+        for (String genre : model.getAllCategory()) {
+            System.out.println(genre);
+            MenuItem genreItem = new MenuItem(genre);
+            genreItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println(genre);
+                    System.out.println(activeMovie);
+                    model.addMovieToCategory(activeMovie, genre);
+                }
+            });
+            addGenre.getItems().add(genreItem);
 
-        MenuItem addGenre = new MenuItem("Add Genre");
-        addGenre.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //model.addGenre(;
+        }
+        
+        Menu deleteGenre = new Menu("Delete Genre:  ");
 
-            }
-        });
+        for (String genre : model.getAllCategory()) {
+            System.out.println(genre);
+            MenuItem genreItem = new MenuItem(genre);
+            genreItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println(genre);
+                    System.out.println(activeMovie);
+                    model.deleteCategoryFromMovie(activeMovie, genre);
+                }
+            });
+            deleteGenre.getItems().add(genreItem);
+
+        }
 
         contexMenu.getItems().addAll(play, addGenre, delete, deleteGenre);
         genreMovies = FXCollections.observableArrayList();
@@ -232,7 +253,6 @@ public class FXMLDocumentController implements Initializable {
         searchBarMovie();
 
         genreMovies.addAll(movies);
-
 
         //adds rate imeges to rateListe
         rateListe = new ArrayList<>();
@@ -287,8 +307,6 @@ public class FXMLDocumentController implements Initializable {
         ArrayList<Movie> moviesToDelete = new ArrayList<>();
         allMovies = FXCollections.observableArrayList();
         for (Movie movie : movies) {
-
-
 
             movie.getImageview().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -366,7 +384,7 @@ public class FXMLDocumentController implements Initializable {
                         reloadGrid();
                     }
                 });
-                
+
                 stage.show();
                 MoviesToDeleteController controller = loader.getController();
                 controller.setModel(model);
@@ -385,8 +403,6 @@ public class FXMLDocumentController implements Initializable {
                 resizeGrit(newValue.doubleValue());
             }
         });
-
-
 
     }
 
@@ -431,6 +447,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
+
     // brings the movie info AnchorPane to the front of the viw en mose clik 
     private void bringToFront(MouseEvent event) {
         stacPopUp.toFront();
@@ -444,6 +461,7 @@ public class FXMLDocumentController implements Initializable {
         model.lastePlayDate(activeMovie);
 
     }
+
     //a transparent AnchorPane that when you clic outsaid the movie info window sends the movie grid to the front 
     @FXML
     private void bringToBack(MouseEvent event) {
@@ -477,7 +495,7 @@ public class FXMLDocumentController implements Initializable {
     private void addGenreAndDeleteGenre(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/AddnDeleteGenre.fxml"));
-            
+
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setAlwaysOnTop(true);
@@ -488,8 +506,7 @@ public class FXMLDocumentController implements Initializable {
             AddnDeleteGenreController controller = loader.getController();
             controller.setModel(model);
             controller.setStage(stage);
-            
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -523,7 +540,6 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-
     //sets the imege of the rate icon acrording to its rating 
     private void rateMovie(int rating) {
         model.setRating(activeMovie, rating);
@@ -544,6 +560,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
+
     // rates the movie one strar
     @FXML
     private void rate_1(MouseEvent event) {
@@ -552,6 +569,7 @@ public class FXMLDocumentController implements Initializable {
         rateMovie(1);
 
     }
+
     //// rates the movie two strar
     @FXML
     private void rate_2(MouseEvent event) {
@@ -640,7 +658,6 @@ public class FXMLDocumentController implements Initializable {
         String genre = genreComBox.getSelectionModel().getSelectedItem();
         ObservableList<Movie> movimg = FXCollections.observableArrayList();
 
-
         movimg = model.getMoviesByGenre(genre);
         genreMovies.setAll(movimg);
 
@@ -652,11 +669,8 @@ public class FXMLDocumentController implements Initializable {
 //        }
 //
 //        activeMovies = movimg;
-
-
-
         reloadGrid();
-      }
+    }
 
     private void searchBarMovie() {
 
@@ -691,7 +705,6 @@ public class FXMLDocumentController implements Initializable {
         genreMovies.setAll(movieImage);
     }
 
-
     @FXML
     private void searchBarAction(KeyEvent event) {
         reloadGrid();
@@ -715,14 +728,5 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
-
-
-
-
-
-
-    
-
 
 }
