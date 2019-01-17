@@ -198,6 +198,39 @@ public class FXMLDocumentController implements Initializable {
             }
         });
 
+        /**
+         * Right click function with a menu item with change info
+         */
+        MenuItem edit = new MenuItem("Change info");
+        edit.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                try
+                {
+                    //sets which window to open
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("privatemoviecollection/GUI/movieInfo.fxml"));
+                    
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.setAlwaysOnTop(true);
+                    stage.setResizable(false);
+                    stage.setTitle("Change info");
+                    stage.setScene(new Scene(root));
+                    
+                    stage.show();
+                    MovieInfoController controller = loader.getController();
+                    controller.setModel(model);
+                    controller.setStage(stage);
+                    controller.setMovie(activeMovie);
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
         MenuItem play = new MenuItem("Play Movie");
         play.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -223,7 +256,7 @@ public class FXMLDocumentController implements Initializable {
             }
         });
 
-        contexMenu.getItems().addAll(play, addGenre, delete, deleteGenre);
+        contexMenu.getItems().addAll(play, addGenre, edit, delete, deleteGenre);
 
         //adds rate imeges to rateListe
         rateListe = new ArrayList<>();

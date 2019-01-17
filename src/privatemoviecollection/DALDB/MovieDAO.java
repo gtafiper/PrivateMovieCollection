@@ -46,7 +46,19 @@ public class MovieDAO {
      * @throws SQLException
      */
     public boolean updateMovie(Movie movie) throws SQLException {
-        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] SET name = ?, fileLink = ?, rating = ?, lastView = ?  WHERE id =" + movie.getId();
+        //Tells the database where to update
+        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] "
+                + "SET name = ?, "
+                + "fileLink = ?, "
+                + "rating = ?, "
+                + "lastView = ?, "
+                + "year = ?,"
+                + "runtime = ?,"
+                + "director = ?,"
+                + "actors = ?,"
+                + "plot = ?,"
+                + "imdb_rating = ?,"
+                + "WHERE id =" + movie.getId();
         //connect to database
         Connection con = sc.getConnection();
         //Make a preparedt statement for security and sets the strings and int
@@ -56,6 +68,13 @@ public class MovieDAO {
         pst.setString(2, movie.getFilePath());
         pst.setInt(3, movie.getRating());
         pst.setString(4, movie.getLastView());
+        pst.setString(5, movie.getYear());
+        pst.setString(6, movie.getRuntime());
+        pst.setString(7, movie.getDirector());
+        pst.setString(8, movie.getActors());
+        pst.setString(9, movie.getPlot());
+        pst.setString(10, movie.getImdb_rating());
+        
         //send it back to the database
         int rowsAffected = pst.executeUpdate();
         if (rowsAffected >= 1) {
