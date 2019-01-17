@@ -669,39 +669,7 @@ public class FXMLDocumentController implements Initializable {
           activeMovieImages = movieImage;
     }
 
-    private void searchBarMovie() {
-        movieImage = new FilteredList(activeMovieImages, p -> true);
-        searchBar.textProperty().addListener((observable, oldValue, newValue)
-                -> {
-            movieImage.setPredicate(movie
-                    -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (movie.getMovie().getMovieTitle().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (movie.getMovie().getActors().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (movie.getMovie().getDirector().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (movie.getMovie().getYear().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-
-                for (String genre1 : movie.getMovie().getGenres()) {
-                    if (genre1.toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    }
-                }
-                return false;
-            });
-        });
-        sortedData = new SortedList<>(movieImage); // Wrap the FilteredList in a SortedList.
-        activeMovieImages = movieImage;
-    }
-
+ 
     @FXML
     private void searchBarAction(KeyEvent event) {
         reloadGrid();
