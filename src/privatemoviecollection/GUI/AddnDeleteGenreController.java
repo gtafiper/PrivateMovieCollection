@@ -21,7 +21,7 @@ import privatemoviecollection.GUI.Model.Model;
 
 /**
  * FXML Controller class
- *
+ * yes
  * @author Nijas Hansen
  */
 public class AddnDeleteGenreController implements Initializable {
