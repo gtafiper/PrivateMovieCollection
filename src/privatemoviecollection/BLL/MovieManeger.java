@@ -75,7 +75,7 @@ public class MovieManeger
      */
     public boolean updateMovie(Movie movie) throws SQLException
     {
-        System.out.println("bll update");
+        
         return movieDAO.updateMovie(movie);
     }
 

@@ -668,7 +668,6 @@ public class MainController implements Initializable
                 @Override
                 public void handle(WindowEvent event)
                 {
-                    System.out.println("hi");
                     createContextMenu();
                 }
             });
@@ -785,6 +784,7 @@ public class MainController implements Initializable
         ObservableList<MovieImage> movimg = null;
 
         String genre = genreComBox.getSelectionModel().getSelectedItem();
+        
         sortByGenre(genre);
     }
 
@@ -853,31 +853,6 @@ public class MainController implements Initializable
         });
         sortedData = new SortedList<>(movieImage); // Wrap the FilteredList in a SortedList.
         genreMovies.setAll(sortedData);
-    }
-
-    /**
-     *
-     */
-    private void deleteCategoryAction()
-    {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(CATEGORYFX_URL));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Delete genre from movie");
-            stage.setScene(new Scene(root));
-
-            stage.show();
-
-            DeleteCategoryController control = loader.getController();
-            control.setModel(model);
-            control.setStage(stage);
-        } catch (IOException ex)
-        {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     /**

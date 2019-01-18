@@ -42,7 +42,7 @@ public class Model
             genres.setAll(logiclayer.getAllCategory());
         } catch (Exception ex)
         {
-            new MovieCollectionException("Error", "Trouble connection to server", "check for proper connection");
+            new MovieCollectionException("Error", "Trouble connecting to server", "check for proper connection");
         }
 
     }
@@ -151,7 +151,6 @@ public class Model
      */
     public MovieImage CreateMovie(String fileLink, String imdbId) throws SQLException, IOException
     {
-        System.out.println("dav");
         for (Movie movie : movies)
         {
             if (movie.getFilePath().equals(fileLink))
@@ -203,7 +202,6 @@ public class Model
     {
         try
         {
-            System.out.println("model update");
             return logiclayer.updateMovie(movie);
         } catch (SQLException ex)
         {

@@ -36,7 +36,6 @@ public class MediaPlayer
         is.close();
         File file = new File(movie.getFilePath());
         String exepath = path + " \"" + file.getAbsolutePath().replace("\\", "/") + "\" /fullscreen";
-        System.out.println(exepath);
         Runtime.getRuntime().exec(exepath);
 
     }
