@@ -66,4 +66,9 @@ public class MovieImage
         this.imageview = imageview;
     }
 
+    @Override
+    public String toString() {
+        return movie.toString();
+    }
+
 }
