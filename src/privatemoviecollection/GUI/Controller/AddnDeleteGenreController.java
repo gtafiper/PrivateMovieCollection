@@ -56,6 +56,10 @@ public class AddnDeleteGenreController implements Initializable {
         });
     }
 
+    /**
+     * adds genre 
+     * @param event 
+     */
     @FXML
     private void addGenreBTN(MouseEvent event) {
         String genre = txtfldAddGenre.getText();
@@ -63,6 +67,10 @@ public class AddnDeleteGenreController implements Initializable {
         lstviewGenres.getItems().setAll(model.getAllHashGenres());
     }
 
+    /**
+     * deletes genre
+     * @param event 
+     */
     @FXML
     private void deleteGenreBTN(MouseEvent event) {
         String genre = lstviewGenres.getSelectionModel().getSelectedItem();

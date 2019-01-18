@@ -61,6 +61,10 @@ public class AddMovieController implements Initializable
         
     }
 
+    /**
+     * opens the filechooser
+     * 
+    **/
     @FXML
     private void OpenFileChooser(MouseEvent event)
     {
@@ -80,6 +84,9 @@ public class AddMovieController implements Initializable
 
     }
 
+    /**
+     * refactores the URL to get the id from IMDB
+     */
     private void URL()
     {
         String txt = txtfldURL.getText();
