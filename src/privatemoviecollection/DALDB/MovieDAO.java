@@ -25,14 +25,16 @@ import privatemoviecollection.DAL.ServerConnect;
  *
  * @author Bruger
  */
-public class MovieDAO {
+public class MovieDAO
+{
 
     private ArrayList<Movie> movies;
 
     //makes a server connection "sc" that can be accessed throughout the class
     ServerConnect sc;
 
-    public MovieDAO() throws IOException {
+    public MovieDAO() throws IOException
+    {
 
         sc = new ServerConnect();
         movies = new ArrayList<>();
@@ -41,13 +43,15 @@ public class MovieDAO {
 
     /**
      * updates a movie with new Title, Path, rating, lastView. in the database
+     *
      * @param movie
      * @return
      * @throws SQLException
      */
-    public boolean updateMovie(Movie movie) throws SQLException {
+    public boolean updateMovie(Movie movie) throws SQLException
+    {
         //Tells the database where to update
-        System.out.println("her");
+
         String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Movie] "
                 + "SET title = ?, "
                 + "fileLink = ?, "
@@ -75,11 +79,11 @@ public class MovieDAO {
         pst.setString(8, movie.getActors());
         pst.setString(9, movie.getPlot());
         pst.setString(10, movie.getImdb_rating());
-        
+
         //send it back to the database
         int rowsAffected = pst.executeUpdate();
-        System.out.println("der");
-        if (rowsAffected >= 1) {
+        if (rowsAffected >= 1)
+        {
             return true;
         }
         //closes the connection to the database
@@ -87,11 +91,16 @@ public class MovieDAO {
         return false;
     }
 
-    /*
-    *deletes a movie both on the CatMovie and from the list of Movie in the database
-    *@parameter movie
+    /**
+     * deletes a movie both on the CatMovie and from the list of Movie in the
+     * database
+     *
+     * @param movie
+     * @throws SQLServerException
+     * @throws SQLException
      */
-    public void deleteMovie(Movie movie) throws SQLServerException, SQLException {
+    public void deleteMovie(Movie movie) throws SQLServerException, SQLException
+    {
         //connect to the database
         Connection con = sc.getConnection();
         //tells the database to where the deleted movie should be remove from CatMovie table
@@ -109,18 +118,23 @@ public class MovieDAO {
         con.close();
     }
 
-    /*
-    *gets all the movies in the server table Movie
-    *@retuns List of all movies
+    /**
+     * gets all the movies in the server table Movie
+     *
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException
      */
-    public ArrayList<Movie> getAllMovies() throws SQLServerException, SQLException {
+    public ArrayList<Movie> getAllMovies() throws SQLServerException, SQLException
+    {
         //Making a arraylist with Movie and connect to the database.
         ArrayList<Movie> movies = new ArrayList<>();
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Movie]");
         //runs all the movies through
-        while (rs.next()) {
+        while (rs.next())
+        {
             int id = rs.getInt("id");
             String movieTitle = rs.getNString("title");
             int rating = rs.getInt("user_rating");
@@ -151,13 +165,15 @@ public class MovieDAO {
 
     /**
      * Create a movie on the database and send it back as a object
+     *
      * @param imdbId
      * @param fileLink
      * @return
      * @throws SQLException
      * @throws java.io.IOException
      */
-    public Movie createMovie(String fileLink, String imdbId) throws SQLException, IOException {
+    public Movie createMovie(String fileLink, String imdbId) throws SQLException, IOException
+    {
         //making a string to tell where it should put in the infomation
         String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Movie] (title, fileLink, "
                 + "year, runtime, director, actors, plot, imdb_rating, poster, user_rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -186,7 +202,8 @@ public class MovieDAO {
         //checking the next line and get the id
         int id = 0;
 
-        if (rs.next()) {
+        if (rs.next())
+        {
             id = rs.getInt(1);
 
         }
@@ -194,7 +211,6 @@ public class MovieDAO {
         con.close();
         //making a new Movie object
         int rating = 0;
-
 
         Movie movie = new Movie(id,
                 movieInfo.get(OmdbHandler.HASH_TITLE),
@@ -209,9 +225,10 @@ public class MovieDAO {
                 movieInfo.get(OmdbHandler.HASH_POSTER));
 
         String[] genres = movieInfo.get(OmdbHandler.HASH_GENRE).split(", ");
-        lastePlayDate(movie);
+        refreshPlayDate(movie);
 
-        for (String genre : genres) {
+        for (String genre : genres)
+        {
             movie.addGenre(genre);
             addGenre(genre, movie);
         }
@@ -222,11 +239,13 @@ public class MovieDAO {
 
     /**
      * this adds the genre if the genre doesnt exist already in the database
+     *
      * @param movie
      * @throws SQLServerException
      * @throws SQLException
      */
-    public void getGenres(Movie movie) throws SQLServerException, SQLException {
+    public void getGenres(Movie movie) throws SQLServerException, SQLException
+    {
         //make connection to the database
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
@@ -237,7 +256,8 @@ public class MovieDAO {
                 + "[PrivateMovieCollectionName].[dbo].[Category].[id] = [PrivateMovieCollectionName].[dbo].[CatMovie].[CategoryId]"
                 + "WHERE MovieId = " + movie.getId());
 
-        while (rs.next()) {
+        while (rs.next())
+        {
             movie.addGenre(rs.getNString("Genre"));
         }
 
@@ -245,25 +265,29 @@ public class MovieDAO {
 
     /**
      * add a genre to the list of genre on the database
+     *
      * @param genre
      * @param movie
      * @throws SQLServerException
      * @throws SQLException
      */
-    public void addGenre(String genre, Movie movie) throws SQLServerException, SQLException {
+    public void addGenre(String genre, Movie movie) throws SQLServerException, SQLException
+    {
         //make connection to the server
         Connection con = sc.getConnection();
         int id = 0;
         //checks if the genre do exist in a movie with the Movieid and categoryid in the database CatMovie and give it to the movie
-        if ((id = doItExist(genre)) != 0) {
+        if ((id = doItExist(genre)) != 0)
+        {
             String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[CatMovie] (CategoryId, MovieId) VALUES (?, ?)";
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, id);
             ps.setInt(2, movie.getId());
             ps.executeUpdate();
-        //if the genre dont exist it will generate the new genre and put it into Categoy table under genre
-        } else {
+            //if the genre dont exist it will generate the new genre and put it into Categoy table under genre
+        } else
+        {
             String newSql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Category] (Genre) VALUES (?)";
             PreparedStatement nps = con.prepareStatement(newSql, Statement.RETURN_GENERATED_KEYS);
             nps.setString(1, genre);
@@ -271,10 +295,11 @@ public class MovieDAO {
 
             ResultSet rs = nps.getGeneratedKeys();
             int newId = 0;
-            while (rs.next()) {
+            while (rs.next())
+            {
                 newId = rs.getInt(1);
             }
-        //it will insert into the CatMovie with categoryid and a movieid and add the genre to the movie
+            //it will insert into the CatMovie with categoryid and a movieid and add the genre to the movie
             String newIdSql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[CatMovie] (CategoryId, MovieId) VALUES (?, ?)";
             PreparedStatement nips = con.prepareStatement(newIdSql, Statement.RETURN_GENERATED_KEYS);
 
@@ -288,12 +313,14 @@ public class MovieDAO {
 
     /**
      * check if the genre exist in the database
+     *
      * @param con
      * @param genre
      * @return
      * @throws SQLException
      */
-    public int doItExist(String genre) throws SQLException {
+    public int doItExist(String genre) throws SQLException
+    {
         //Connect to the database
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
@@ -302,7 +329,8 @@ public class MovieDAO {
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Category] "
                 + "WHERE Genre = '" + genre + "';");
 
-        while (rs.next()) {
+        while (rs.next())
+        {
 
             return rs.getInt("id");
         }
@@ -312,11 +340,13 @@ public class MovieDAO {
 
     /**
      * last time the movie are played
+     *
      * @param movie
      * @throws SQLServerException
      * @throws SQLException
      */
-    public void lastePlayDate(Movie movie) throws SQLServerException, SQLException {
+    public void refreshPlayDate(Movie movie) throws SQLServerException, SQLException
+    {
         //make a new calender object and tells how the format should be stored
         Calendar cal = Calendar.getInstance();
         DateFormat df = new SimpleDateFormat("dd MM yyyy");
@@ -336,19 +366,20 @@ public class MovieDAO {
         pst.executeUpdate();
 
         movie.setLastView(date);
-       
 
     }
 
     /**
      * set and or update the rating of a movie in the database
+     *
      * @param movie
      * @param rating
      * @return
      * @throws SQLServerException
      * @throws SQLException
      */
-    public boolean setRating(Movie movie, int rating) throws SQLServerException, SQLException {
+    public boolean setRating(Movie movie, int rating) throws SQLServerException, SQLException
+    {
         //Connect to the database
         Connection con = sc.getConnection();
         //tells where to update the movie with a new rating
@@ -359,7 +390,8 @@ public class MovieDAO {
         pst.setInt(1, rating);
 
         int rowsAffected = pst.executeUpdate();
-        if (rowsAffected >= 1) {
+        if (rowsAffected >= 1)
+        {
             return true;
         }
         //close the connection to the database

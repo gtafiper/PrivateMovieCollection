@@ -9,14 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import privatemoviecollection.BE.Movie;
 import privatemoviecollection.BE.MovieImage;
 import privatemoviecollection.BLL.Exception.MovieCollectionException;
@@ -29,14 +24,14 @@ import privatemoviecollection.BLL.MovieManeger;
 public class Model
 {
 
+    public static final String HASH_ALLMOVIES = "All Movies";
+
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
     private HashMap<String, ObservableList<MovieImage>> hashMap = new HashMap<>();
     private ObservableList<String> hashGenres = FXCollections.observableArrayList();
     private ObservableList<String> genres = FXCollections.observableArrayList();
     private MovieManeger logiclayer;
     private Movie movie;
-
-    public static final String HASH_ALLMOVIES = "All Movies";
 
     public Model()
     {
@@ -45,12 +40,9 @@ public class Model
             logiclayer = new MovieManeger();
             movies.setAll(logiclayer.getAllMovies());
             genres.setAll(logiclayer.getAllCategory());
-        } catch (IOException ex)
+        } catch (Exception ex)
         {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            new MovieCollectionException("Error", "Trouble connection to server", "check for proper connection");
         }
 
     }
@@ -61,37 +53,42 @@ public class Model
      * @throws IOException
      * @throws SQLException
      */
-    public void createGenreMoviePairs(ObservableList<MovieImage> movieimage)
+    public void createGenreMoviePairs(ObservableList<MovieImage> movieImage)
     {
 
-        hashMap.put(HASH_ALLMOVIES, movieimage);
+        hashMap.put(HASH_ALLMOVIES, movieImage);
         hashGenres.add(HASH_ALLMOVIES);
 
-        for (MovieImage movy : movieimage)
+        for (MovieImage movy : movieImage)
         {
-            addMovieToCategories(movy);
+            addMovieToGenre(movy);
         }
     }
 
-    public void addMovieToCategories(MovieImage movy)
+    /**
+     * links a MovieImage to a category
+     *
+     * @param movieImage
+     */
+    public void addMovieToGenre(MovieImage movieImage)
     {
-        if (movy.getMovie().getGenres().size() > 0)
+        if (movieImage.getMovie().getGenres().size() > 0)
         {
 
-            ObservableList<String> lilleListe = FXCollections.observableArrayList();
-            lilleListe.addAll(movy.getMovie().getGenres());
+            ObservableList<String> temp_list = FXCollections.observableArrayList();
+            temp_list.addAll(movieImage.getMovie().getGenres());
 
-            for (String genre : lilleListe)
+            for (String genre : temp_list)
             {
                 if (hashMap.containsKey(genre))
                 {
 
-                    hashMap.get(genre).add(movy);
+                    hashMap.get(genre).add(movieImage);
 
                 } else
                 {
                     ObservableList<MovieImage> extraMovies = FXCollections.observableArrayList();
-                    extraMovies.add(movy);
+                    extraMovies.add(movieImage);
                     hashMap.put(genre, extraMovies);
                     hashGenres.add(genre);
                 }
@@ -100,43 +97,58 @@ public class Model
 
     }
 
+    /**
+     * retrives all Genre Keys form the Hashmap
+     *
+     * @return
+     */
     public ObservableList<String> getAllHashGenres()
     {
         return hashGenres;
     }
 
-    public List<String> getHashMap()
-    {
-        List<String> ListOfCategorys = new ArrayList(hashMap.values());
-        return ListOfCategorys;
-    }
-
-    public void deleteMovie(MovieImage delMovie)
+    /**
+     * Deletes movie for all lists in memory and server
+     *
+     * @param movieImage
+     */
+    public void deleteMovie(MovieImage movieImage)
     {
         try
         {
-
-            for (String genre : delMovie.getMovie().getGenres())
+            for (String genre : movieImage.getMovie().getGenres())
             {
-                hashMap.get(genre).remove(delMovie);
+                hashMap.get(genre).remove(movieImage);
             }
+
             Movie temp_movie = null;
+
             for (int i = 0; i < movies.size(); i++)
             {
-                if (movies.get(i).getFilePath().equals(delMovie.getMovie().getFilePath()))
+                if (movies.get(i).getFilePath().equals(movieImage.getMovie().getFilePath()))
                 {
                     movies.remove(movies.get(i));
                 }
             }
-            hashMap.get(HASH_ALLMOVIES).remove(delMovie);
-            logiclayer.deleteMovie(delMovie.getMovie());
 
-        } catch (SQLException ex)
+            hashMap.get(HASH_ALLMOVIES).remove(movieImage);
+            logiclayer.deleteMovie(movieImage.getMovie());
+
+        } catch (Exception ex)
         {
-            new MovieCollectionException("Error", "Could not delete movie", delMovie + " is already deleted");
+            new MovieCollectionException("Error", "Could not delete movie", movieImage + " is already deleted");
         }
     }
 
+    /**
+     * Creates a movie in memory an on the server
+     *
+     * @param fileLink
+     * @param imdbId
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     */
     public MovieImage CreateMovie(String fileLink, String imdbId) throws SQLException, IOException
     {
         System.out.println("dav");
@@ -151,7 +163,7 @@ public class Model
         }
         Movie movie = logiclayer.CreateMovie(fileLink, imdbId);
         MovieImage movieImage = new MovieImage(movie);
-        addMovieToCategories(movieImage);
+        addMovieToGenre(movieImage);
         movies.addAll(movie);
         hashMap.get(HASH_ALLMOVIES).add(movieImage);
 
@@ -159,24 +171,34 @@ public class Model
 
     }
 
+    /**
+     * Retrives all movie og a given genre
+     *
+     * @param genre
+     * @return
+     */
     public ObservableList<MovieImage> getMoviesByGenre(String genre)
     {
 
         return hashMap.get(genre);
     }
 
-    public List<Movie> getAllMovies()
+    /**
+     * Retrives all Movies
+     *
+     * @return
+     */
+    public ObservableList<Movie> getAllMovies()
     {
-        try
-        {
-            return logiclayer.getAllMovies();
-        } catch (SQLException ex)
-        {
-            new MovieCollectionException("Error", "Could not find movies", "Contact tech team");
-        }
-        return null;
+        return movies;
     }
 
+    /**
+     * updates the data of the given objects server counterpart
+     *
+     * @param movie
+     * @return
+     */
     public boolean updateMovie(Movie movie)
     {
         try
@@ -185,12 +207,19 @@ public class Model
             return logiclayer.updateMovie(movie);
         } catch (SQLException ex)
         {
-            ex.printStackTrace();
+
             new MovieCollectionException("Error", "Could not update movie", movie + " does not exist");
         }
         return false;
     }
 
+    /**
+     * Updates the user rating of the movie
+     *
+     * @param movie
+     * @param rating
+     * @return
+     */
     public boolean setRating(Movie movie, int rating)
     {
         try
@@ -203,6 +232,11 @@ public class Model
         return false;
     }
 
+    /**
+     * creates a new genre
+     *
+     * @param name
+     */
     public void createGenre(String name)
     {
         try
@@ -215,6 +249,11 @@ public class Model
         }
     }
 
+    /**
+     * deletes a specific genre
+     *
+     * @param category
+     */
     public void deleteGenre(String category)
     {
         try
@@ -224,11 +263,17 @@ public class Model
             hashGenres.remove(category);
         } catch (SQLException ex)
         {
-            ex.printStackTrace();
+
             new MovieCollectionException("Error", "Could not delete genre", category + " does not exist");
         }
     }
 
+    /**
+     * Create a mo
+     *
+     * @param movie
+     * @param category
+     */
     public void addMovieToNewCategory(MovieImage movie, String category)
     {
         try
@@ -249,48 +294,58 @@ public class Model
         } catch (SQLException ex)
         {
             new MovieCollectionException("Error", "Could not add " + movie + " to " + category, "movie or genre does not exist");
-            ex.printStackTrace();
+
         }
     }
 
-    public void getMoviesFromCategory(String category)
-    {
-        try
-        {
-            logiclayer.getMoviesFromCategory(category);
-        } catch (SQLException ex)
-        {
-            new MovieCollectionException("Error", "Could not find movie from genre", category + " does not exist");
-        }
-    }
-
+    /**
+     * Retrives all genere
+     *
+     * @return
+     */
     public ObservableList<String> getAllGenres()
     {
         return genres;
     }
 
-    public void lastePlayDate(Movie movie)
+    /**
+     * retrives the
+     *
+     * @param movie
+     */
+    public void refreshPlayDate(Movie movie)
     {
         try
         {
-            logiclayer.lastPlayDate(movie);
+            logiclayer.refreshPlayDate(movie);
         } catch (SQLException ex)
         {
             new MovieCollectionException("Error", "Could not find last time played", movie + " does not have a last seen date");
         }
     }
 
-    public void getMediaPlayer(Movie movie)
+    /**
+     * executes Windows media Player runtime event and plays the given movie in
+     * fullscreen
+     *
+     * @param movie
+     */
+    public void openMediaPlayer(Movie movie)
     {
         try
         {
-            logiclayer.getMediaPlayer(movie);
+            logiclayer.openMediaPlayer(movie);
         } catch (IOException ex)
         {
             new MovieCollectionException("Error", "Could not open mediaplayer", movie + " does not exist");
         }
     }
 
+    /**
+     * create a new path to the windows mediaplayer
+     *
+     * @param file
+     */
     public void setMediaPlayerPath(File file)
     {
         try
@@ -302,6 +357,11 @@ public class Model
         }
     }
 
+    /**
+     * retruns true if the Window Media Player path
+     *
+     * @return
+     */
     public boolean checkMediaPlayerPath()
     {
         try
@@ -314,11 +374,17 @@ public class Model
         return false;
     }
 
-    public boolean isDoDateOver(Movie movie)
+    /**
+     * returns true if the duedate is more the 2 years
+     *
+     * @param movie
+     * @return
+     */
+    public boolean isDueDateOver(Movie movie)
     {
         try
         {
-            return logiclayer.isDoDateOver(movie);
+            return logiclayer.isDueDateOver(movie);
         } catch (ParseException ex)
         {
             new MovieCollectionException("", "", "to do");
@@ -326,6 +392,12 @@ public class Model
         return false;
     }
 
+    /**
+     * removes the given category from the given movie.
+     *
+     * @param movie
+     * @param genre
+     */
     public void deleteCategoryFromMovie(MovieImage movie, String genre)
     {
         try
@@ -346,7 +418,7 @@ public class Model
             logiclayer.deleteCategoryFromMovie(movie.getMovie(), genre);
         } catch (Exception e)
         {
-            e.printStackTrace();
+
             new MovieCollectionException("Error", "Couldn't delete genre from movie", "Contact tech team");
         }
     }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package privatemoviecollection.GUI;
+package privatemoviecollection;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,7 +21,7 @@ public class PrivateMovieCollectionn extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("GUI/View/Main.fxml"));
         
         Scene scene = new Scene(root);
         

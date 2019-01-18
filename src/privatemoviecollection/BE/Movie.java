@@ -6,13 +6,13 @@
 package privatemoviecollection.BE;
 
 import java.util.ArrayList;
-import javafx.scene.image.ImageView;
 
 /**
  *
  * @author Bruger
  */
-public class Movie {
+public class Movie
+{
 
     private int id;
     private int rating;
@@ -27,8 +27,6 @@ public class Movie {
     private String imdb_rating;
     private String poster;
     private ArrayList<String> moviegenre;
-    private ImageView imageview;
-    
 
     /**
      * Construct the Movie
@@ -46,7 +44,6 @@ public class Movie {
      * @param poster
      * @param actors
      */
-    
     public Movie(int id, String movieTitle, int rating, String fileLink, String year, String runtime, String director, String actors, String plot, String imdb_rating, String poster)
     {
         this.id = id;
@@ -61,15 +58,13 @@ public class Movie {
         this.imdb_rating = imdb_rating;
         this.poster = poster;
         lastView = null;
-        imageview = new ImageView(poster);
-        imageview.setFitHeight(210);
-        imageview.setFitWidth(140);
-        
+
         moviegenre = new ArrayList<>();
     }
 
     /**
      * Get the genre in a observableList
+     *
      * @return
      */
     public ArrayList<String> getGenres()
@@ -79,6 +74,7 @@ public class Movie {
 
     /**
      * set the genre in a observableList
+     *
      * @param genre
      */
     public void addGenre(String genre)
@@ -88,9 +84,10 @@ public class Movie {
 
     /**
      * delete a genre in a observableList
+     *
      * @param genre
      */
-    public void deleteGenre (String genre)
+    public void deleteGenre(String genre)
     {
         moviegenre.remove(genre);
     }
@@ -215,18 +212,10 @@ public class Movie {
         this.poster = poster;
     }
 
-    public ImageView getImageview() {
-        return imageview;
-    }
-
-    public void setImageview(ImageView imageview) {
-        this.imageview = imageview;
-    }
-    
     @Override
-    public String toString() {
+    public String toString()
+    {
         return movieTitle;
     }
-    
 
 }

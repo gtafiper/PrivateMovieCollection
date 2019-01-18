@@ -18,11 +18,9 @@ import privatemoviecollection.BE.Movie;
 public class MediaPlayer
 {
 
-
-    
-
     /**
-     * Opens the standard mediaplayer and plays the given String name.
+     * Opens the standard mediaplayer and plays the given the movie from its
+     * URL.
      *
      * @param moviename
      * @throws IOException
@@ -34,11 +32,10 @@ public class MediaPlayer
         mediaplayerProperties.load(is);
 
         String path = mediaplayerProperties.getProperty("Path");
-       
 
         is.close();
         File file = new File(movie.getFilePath());
-        String exepath = path  + " \"" + file.getAbsolutePath().replace("\\", "/")+"\" /fullscreen" ;
+        String exepath = path + " \"" + file.getAbsolutePath().replace("\\", "/") + "\" /fullscreen";
         System.out.println(exepath);
         Runtime.getRuntime().exec(exepath);
 

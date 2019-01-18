@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package privatemoviecollection.GUI;
+package privatemoviecollection.GUI.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -69,7 +69,7 @@ public class MoviesToDeleteController implements Initializable {
     @FXML
     public void postePoneAllMovies() {
         for (MovieImage m : moviestoDelete) {
-            model.lastePlayDate(m.getMovie());
+            model.refreshPlayDate(m.getMovie());
             listview.getItems().remove(m);
         }
         stage.close();
@@ -107,7 +107,7 @@ public class MoviesToDeleteController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 MovieImage movie = listview.getSelectionModel().getSelectedItem();
-                model.lastePlayDate(movie.getMovie());
+                model.refreshPlayDate(movie.getMovie());
                 listview.getItems().remove(movie);
                 moviestoDelete.remove(movie);
 
@@ -129,7 +129,7 @@ public class MoviesToDeleteController implements Initializable {
     // set all movies lastPlayDate to today 
     private void postePoneAllMovies(MouseEvent event, Movie movie) {
         for (MovieImage m : moviestoDelete) {
-            model.lastePlayDate(movie);
+            model.refreshPlayDate(movie);
             stage.close();
         }
     }

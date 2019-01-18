@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package privatemoviecollection.BLL;
+
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.File;
 import java.io.IOException;
@@ -21,92 +22,203 @@ import privatemoviecollection.DAL.MediaPlayer;
  *
  * @author Christian
  */
-public class MovieManeger {
+public class MovieManeger
+{
 
     MovieDAO movieDAO;
     CategoryDAO cateDAO;
 
-
-
-    public MovieManeger() throws IOException {
-    this.movieDAO = new MovieDAO();
-    this.cateDAO = new CategoryDAO();
+    public MovieManeger() throws IOException
+    {
+        this.movieDAO = new MovieDAO();
+        this.cateDAO = new CategoryDAO();
     }
 
-    public void deleteMovie(Movie movie) throws SQLException{
+    /**
+     *
+     * @param movie
+     * @throws SQLException
+     */
+    public void deleteMovie(Movie movie) throws SQLException
+    {
         movieDAO.deleteMovie(movie);
     }
 
-    public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException{
+    /**
+     *
+     *
+     * @param fileLink
+     * @param imdbId
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     */
+    public Movie CreateMovie(String fileLink, String imdbId) throws SQLException, IOException
+    {
         return movieDAO.createMovie(fileLink, imdbId);
     }
 
-    public List<Movie> getAllMovies() throws SQLException {
+    /**
+     *
+     * @return @throws SQLException
+     */
+    public List<Movie> getAllMovies() throws SQLException
+    {
         return movieDAO.getAllMovies();
     }
 
-    public boolean updateMovie(Movie movie) throws SQLException {
+    /**
+     *
+     * @param movie
+     * @return
+     * @throws SQLException
+     */
+    public boolean updateMovie(Movie movie) throws SQLException
+    {
         System.out.println("bll update");
         return movieDAO.updateMovie(movie);
     }
 
-    public void getGenres(Movie movie) throws SQLException {
+    /**
+     *
+     * @param movie
+     * @throws SQLException
+     */
+    public void getGenres(Movie movie) throws SQLException
+    {
         movieDAO.getGenres(movie);
     }
 
-    public void createCategory(String name) throws SQLException {
+    /**
+     *
+     * @param name
+     * @throws SQLException
+     */
+    public void createCategory(String name) throws SQLException
+    {
         cateDAO.createCategory(name);
     }
 
-    public void addMovieToCategory(Movie movie, String category) throws SQLException {
+    /**
+     *
+     * @param movie
+     * @param category
+     * @throws SQLException
+     */
+    public void addMovieToCategory(Movie movie, String category) throws SQLException
+    {
         cateDAO.addMovieToCategory(movie, category);
     }
 
-    public void getMoviesFromCategory(String category) throws SQLException {
+    /**
+     *
+     * @param category
+     * @throws SQLException
+     */
+    public void getMoviesFromCategory(String category) throws SQLException
+    {
         cateDAO.getMoviesFromCategory(category);
     }
 
-    public ArrayList getAllCategory() throws SQLException {
+    /**
+     *
+     * @return @throws SQLException
+     */
+    public ArrayList getAllCategory() throws SQLException
+    {
         return cateDAO.getAllCategory();
     }
 
-    public void lastPlayDate (Movie movie) throws SQLException{
-       movieDAO.lastePlayDate(movie);
-     }
+    /**
+     *
+     * @param movie
+     * @throws SQLException
+     */
+    public void refreshPlayDate(Movie movie) throws SQLException
+    {
+        movieDAO.refreshPlayDate(movie);
+    }
 
-    public void getMediaPlayer(Movie movie) throws IOException {
+    /**
+     *
+     * @param movie
+     * @throws IOException
+     */
+    public void openMediaPlayer(Movie movie) throws IOException
+    {
         MediaPlayer.openMediaPlayer(movie);
     }
 
-    public void setMediaPlayerPath(File file) throws IOException {
+    /**
+     *
+     * @param file
+     * @throws IOException
+     */
+    public void setMediaPlayerPath(File file) throws IOException
+    {
         CheckMediaPlayer.setMediaPlayerPath(file);
     }
 
-    public boolean checkMediaPath() throws IOException {
+    /**
+     *
+     * @return @throws IOException
+     */
+    public boolean checkMediaPath() throws IOException
+    {
         return CheckMediaPlayer.CheckMediaPlayerPath();
     }
 
-     public void addGenres(String genre, Movie movie) throws SQLException
-     {
-         movieDAO.addGenre(genre, movie);
-     }
+    /**
+     *
+     * @param genre
+     * @param movie
+     * @throws SQLException
+     */
+    public void addGenres(String genre, Movie movie) throws SQLException
+    {
+        movieDAO.addGenre(genre, movie);
+    }
 
-     public boolean isDoDateOver(Movie movie) throws ParseException{
-         return CheckMediaPlayer.isDoDateOver(movie);
-       }
-       
-       public void deleteCategory(String category) throws SQLException {
-           cateDAO.deleteCategory(category);
-     }
-       
-       public void deleteCategoryFromMovie(Movie movie, String category) throws SQLException {
-           cateDAO.deleteCategoryFromMovie(movie, category);
-       }
-       
-//    public void updateCategory(Category category) throws SQLException {
-//        cateDAO.updateCategory(category);
-//    }
+    /**
+     *
+     * @param movie
+     * @return
+     * @throws ParseException
+     */
+    public boolean isDueDateOver(Movie movie) throws ParseException
+    {
+        return CheckMediaPlayer.isDueDateOver(movie);
+    }
 
+    /**
+     *
+     * @param category
+     * @throws SQLException
+     */
+    public void deleteCategory(String category) throws SQLException
+    {
+        cateDAO.deleteCategory(category);
+    }
+
+    /**
+     *
+     * @param movie
+     * @param category
+     * @throws SQLException
+     */
+    public void deleteCategoryFromMovie(Movie movie, String category) throws SQLException
+    {
+        cateDAO.deleteCategoryFromMovie(movie, category);
+    }
+
+    /**
+     *
+     * @param movie
+     * @param rating
+     * @return
+     * @throws SQLServerException
+     * @throws SQLException
+     */
     public boolean setRating(Movie movie, int rating) throws SQLServerException, SQLException
     {
         return movieDAO.setRating(movie, rating);

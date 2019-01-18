@@ -20,20 +20,26 @@ import privatemoviecollection.DAL.ServerConnect;
  *
  * @author Nijas Hansen
  */
-public class CategoryDAO {
+public class CategoryDAO
+{
 
     //establishes a server connect witch can be used in the inter class
-    private static ServerConnect server;
+    private ServerConnect server;
 
-    public CategoryDAO() throws IOException {
+    public CategoryDAO() throws IOException
+    {
 
         this.server = new ServerConnect();
     }
-    /*
-     * creats a category on the sever, using sql
-     */
 
-    public ArrayList getAllCategory() throws SQLServerException, SQLException {
+    /**
+     * retrives all the MovieCatogory saved on the server
+     *
+     * @return @throws SQLServerException
+     * @throws SQLException
+     */
+    public ArrayList getAllCategory() throws SQLServerException, SQLException
+    {
         Connection con = server.getConnection();
         ArrayList list = new ArrayList<>();
         String sql = "SELECT * FROM [PrivateMovieCollectionName].[dbo].[Category]";
@@ -41,17 +47,25 @@ public class CategoryDAO {
 
         ResultSet rs = st.executeQuery();
 
-        while (rs.next()) {
+        while (rs.next())
+        {
             String genre = rs.getNString("Genre");
             list.add(genre);
         }
 
         return list;
 
-
     }
 
-    public void createCategory (String name) throws SQLServerException, SQLException {
+    /**
+     * sends the Input to the Server and autogenerates an table ID
+     *
+     * @param name
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public void createCategory(String name) throws SQLServerException, SQLException
+    {
         Connection con = server.getConnection();
 
         String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[Category] (Genre) VALUES (?)";
@@ -64,10 +78,16 @@ public class CategoryDAO {
 
     }
 
-    /*
-    *adds a movie to a category by inserting a movie object and a category into a joined table
-    */
-    public void addMovieToCategory(Movie movie, String category) throws SQLServerException, SQLException {
+    /**
+     * Saves the Movie-Category link
+     *
+     * @param movie
+     * @param category
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public void addMovieToCategory(Movie movie, String category) throws SQLServerException, SQLException
+    {
         Connection con = server.getConnection();
         String sql = "INSERT INTO [PrivateMovieCollectionName].[dbo].[CatMovie] (MovieId, CategoryId) VALUES (?,?)";
         PreparedStatement st = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -76,31 +96,42 @@ public class CategoryDAO {
         st.executeUpdate();
     }
 
-    private int getCategoryId(String category) throws SQLException {
+    /**
+     * retrives a Categories ID
+     *
+     * @param category
+     * @return
+     * @throws SQLException
+     */
+    private int getCategoryId(String category) throws SQLException
+    {
         Connection con = server.getConnection();
         Statement st = con.createStatement();
         ResultSet resultSet = st.executeQuery("SELECT * "
                 + "FROM [PrivateMovieCollectionName].[dbo].[Category] "
-                + "WHERE Genre = '" + category+"';");
+                + "WHERE Genre = '" + category + "';");
 
         int id = 0;
-        while (resultSet.next()) {
+        while (resultSet.next())
+        {
             id = resultSet.getInt("id");
         }
 
         return id;
     }
 
-
-    /*
-    * gets all the movies from the specified category
-    */
-    public void getMoviesFromCategory(String category) throws SQLException {
+    /**
+     * Retrives all movies linking to a specific Category
+     *
+     * @param category
+     * @throws SQLException
+     */
+    public void getMoviesFromCategory(String category) throws SQLException
+    {
         Connection con = server.getConnection();
         Statement st = con.createStatement();
 
         int id = getCategoryId(category);
-
 
         ResultSet rs = st.executeQuery("SELECT * "
                 + "FROM [PrivateMovieCollectionName].[dbo].[Movie] "
@@ -109,61 +140,55 @@ public class CategoryDAO {
                 + "WHERE CategoryId = " + id);
 
         ArrayList<Movie> moives = new ArrayList<>();
-        while (rs.next()) {
-            
+        while (rs.next())
+        {
+
         }
     }
-    
-    public void deleteCategory(String category) throws SQLServerException, SQLException {
+
+    /**
+     * Deletes all Instances og the Category
+     *
+     * @param category
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public void deleteCategory(String category) throws SQLServerException, SQLException
+    {
         Connection con = server.getConnection();
         Statement st = con.createStatement();
-        
-        st.executeQuery("DELETE FROM"
-                + "[PrivateMovieCollectionName].[dbo].[CatMovie] WHERE = " + getCategoryId(category)
+
+        st.execute("DELETE FROM"
+                + " [PrivateMovieCollectionName].[dbo].[CatMovie] WHERE CategoryId = " + getCategoryId(category)
         );
-        
-        st.executeQuery("DELETE FROM"
-            + "[PrivateMovieCollectionName].[dbo].[Category] WHERE Genre = " + category
+
+        st.execute("DELETE FROM"
+                + " [PrivateMovieCollectionName].[dbo].[Category] WHERE Genre = '" + category + "';"
         );
-        
+
         con.close();
     }
-    
-    public void deleteCategoryFromMovie(Movie movie, String category) throws SQLServerException, SQLException {
+
+    /**
+     * deletes a specific Movie-Category link
+     *
+     * @param movie
+     * @param category
+     * @throws SQLServerException
+     * @throws SQLException
+     */
+    public void deleteCategoryFromMovie(Movie movie, String category) throws SQLServerException, SQLException
+    {
         Connection con = server.getConnection();
         Statement st = con.createStatement();
 
         int id = getCategoryId(category);
 
-
-        ResultSet rs = st.executeQuery("DELETE "
+        st.execute("DELETE "
                 + "FROM [PrivateMovieCollectionName].[dbo].[CatMovie] "
                 + "WHERE CategoryId = " + id + " AND MovieId = " + movie.getId());
-        
+
         con.close();
     }
-
-
-
-
-    // updates the name of the category from id
-//    public boolean updateCategory(Category category) throws SQLServerException, SQLException {
-//
-//        String sql = "UPDATE [PrivateMovieCollectionName].[dbo].[Category] SET Name = ? WHERE id = " ;
-//
-//        Connection con = server.getConnection();
-//
-//        PreparedStatement pst = con.prepareStatement(sql);
-//
-//        //pst.setString(1, category.());
-//
-//        int rowsAffected = pst.executeUpdate();
-//
-//        if (rowsAffected >= 1) {
-//            return true;
-//        }
-//        return false;
-//
-//    }
 
 }

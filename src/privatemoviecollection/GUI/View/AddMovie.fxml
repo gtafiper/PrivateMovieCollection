@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="555.0" style="-fx-background-color: #595959;" stylesheets="@../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.AddMovieController">
+<AnchorPane id="AnchorPane" prefHeight="206.0" prefWidth="555.0" style="-fx-background-color: #595959;" stylesheets="@../../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.Controller.AddMovieController">
    <children>
       <Button fx:id="btnChangeFile" layoutX="508.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#OpenFileChooser" prefHeight="32.0" prefWidth="23.0" text="..." />
       <Text fill="#e4d3d3" layoutX="26.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="File Location" />

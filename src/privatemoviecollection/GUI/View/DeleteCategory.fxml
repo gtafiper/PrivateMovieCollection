@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="310.0" prefWidth="602.0" style="-fx-background-color: #595959;" stylesheets="@../../../resus/Layout.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.GUI.Controller.DeleteCategoryController">
+    <children>
+        <Button fx:id="btnDelete" layoutX="367.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#deleteBTN" text="Delete" AnchorPane.bottomAnchor="13.399999999999999" AnchorPane.rightAnchor="239.6" />
+        <Button fx:id="btnDelnClose" layoutX="424.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#deleteNCloseBTN" text="Delete and close" AnchorPane.bottomAnchor="13.399999999999999" AnchorPane.rightAnchor="100.0" />
+        <Button fx:id="btnCancel" layoutX="537.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#cancelBTN" text="Cancel" AnchorPane.bottomAnchor="13.399999999999999" AnchorPane.rightAnchor="15.0" />
+        <ListView fx:id="lstviewGenres" layoutX="14.0" layoutY="14.0" prefHeight="247.0" prefWidth="576.0" style="-fx-background-color: #747474;" stylesheets="@../../resus/Layout.css" AnchorPane.bottomAnchor="48.80000000000001" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0" />
+    </children>
+</AnchorPane>

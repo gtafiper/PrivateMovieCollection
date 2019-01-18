@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 public class OmdbHandler
 {
-    
+
     private static final String URL = "http://www.omdbapi.com/?i=IMDBID&plot=full&apikey=APIKEY";
     private static final String APIKEY = "5551e9bb";
     public static final String HASH_TITLE = "Title";
@@ -32,8 +32,14 @@ public class OmdbHandler
     public static final String HASH_PLOT = "Plot";
     public static final String HASH_POSTER = "Poster";
     public static final String HASH_IMDB_RATING = "imdbRating";
-   
-    
+
+    /**
+     * connects to an endpoint an retrives the infomation of the given Imdb ID
+     *
+     * @param id
+     * @return
+     * @throws java.io.IOException
+     */
     public static String getMovieByImdbID(String id) throws IOException
     {
         String requestUrl = URL
@@ -41,79 +47,89 @@ public class OmdbHandler
                 .replace("APIKEY", APIKEY);
         return sendGetRequest(requestUrl);
     }
-    
+
+    /**
+     * retrives the Raw json data from the given endpoint
+     *
+     * @param requestUrl
+     * @return
+     */
     private static String sendGetRequest(String requestUrl) throws MalformedURLException, IOException
     {
         StringBuffer response = new StringBuffer();
-        
+
         URL url = new URL(requestUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept","*/*");
+        connection.setRequestProperty("Accept", "*/*");
         connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         InputStream stream = connection.getInputStream();
         InputStreamReader reader = new InputStreamReader(stream);
-        BufferedReader buffer = new BufferedReader(reader);
-        String line;
-        while ((line = buffer.readLine()) != null)
+        try (BufferedReader buffer = new BufferedReader(reader))
         {
-            response.append(line);
+            String line;
+            while ((line = buffer.readLine()) != null)
+            {
+                response.append(line);
+            }
         }
-        buffer.close();
         connection.disconnect();
-        
+
         return response.toString();
     }
 
-    public static HashMap<String, String> createHashMap (String jsonResponse)
+    /**
+     * Creats a hashmap of the wanted information from the Jason response only
+     * works with a Omdb endpoint
+     *
+     * @param jsonResponse
+     * @return
+     */
+    public static HashMap<String, String> createHashMap(String jsonResponse)
     {
         String[] parts = jsonResponse.split("\"");
         HashMap<String, String> hashmap = new HashMap();
         for (int i = 0; i < parts.length; i++)
         {
-            if(parts[i].contains(HASH_TITLE))
+            if (parts[i].contains(HASH_TITLE))
             {
-                hashmap.put(HASH_TITLE, parts[i+2]);
+                hashmap.put(HASH_TITLE, parts[i + 2]);
             }
-            if(parts[i].contains(HASH_YEAR))
+            if (parts[i].contains(HASH_YEAR))
             {
-                hashmap.put(HASH_YEAR, parts[i+2]);
+                hashmap.put(HASH_YEAR, parts[i + 2]);
             }
-            if(parts[i].contains(HASH_RUNTIME))
+            if (parts[i].contains(HASH_RUNTIME))
             {
-                hashmap.put(HASH_RUNTIME, parts[i+2]);
+                hashmap.put(HASH_RUNTIME, parts[i + 2]);
             }
-            if(parts[i].contains(HASH_GENRE))
+            if (parts[i].contains(HASH_GENRE))
             {
-                hashmap.put(HASH_GENRE, parts[i+2]);
+                hashmap.put(HASH_GENRE, parts[i + 2]);
             }
-            if(parts[i].contains(HASH_DIRECTOR))
+            if (parts[i].contains(HASH_DIRECTOR))
             {
-                hashmap.put(HASH_DIRECTOR, parts[i+2]);
+                hashmap.put(HASH_DIRECTOR, parts[i + 2]);
             }
-            if(parts[i].contains(HASH_ACTORS))
+            if (parts[i].contains(HASH_ACTORS))
             {
-                hashmap.put(HASH_ACTORS, parts[i+2]);
+                hashmap.put(HASH_ACTORS, parts[i + 2]);
             }
-            if(parts[i].contains(HASH_PLOT))
+            if (parts[i].contains(HASH_PLOT))
             {
-                hashmap.put(HASH_PLOT, parts[i+2]);
+                hashmap.put(HASH_PLOT, parts[i + 2]);
             }
-            if(parts[i].contains(HASH_POSTER))
+            if (parts[i].contains(HASH_POSTER))
             {
-                hashmap.put(HASH_POSTER, parts[i+2]);
+                hashmap.put(HASH_POSTER, parts[i + 2]);
             }
-            if(parts[i].contains(HASH_IMDB_RATING))
+            if (parts[i].contains(HASH_IMDB_RATING))
             {
-                hashmap.put(HASH_IMDB_RATING, parts[i+2]);
+                hashmap.put(HASH_IMDB_RATING, parts[i + 2]);
             }
         }
         return hashmap;
     }
-    
-    
-    //to do get methods
-    
-    
 
+    //to do get methods
 }

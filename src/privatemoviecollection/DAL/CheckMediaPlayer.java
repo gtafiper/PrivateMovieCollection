@@ -22,12 +22,20 @@ import privatemoviecollection.BE.Movie;
  *
  * @author Nijas Hansen
  */
-public class CheckMediaPlayer {
+public class CheckMediaPlayer
+{
 
     public static final String PROP_FILE = "src/privatemoviecollection/DAL/mediaplayerpath.path";
     public static final String TEMP_PROPFILE = "src/privatemoviecollection/DAL/temp_mediaplayerpath.path";
 
-    public static Boolean CheckMediaPlayerPath() throws IOException {
+    /**
+     * verifice the location of Window Media Player
+     *
+     * @return
+     * @throws IOException
+     */
+    public static Boolean CheckMediaPlayerPath() throws IOException
+    {
         Properties mediaplayerProperties = new Properties();
         FileInputStream is = new FileInputStream(PROP_FILE);
         mediaplayerProperties.load(is);
@@ -35,13 +43,21 @@ public class CheckMediaPlayer {
         String path = mediaplayerProperties.getProperty("Path");
         File file = new File(path);
         is.close();
-        if (!file.exists()) {
+        if (!file.exists())
+        {
             return false;
         }
         return true;
     }
 
-    public static void setMediaPlayerPath(File path) throws IOException {
+    /**
+     * sets a new path to WM player
+     *
+     * @param path
+     * @throws IOException
+     */
+    public static void setMediaPlayerPath(File path) throws IOException
+    {
         File tempPropfile = new File(TEMP_PROPFILE);
         BufferedWriter bw = new BufferedWriter(new FileWriter(tempPropfile));
 
@@ -51,10 +67,20 @@ public class CheckMediaPlayer {
         Files.delete(tempPropfile.toPath());
 
     }
-    //tjecks if it is more then 2years sins the movie has bin playd and if it has a rating belov 6
-    public static boolean isDoDateOver(Movie movie) throws ParseException {
-        
-        if (movie.getLastView() != null) {
+
+    /**
+     * checks if it is more then 2 years sins the movie has bin playd and if it
+     * has a rating belov 6
+     *
+     * @param movie
+     * @return
+     * @throws ParseException
+     */
+    public static boolean isDueDateOver(Movie movie) throws ParseException
+    {
+
+        if (movie.getLastView() != null)
+        {
             //format the date String to days month and tear 
             SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
             //gets todays date
@@ -62,14 +88,16 @@ public class CheckMediaPlayer {
             dateformat.format(date);
             //formates the movies last play date string to the format vi yuse
             Date lastPlayDate = dateformat.parse(movie.getLastView());
-            //doDate is the difrens between todays date and the date the movie was last played
-            long doDate = (date.getTime() - lastPlayDate.getTime())/24/3600000;
+            //doDate is the diffrens between todays date and the date the movie was last played
+            long doDate = (date.getTime() - lastPlayDate.getTime()) / 24 / 3600000;
             //gets the rating if the movie and stors it in rating
             int rating = movie.getRating();
-            
+
             //returns true if the difrens in time is more the 730 days 
-            if (doDate >= 730 ) {
-                if (rating <= 6 && rating != 0) {
+            if (doDate >= 730)
+            {
+                if (rating <= 6 && rating != 0)
+                {
                     return true;
                 }
 
