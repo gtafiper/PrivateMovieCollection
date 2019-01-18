@@ -325,7 +325,6 @@ public class MovieDAO
         Connection con = sc.getConnection();
         Statement st = con.createStatement();
         //checks if the genre exist
-        System.out.println(genre);
         ResultSet rs = st.executeQuery("SELECT * FROM [PrivateMovieCollectionName].[dbo].[Category] "
                 + "WHERE Genre = '" + genre + "';");
 
