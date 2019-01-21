@@ -314,6 +314,9 @@ public class MainController implements Initializable
      */
     private void createContextMenu()
     {
+        /**
+         * Right click function wikth a menu item with delete movie
+         */
         contexMenu = new ContextMenu();
 
         MenuItem delete = new MenuItem("Delete Movie");
